@@ -18,13 +18,22 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 	 */
 	class APIAPI {
 		/**
+		 * Reference to the global APIAPI Manager object.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var awsmug\APIAPI\Manager
+		 */
+		private $manager;
+
+		/**
 		 * Configuration object.
 		 *
 		 * @since 1.0.0
 		 * @access private
 		 * @var awsmug\APIAPI\Config
 		 */
-		private $config = null;
+		private $config;
 
 		/**
 		 * Constructor.
@@ -32,9 +41,12 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param awsmug\APIAPI\Config|array $config Optional. Configuration object or associative array. Default empty.
+		 * @param awsmug\APIAPI\Manager      $manager The APIAPI Manager object.
+		 * @param awsmug\APIAPI\Config|array $config  Optional. Configuration object or associative array. Default empty.
 		 */
-		public function __construct( $config = null ) {
+		public function __construct( $manager, $config = null ) {
+			$this->manager = $manager;
+
 			if ( is_a( $config, 'awsmug\APIAPI\Config' ) ) {
 				$this->config = $config;
 			} else {
