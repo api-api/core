@@ -31,7 +31,34 @@ class Manager {
 	 * @access private
 	 * @var array
 	 */
-	private $instances = array();
+	private $instances;
+
+	/**
+	 * The transporters container.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var awsmug\APIAPI\Transporters
+	 */
+	private $transporters;
+
+	/**
+	 * The structures container.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var awsmug\APIAPI\Structures
+	 */
+	private $structures;
+
+	/**
+	 * The authenticators container.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var awsmug\APIAPI\Authenticators
+	 */
+	private $authenticators;
 
 	/**
 	 * Instance holder.
@@ -49,7 +76,13 @@ class Manager {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	private function __construct() {}
+	private function __construct() {
+		$this->instances = array();
+
+		$this->transporters   = new Transporters();
+		$this->structures     = new Structures();
+		$this->authenticators = new Authenticators();
+	}
 
 	/**
 	 * Creates a new API-API instance.
