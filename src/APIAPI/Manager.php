@@ -131,6 +131,42 @@ class Manager {
 	}
 
 	/**
+	 * Returns the transporters container.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\APIAPI\Transporters The transporters container.
+	 */
+	public function transporters() {
+		return $this->transporters;
+	}
+
+	/**
+	 * Returns the structures container.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\APIAPI\Transporters The structures container.
+	 */
+	public function structures() {
+		return $this->structures();
+	}
+
+	/**
+	 * Returns the authenticators container.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @return awsmug\APIAPI\Transporters The authenticators container.
+	 */
+	public function authenticators() {
+		return $this->authenticators();
+	}
+
+	/**
 	 * Returns the canonical API-API instance.
 	 *
 	 * @since 1.0.0
