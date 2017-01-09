@@ -31,6 +31,8 @@ if ( ! trait_exists( 'awsmug\APIAPI\Name_Trait' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access protected
+		 *
+		 * @param string $name Slug of the instance.
 		 */
 		protected function set_name( $name ) {
 			$this->name = $name;
