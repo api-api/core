@@ -36,7 +36,7 @@ if ( ! function_exists( 'apiapi' ) ) {
 	 * @return awsmug\APIAPI\APIAPI|null The API-API instance, or null if it does not exist.
 	 */
 	function apiapi( $name, $force = false ) {
-		return awsmug\APIAPI\Manager::instance()->get_instance( $name, $force );
+		return apiapi_manager()->get_instance( $name, $force );
 	}
 
 }
