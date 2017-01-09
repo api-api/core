@@ -48,11 +48,20 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $param Name of the parameter.
+		 * @param string $param    Name of the parameter.
+		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 * @return bool True if the parameter is set, false otherwise.
 		 */
-		public function isset( $param ) {
-			return isset( $this->params[ $param ] );
+		public function isset( $param, $subparam = null ) {
+			if ( ! isset( $this->params[ $param ] ) ) {
+				return false;
+			}
+
+			if ( ! is_null( $subparam ) && ! isset( $this->params[ $param ][ $subparam ] ) ) {
+				return false;
+			}
+
+			return true;
 		}
 
 		/**
@@ -61,12 +70,17 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $param Name of the parameter.
+		 * @param string $param    Name of the parameter.
+		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 * @return mixed Value of the parameter, or null if it is not set.
 		 */
-		public function get( $param ) {
-			if ( ! isset( $this->params[ $param ] ) ) {
+		public function get( $param, $subparam = null ) {
+			if ( ! $this->isset( $param, $subparam ) ) {
 				return null;
+			}
+
+			if ( ! is_null( $subparam ) ) {
+				return $this->params[ $param ][ $subparam ];
 			}
 
 			return $this->params[ $param ];
@@ -78,11 +92,26 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $param Name of the parameter.
-		 * @param mixed  $value New value for the parameter.
+		 * @param string $param             Name of the parameter.
+		 * @param string $value_or_subparam Either new value for the parameter or, when
+		 *                                  setting a sub parameter, the name of the sub
+		 *                                  parameter.
+		 * @param mixed  $value             Optional. The value when setting a sub
+		 *                                  parameter. Default null.
 		 */
-		public function set( $param, $value ) {
-			$this->params[ $param ] = $value;
+		public function set( $param, $value_or_subparam, $value = null ) {
+			$subparam = ! is_null( $value ) ? $value_or_subparam : null;
+			$value    = ! is_null( $value ) ? $value : $value_or_subparam;
+
+			if ( ! is_null( $subparam ) ) {
+				if ( ! $this->isset( $param ) ) {
+					$this->params[ $param ] = array();
+				}
+
+				$this->params[ $param ][ $subparam ] = $value;
+			} else {
+				$this->params[ $param ] = $value;
+			}
 		}
 
 		/**
@@ -95,17 +124,28 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 *
 		 * @param string $param Name of the parameter.
 		 */
-		public function unset( $param ) {
-			if ( ! isset( $this->params[ $param ] ) ) {
+		public function unset( $param, $subparam = null ) {
+			if ( ! $this->isset( $param, $subparam ) ) {
 				return;
 			}
 
-			// Do not allow removal of default parameters.
-			if ( in_array( $param, array_keys( $this->get_defaults() ) ) ) {
-				return;
-			}
+			$defaults = $this->get_defaults();
 
-			unset( $this->params[ $param ] );
+			if ( ! is_null( $subparam ) ) {
+				// Do not allow removal of default parameters.
+				if ( isset( $defaults[ $param ] ) && isset( $defaults[ $param ][ $subparam ] ) ) {
+					return;
+				}
+
+				unset( $this->params[ $param ][ $subparam ] );
+			} else {
+				// Do not allow removal of default parameters.
+				if ( isset( $defaults[ $param ] ) ) {
+					return;
+				}
+
+				unset( $this->params[ $param ] );
+			}
 		}
 
 		/**
