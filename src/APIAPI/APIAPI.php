@@ -39,10 +39,9 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @param awsmug\APIAPI\Config|array $config  Optional. Configuration object or associative array. Default empty array.
 		 */
 		public function __construct( $name, $manager, $config = array() ) {
-			$this->set_name( $name );
-
 			$this->manager = $manager;
 
+			$this->set_name( $name );
 			$this->config( $config );
 		}
 
@@ -55,8 +54,7 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @param string $api_name Unique slug of the API. Must match the slug of a registered structure.
 		 * @return awsmug\APIAPI\Request\API The API object.
 		 */
-		//TODO: the following code shows how actual functionality should work.
-		/*public function get_api_object( $api_name ) {
+		public function get_api_object( $api_name ) {
 			$structures = $this->manager->structures();
 
 			if ( ! $structures->is_registered( $api_name ) ) {
@@ -66,35 +64,22 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 			$structure = $structures->get( $api_name );
 
 			return $structure->get_api_object( $this );
-		}*/
+		}
 
 		/**
-		 * Returns a request object for an endpoint of a specific API.
+		 * Returns a request object for a specific route of a specific API.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $api_name      Unique slug of the API. Must match the slug of a registered structure.
-		 * @param string $endpoint_name Endpoint name. Must be one of the endpoints available in the structure.
-		 * @return awsmug\APIAPI\Request\Request The request object.
+		 * @param string $api_name  Unique slug of the API. Must match the slug of a registered structure.
+		 * @param string $route_uri URI of the route.
+		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'GET'.
+		 * @return awsmug\APIAPI\Request\Request Request object.
 		 */
-		//TODO: the following code shows how actual functionality should work.
-		/*public function get_request_object( $api_name, $endpoint_name ) {
-			$structures = $this->manager->structures();
-
-			if ( ! $structures->is_registered( $api_name ) ) {
-				throw new Exception( sprintf( 'The structure for the API %s is not registered.', $api_name ) );
-			}
-
-			$structure = $structures->get( $api_name );
-
-			if ( ! $structure->has_endpoint( $endpoint_name ) ) {
-				throw new Exception( sprintf( 'The API %1$s does not provide a %2$s endpoint.', $api_name, $endpoint_name ) );
-			}
-
-			// The following method does `return new Request( $this, $apiapi );`
-			return $structure->get_endpoint_object( $endpoint_name )->get_request_object( $this );
-		}*/
+		public function get_request_object( $api_name, $route_uri, $method = 'GET' ) {
+			return $this->get_api_object( $api_name )->get_request_object( $route_uri, $method );
+		}
 	}
 
 }
