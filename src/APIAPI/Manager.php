@@ -91,11 +91,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 * @access public
 		 *
 		 * @param string                     $name   Unique slug for the instance.
-		 * @param awsmug\APIAPI\Config|array $config Optional. Configuration object or associative array. Default empty.
+		 * @param awsmug\APIAPI\Config|array $config Optional. Configuration object or associative array. Default empty array.
 		 */
-		public function create_instance( $name, $config = null ) {
+		public function create_instance( $name, $config = array() ) {
 			if ( isset( $this->instances[ $name ] ) ) {
-				throw new Exception( sprintf( 'Instance name %s already taken!', $name ) );
+				throw new Exception( sprintf( 'Instance name %s already exists!', $name ) );
 			}
 
 			$this->instances[ $name ] = new APIAPI( $name, $this, $config );
@@ -119,7 +119,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 					return null;
 				}
 
-				$config = null;
+				$config = array();
 				if ( is_a( $force, 'awsmug\APIAPI\Config' ) || is_array( $force ) ) {
 					$config = $force;
 				}
