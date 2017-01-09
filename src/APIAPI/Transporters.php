@@ -91,7 +91,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'awsmug\APIAPI\Transporter';
+			return 'awsmug\APIAPI\Transporters\Transporter';
 		}
 	}
 

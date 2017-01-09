@@ -17,16 +17,7 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 	 * @since 1.0.0
 	 */
 	class APIAPI {
-		use Config_Trait;
-
-		/**
-		 * Slug of this instance.
-		 *
-		 * @since 1.0.0
-		 * @access private
-		 * @var string
-		 */
-		private $name;
+		use Name_Trait, Config_Trait;
 
 		/**
 		 * Reference to the global APIAPI Manager object.
@@ -48,22 +39,11 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @param awsmug\APIAPI\Config|array $config  Optional. Configuration object or associative array. Default empty array.
 		 */
 		public function __construct( $name, $manager, $config = array() ) {
-			$this->name    = $name;
+			$this->set_name( $name );
+
 			$this->manager = $manager;
 
 			$this->config( $config );
-		}
-
-		/**
-		 * Returns the slug of this instance.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @return string Slug of this instance.
-		 */
-		public function get_name() {
-			return $this->name;
 		}
 
 		/**
@@ -113,7 +93,7 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 			}
 
 			// The following method does `return new Request( $this, $apiapi );`
-			return $structure->get_endpoint( $endpoint_name )->get_request_object( $this );
+			return $structure->get_endpoint_object( $endpoint_name )->get_request_object( $this );
 		}*/
 	}
 

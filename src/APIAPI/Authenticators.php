@@ -91,7 +91,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Authenticators' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'awsmug\APIAPI\Authenticator';
+			return 'awsmug\APIAPI\Authenticators\Authenticator';
 		}
 	}
 

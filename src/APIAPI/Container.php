@@ -67,12 +67,16 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 		 * @param object|string $module Module class instance or class name.
 		 */
 		public function register( $name, $module ) {
+			if ( $this->is_registered( $name ) ) {
+				throw new Exception( sprintf( 'The %1$s %2$s already exists.', $this->type, $name ) );
+			}
+
 			if ( is_string( $module ) ) {
 				if ( ! is_subclass_of( $module, $this->module_class_name ) ) {
 					throw new Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
 				}
 
-				$module = new $module();
+				$module = new $module( $name );
 			} elseif ( ! is_a( $module, $this->module_class_name ) ) {
 				throw new Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
 			}
@@ -89,7 +93,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 		 * @param string $name Unique slug of the module.
 		 */
 		public function unregister( $name ) {
-			if ( ! isset( $this->modules[ $name ] ) ) {
+			if ( ! $this->is_registered( $name ) ) {
 				return;
 			}
 
@@ -106,7 +110,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 		 * @return object|null The module object, or null if it does not exist.
 		 */
 		public function get( $name ) {
-			if ( ! isset( $this->modules[ $name ] ) ) {
+			if ( ! $this->is_registered( $name ) ) {
 				return null;
 			}
 

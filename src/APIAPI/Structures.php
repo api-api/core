@@ -91,7 +91,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'awsmug\APIAPI\Structure';
+			return 'awsmug\APIAPI\Structures\Structure';
 		}
 	}
 
