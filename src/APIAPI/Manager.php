@@ -98,7 +98,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 				throw new Exception( sprintf( 'Instance name %s already taken!', $name ) );
 			}
 
-			$this->instances[ $name ] = new APIAPI( $this, $config );
+			$this->instances[ $name ] = new APIAPI( $name, $this, $config );
 		}
 
 		/**
