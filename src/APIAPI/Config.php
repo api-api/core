@@ -16,7 +16,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	class Config {
+	class Config implements Config_Interface {
 		/**
 		 * Array of config parameters.
 		 *
