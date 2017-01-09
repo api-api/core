@@ -151,7 +151,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 * @return awsmug\APIAPI\Transporters The structures container.
 		 */
 		public function structures() {
-			return $this->structures();
+			return $this->structures;
 		}
 
 		/**
@@ -163,7 +163,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 * @return awsmug\APIAPI\Transporters The authenticators container.
 		 */
 		public function authenticators() {
-			return $this->authenticators();
+			return $this->authenticators;
 		}
 
 		/**
