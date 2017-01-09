@@ -18,7 +18,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	abstract class Container {
+	abstract class Container implements Container_Interface {
 		/**
 		 * The type of the modules in this container.
 		 *
