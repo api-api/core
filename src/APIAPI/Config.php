@@ -21,10 +21,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 * Array of config parameters.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $params = array();
+		protected $params = array();
 
 		/**
 		 * Constructor.
@@ -144,11 +144,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Config' ) ) {
 		 * Returns the default parameters with their values.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @return array Associative array of default config parameters with their values.
 		 */
-		private function get_defaults() {
+		protected function get_defaults() {
 			return array();
 		}
 	}
