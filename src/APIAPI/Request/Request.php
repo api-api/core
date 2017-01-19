@@ -58,6 +58,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		private $route_uri = '';
 
 		/**
+		 * Request headers.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var array
+		 */
+		private $headers = array();
+
+		/**
 		 * Request parameters.
 		 *
 		 * @since 1.0.0
@@ -119,6 +128,48 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 */
 		public function get_method() {
 			return $this->method;
+		}
+
+		/**
+		 * Sets a header.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $header Header name.
+		 * @param string $value  Header value.
+		 * @param bool   $add    Optional. Whether to add the value instead of replacing it.
+		 *                       Default false.
+		 */
+		public function set_header( $header, $value, $add = false ) {
+			if ( $add && ! empty( $this->headers[ $header ] ) ) {
+				$this->headers[ $header ][] = $value;
+			} else {
+				$this->headers[ $header ] = (array) $value;
+			}
+		}
+
+		/**
+		 * Gets a header.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $header   Header name.
+		 * @param bool   $as_array Optional. Whether to return the value as array. Default false.
+		 * @return string|array|null Header value as string or array depending on $as_array, or
+		 *                           null if not set.
+		 */
+		public function get_header( $header, $as_array = false ) {
+			if ( ! isset( $this->headers[ $header ] ) ) {
+				return null;
+			}
+
+			if ( $as_array ) {
+				return $this->headers[ $header ];
+			}
+
+			return implode( ',', $this->headers[ $header ] );
 		}
 
 		/**
