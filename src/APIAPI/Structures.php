@@ -25,8 +25,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                         $name      Unique slug for the structure.
-		 * @param awsmug\APIAPI\Structure|string $structure Structure class instance or class name.
+		 * @param string                                    $name      Unique slug for the structure.
+		 * @param awsmug\APIAPI\Structures\Structure|string $structure Structure class instance or class name.
 		 */
 		public function register( $name, $structure ) {
 			parent::register( $name, $structure );
@@ -51,7 +51,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the structure.
-		 * @return awsmug\APIAPI\Structure|null The structure object, or null if it does not exist.
+		 * @return awsmug\APIAPI\Structures\Structure|null The structure object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );

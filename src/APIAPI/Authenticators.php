@@ -25,8 +25,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Authenticators' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                             $name          Unique slug for the authenticator.
-		 * @param awsmug\APIAPI\Authenticator|string $authenticator Authenticator class instance or class name.
+		 * @param string                                            $name          Unique slug for the authenticator.
+		 * @param awsmug\APIAPI\Authenticators\Authenticator|string $authenticator Authenticator class instance or class name.
 		 */
 		public function register( $name, $authenticator ) {
 			parent::register( $name, $authenticator );
@@ -51,7 +51,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Authenticators' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the authenticator.
-		 * @return awsmug\APIAPI\Authenticator|null The authenticator object, or null if it does not exist.
+		 * @return awsmug\APIAPI\Authenticators\Authenticator|null The authenticator object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );

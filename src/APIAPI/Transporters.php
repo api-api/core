@@ -26,7 +26,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 		 * @access public
 		 *
 		 * @param string                           $name        Unique slug for the transporter.
-		 * @param awsmug\APIAPI\Transporter|string $transporter Transporter class instance or class name.
+		 * @param awsmug\APIAPI\Transporters\Transporter|string $transporter Transporter class instance or class name.
 		 */
 		public function register( $name, $transporter ) {
 			parent::register( $name, $transporter );
@@ -51,7 +51,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the transporter.
-		 * @return awsmug\APIAPI\Transporter|null The transporter object, or null if it does not exist.
+		 * @return awsmug\APIAPI\Transporters\Transporter|null The transporter object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );
