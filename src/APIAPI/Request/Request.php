@@ -210,7 +210,16 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		private function set_uri_param( $param, $value, $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
 
-			//TODO: Adjust $route_uri accordingly.
+			$new_route_uri = $this->route->get_base_uri();
+			foreach ( $this->route->get_primary_params() as $name => $param_info ) {
+				if ( $name === $param ) {
+					$new_route_uri = preg_replace( '@\/\(\?P\<' . $param . '\>\[(.+)\]\+\)@U', '/' . $value, $new_route_uri );
+				} else {
+					$new_route_uri = preg_replace( '@\/\(\?P\<' . $name . '\>\[(.+)\]\+\)@U', '/' . $this->get_uri_param( $name, $param_info ), $new_route_uri );
+				}
+			}
+
+			$this->route_uri = $new_route_uri;
 		}
 
 		/**

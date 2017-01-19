@@ -114,7 +114,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
-		 * @return array Array of method data, or empty array if method not supported.
+		 * @return array Array of method parameters, or empty array if method not supported.
 		 */
 		public function get_method_params( $method ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -122,6 +122,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 			}
 
 			return array_merge( $this->primary_params, $this->data['methods'][ $method ]['params'] );
+		}
+
+		/**
+		 * Returns the available primary parameter information.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of primary parameters.
+		 */
+		public function get_primary_params() {
+			return $this->primary_params;
 		}
 
 		/**
@@ -139,6 +151,23 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 			}
 
 			return $this->data['methods'][ $method ]['supports_custom_params'];
+		}
+
+		/**
+		 * Checks whether a specific method uses data as JSON.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @return bool Whether data is used as JSON, or false if method not supported.
+		 */
+		public function method_uses_json( $method ) {
+			if ( ! $this->is_method_supported( $method ) ) {
+				return false;
+			}
+
+			return $this->data['methods'][ $method ]['uses_json'];
 		}
 
 		/**
@@ -225,6 +254,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'description'            => '',
 					'params'                 => array(),
 					'supports_custom_params' => false,
+					'uses_json'              => false,
 				), true );
 
 				$data['params'] = $this->parse_param_data( $data['params'] );
