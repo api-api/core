@@ -72,6 +72,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		protected $routes = array();
 
 		/**
+		 * Name of the authenticator to use for the API.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var string
+		 */
+		protected $authenticator = '';
+
+		/**
 		 * Container for API-API-specific instances of this API.
 		 *
 		 * @since 1.0.0
@@ -144,23 +153,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		}
 
 		/**
-		 * Returns this API's base URI for a specific mode.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param string $mode Optional. Mode for which to get the base URI. Default empty.
-		 * @return string Base URI.
-		 */
-		public function get_base_uri( $mode = '' ) {
-			if ( ! empty( $mode ) && isset( $this->advanced_uris[ $mode ] ) ) {
-				return $this->advanced_uris[ $mode ];
-			}
-
-			return $this->base_uri;
-		}
-
-		/**
 		 * Returns the route object for a specific route.
 		 *
 		 * @since 1.0.0
@@ -208,6 +200,47 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		 */
 		public function get_route_objects() {
 			return $this->routes;
+		}
+
+		/**
+		 * Returns the authenticator name for the API.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Authenticator name, or empty string if not set.
+		 */
+		public function get_authenticator() {
+			return $this->authenticator;
+		}
+
+		/**
+		 * Checks whether the API should use an authenticator.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return bool True if the API should use an authenticator, otherwise false.
+		 */
+		public function has_authenticator() {
+			return ! empty( $this->authenticator );
+		}
+
+		/**
+		 * Returns this API's base URI for a specific mode.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $mode Optional. Mode for which to get the base URI. Default empty.
+		 * @return string Base URI.
+		 */
+		public function get_base_uri( $mode = '' ) {
+			if ( ! empty( $mode ) && isset( $this->advanced_uris[ $mode ] ) ) {
+				return $this->advanced_uris[ $mode ];
+			}
+
+			return $this->base_uri;
 		}
 
 		/**
