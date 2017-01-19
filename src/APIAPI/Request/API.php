@@ -66,8 +66,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 			$mode = $this->config->isset( 'mode' ) ? $this->config->get( 'mode' ) : '';
 			$base_uri = $this->structure->get_base_uri( $mode );
 
-			//TODO: Pass more things, like transport, authentication etc.
-			$request = new Request( $base_uri, $route_uri, $route );
+			$authenticator = $this->config->isset( 'authenticator' ) ? $this->config->get( 'authenticator' ) : $this->structure->get_authenticator();
+			$authentication_data = $this->config->isset( 'authentication_data' ) ? $this->config->get( 'authentication_data' ) : array();
+
+			$request = new Request( $base_uri, $route_uri, $route, $authenticator, $authentication_data );
 			$request->set_method( $method );
 
 			return $request;

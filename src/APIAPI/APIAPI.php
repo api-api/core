@@ -80,6 +80,65 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		public function get_request_object( $api_name, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $api_name )->get_request_object( $route_uri, $method );
 		}
+
+		/**
+		 * Sends a request and returns the response.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param awsmug\APIAPI\Request\Request $request The request to send.
+		 * @return awsmug\APIAPI\Request\Response The returned response.
+		 */
+		public function send_request( $request ) {
+			$missing_parameters = $request->is_valid();
+			if ( is_array( $missing_parameters ) ) {
+				throw new Exception( sprintf( 'The request to send is invalid. The following required parameters have not been provided: %s', implode( ', ', $missing_parameters ) ) );
+			}
+
+			$this->authenticate_request( $request );
+
+			$transporter_name = $this->config->get( 'transporter' );
+			if ( null === $transporter_name ) {
+				throw new Exception( 'The request cannot be sent as no transporter has been provided.' );
+			}
+
+			$transporters = $this->manager->transporters();
+
+			if ( ! $transporters->is_registered( $transporter_name ) ) {
+				throw new Exception( sprintf( 'The request cannot be sent as the transporter with the name %s is not registered.', $transporter_name ) );
+			}
+
+			$transporter = $transporters->get( $transporter_name );
+
+			return $transporter->send_request( $request );
+		}
+
+		/**
+		 * Authenticates a request.
+		 *
+		 * The request will only be authenticated if it is necessary.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 *
+		 * @param awsmug\APIAPI\Request\Request $request The request to authenticate.
+		 */
+		private function authenticate_request( $request ) {
+			$authenticator_name = $request->get_authenticator();
+			if ( ! empty( $authenticator_name ) ) {
+				$authenticators = $this->manager->authenticators();
+
+				if ( ! $authenticators->is_registered( $authenticator_name ) ) {
+					throw new Exception( sprintf( 'The request cannot be authenticated as the authenticator with the name %s is not registered.', $authenticator_name ) );
+				}
+
+				$authenticator = $authenticators->get( $authenticator_name );
+				if ( ! $authenticator->is_authenticated( $request ) ) {
+					$authenticator->authenticate_request( $request );
+				}
+			}
+		}
 	}
 
 }

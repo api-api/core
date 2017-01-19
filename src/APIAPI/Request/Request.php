@@ -58,6 +58,26 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		private $route_uri = '';
 
 		/**
+		 * Authenticator name.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var string
+		 */
+		private $authenticator = '';
+
+		/**
+		 * Authentication data.
+		 *
+		 * Only needed if $authenticator is used.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var array
+		 */
+		private $authentication_data = array();
+
+		/**
 		 * Request headers.
 		 *
 		 * @since 1.0.0
@@ -90,11 +110,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                         $base_uri  Base URI for the request.
-		 * @param string                         $route_uri Route URI for the request.
-		 * @param awsmug\APIAPI\Structures\Route $route     Route object for the request.
+		 * @param string                         $base_uri            Base URI for the request.
+		 * @param string                         $route_uri           Route URI for the request.
+		 * @param awsmug\APIAPI\Structures\Route $route               Route object for the request.
+		 * @param string                         $authenticator       Optional. Authenticator name. Default
+		 *                                                            empty string.
+		 * @param array                          $authentication_data Optional. Authentication data to pass
+		 *                                                            to the authenticator. Default empty array.
 		 */
-		public function __construct( $base_uri, $route_uri, $route ) {
+		public function __construct( $base_uri, $route_uri, $route, $authenticator = '', $authentication_data = array() ) {
 			$this->base_uri  = $base_uri;
 			$this->route_uri = $route_uri;
 			$this->route     = $route;
@@ -212,6 +236,83 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 			} else {
 				return $this->get_regular_param( $param, $params[ $param ] );
 			}
+		}
+
+		/**
+		 * Checks whether the request is valid.
+		 *
+		 * For it to be valid, all required parameters must be filled.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return bool|array True if the request is valid, array of missing parameters otherwise.
+		 */
+		public function is_valid() {
+			$params = $this->route->get_method_params( $this->method );
+
+			$missing_params = array();
+			foreach ( $params as $param => $param_info ) {
+				if ( ! $param_info['required'] ) {
+					continue;
+				}
+
+				if ( null !== $this->get_param( $param ) ) {
+					continue;
+				}
+
+				$missing_params[] = $param;
+			}
+
+			if ( ! empty( $missing_params ) ) {
+				return $missing_params;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Checks whether the data for this request should be sent as JSON.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return bool True if JSON should be used, otherwise false.
+		 */
+		public function should_use_json() {
+			return $this->route->method_uses_json( $this->method );
+		}
+
+		/**
+		 * Returns the authenticator name.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Authenticator name, or empty string if authentication is not required.
+		 */
+		public function get_authenticator() {
+			if ( ! $this->route->needs_authentication( $this->method ) ) {
+				return '';
+			}
+
+			return $this->authenticator;
+		}
+
+		/**
+		 * Returns the authentication data.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Authentication data, or empty array if authentication is not required.
+		 */
+		public function get_authentication_data() {
+			if ( ! $this->get_authenticator() ) {
+				return array();
+			}
+
+			return $this->authentication_data;
 		}
 
 		/**

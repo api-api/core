@@ -171,6 +171,23 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		}
 
 		/**
+		 * Checks whether a specific method needs authentication.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @return bool Whether authentication is needed, or false if method not supported.
+		 */
+		public function method_needs_authentication( $method ) {
+			if ( ! $this->is_method_supported( $method ) ) {
+				return false;
+			}
+
+			return $this->data['methods'][ $method ]['needs_authentication'];
+		}
+
+		/**
 		 * Checks whether a specific method is supported.
 		 *
 		 * @since 1.0.0
@@ -255,6 +272,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'params'                 => array(),
 					'supports_custom_params' => false,
 					'uses_json'              => false,
+					'needs_authentication'   => false,
 				), true );
 
 				$data['params'] = $this->parse_param_data( $data['params'] );
