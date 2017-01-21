@@ -9,6 +9,8 @@
 
 namespace awsmug\APIAPI;
 
+use awsmug\APIAPI\Request\Response;
+
 if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
 	/**
@@ -111,7 +113,9 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
 			$transporter = $transporters->get( $transporter_name );
 
-			return $transporter->send_request( $request );
+			$response = $transporter->send_request( $request );
+
+			return new Response( $response, $request->get_method(), $request->get_route_object() );
 		}
 
 		/**

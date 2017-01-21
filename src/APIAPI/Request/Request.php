@@ -125,6 +125,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		}
 
 		/**
+		 * Returns the full URI this request should be sent to.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string The full request URI.
+		 */
+		public function get_uri() {
+			return trailingslashit( $this->base_uri ) . ltrim( $this->route_uri, '/' );
+		}
+
+		/**
 		 * Sets the method for this request.
 		 *
 		 * Not all methods are necessarily supported by each route.
@@ -197,6 +209,30 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		}
 
 		/**
+		 * Gets all headers.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param bool $as_array Optional. Whether to return the individual values as array.
+		 *                       Default false.
+		 * @return array Array of headers as `$header_name => $header_values` pairs.
+		 */
+		public function get_headers( $as_array = false ) {
+			if ( $as_array ) {
+				return $this->headers;
+			}
+
+			$all_headers = array();
+
+			foreach ( $this->headers as $header_name => $header_values ) {
+				$all_headers[ $header_name ] = implode( ',', $header_values );
+			}
+
+			return $all_headers;
+		}
+
+		/**
 		 * Sets a parameter.
 		 *
 		 * @since 1.0.0
@@ -236,6 +272,35 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 			} else {
 				return $this->get_regular_param( $param, $params[ $param ] );
 			}
+		}
+
+		/**
+		 * Gets all parameters.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param bool $include_uri_params Optional. Setting this flag will return
+		 *                                 URI params as well. Default false.
+		 * @return array Array of parameters as `$param_name => $param_value` pairs.
+		 */
+		public function get_params( $include_uri_params = false ) {
+			$all_params = array();
+
+			$params = $this->route->get_method_params( $this->method );
+			foreach ( $params as $param => $param_info ) {
+				if ( ! $include_uri_params && isset( $param_info['primary'] ) ) {
+					continue;
+				}
+
+				$all_params[ $param ] = $this->get_regular_param( $param, $param_info );
+			}
+
+			if ( $this->route->method_supports_custom_params( $this->method ) ) {
+				$all_params = array_merge( $all_params, $this->custom_params );
+			}
+
+			return $all_params;
 		}
 
 		/**
@@ -280,7 +345,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * @return bool True if JSON should be used, otherwise false.
 		 */
 		public function should_use_json() {
-			return $this->route->method_uses_json( $this->method );
+			return $this->route->method_uses_json_request( $this->method );
 		}
 
 		/**
@@ -313,6 +378,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 			}
 
 			return $this->authentication_data;
+		}
+
+		/**
+		 * Returns the route object.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return awsmug\APIAPI\Structures\Route Route object.
+		 */
+		public function get_route_object() {
+			return $this->route;
 		}
 
 		/**

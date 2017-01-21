@@ -154,20 +154,37 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		}
 
 		/**
-		 * Checks whether a specific method uses data as JSON.
+		 * Checks whether a specific method requires the request data as JSON.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
-		 * @return bool Whether data is used as JSON, or false if method not supported.
+		 * @return bool Whether request data is used as JSON, or false if method not supported.
 		 */
-		public function method_uses_json( $method ) {
+		public function method_uses_json_request( $method ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				return false;
 			}
 
-			return $this->data['methods'][ $method ]['uses_json'];
+			return 'json' === $this->data['methods'][ $method ]['request_data_type'];
+		}
+
+		/**
+		 * Checks whether a specific method returns the response data as JSON.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @return bool Whether response data is returned as JSON, or false if method not supported.
+		 */
+		public function method_uses_json_response( $method ) {
+			if ( ! $this->is_method_supported( $method ) ) {
+				return false;
+			}
+
+			return 'json' === $this->data['methods'][ $method ]['response_data_type'];
 		}
 
 		/**
@@ -271,7 +288,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'description'            => '',
 					'params'                 => array(),
 					'supports_custom_params' => false,
-					'uses_json'              => false,
+					'request_data_type'      => 'raw',
+					'response_data_type'     => 'raw',
 					'needs_authentication'   => false,
 				), true );
 
