@@ -35,7 +35,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter'
 			$url = $request->get_uri();
 
 			$args = array(
-				'method'  => $method,
+				'method'  => $request->get_method(),
 				'headers' => array(),
 			);
 
@@ -46,20 +46,27 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter'
 			}
 
 			$params = $request->get_params();
-			if ( 'GET' === $args['method'] ) {
-				$url = add_query_arg( $params, $url );
-			} elseif ( $request->should_use_json() ) {
-				$args['body'] = wp_json_encode( $params );
-				if ( ! $args['body'] ) {
-					throw new Exception( sprintf( 'The request to %s could not be sent as the data could not be JSON-encoded.', $url ) );
+			if ( ! empty( $params ) ) {
+				if ( 'GET' === $args['method'] ) {
+					$url = add_query_arg( $params, $url );
+				} elseif ( $request->should_use_json() ) {
+					$args['body'] = wp_json_encode( $params );
+					if ( ! $args['body'] ) {
+						throw new Exception( sprintf( 'The request to %s could not be sent as the data could not be JSON-encoded.', $url ) );
+					}
+				} else {
+					$args['body'] = http_build_query( $params, null, '&' );
 				}
-			} else {
-				$args['body'] = http_build_query( $params, null, '&' );
 			}
 
 			$response = wp_remote_request( $url, $args );
 			if ( is_wp_error( $response ) ) {
 				throw new Exception( sprintf( 'The request to %1$s could not be sent: %2$s', $url, $response->get_error_message() ) );
+			}
+
+			// Cookies are not supported at this point.
+			if ( isset( $response['cookies'] ) ) {
+				unset( $response['cookies'] );
 			}
 
 			return $response;
