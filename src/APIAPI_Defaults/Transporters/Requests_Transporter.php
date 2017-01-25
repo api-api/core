@@ -15,7 +15,7 @@ use awsmug\APIAPI\Exception;
 if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' ) ) {
 
 	/**
-	 * Transporter class for WordPress.
+	 * Transporter class for Requests.
 	 *
 	 * @since 1.0.0
 	 */
