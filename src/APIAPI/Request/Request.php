@@ -25,46 +25,46 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * The route object for this request.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var awsmug\APIAPI\Structures\Route
 		 */
-		private $route;
+		protected $route;
 
 		/**
 		 * The method for this request. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $method = 'GET';
+		protected $method = 'GET';
 
 		/**
 		 * Base URI for this request.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $base_uri = '';
+		protected $base_uri = '';
 
 		/**
 		 * Route URI for this request.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $route_uri = '';
+		protected $route_uri = '';
 
 		/**
 		 * Authenticator name.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $authenticator = '';
+		protected $authenticator = '';
 
 		/**
 		 * Authentication data.
@@ -72,37 +72,37 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Only needed if $authenticator is used.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $authentication_data = array();
+		protected $authentication_data = array();
 
 		/**
 		 * Request headers.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $headers = array();
+		protected $headers = array();
 
 		/**
 		 * Request parameters.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $params = array();
+		protected $params = array();
 
 		/**
 		 * Custom request parameters.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $custom_params = array();
+		protected $custom_params = array();
 
 		/**
 		 * Constructor.
@@ -396,13 +396,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Sets a regular parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		private function set_regular_param( $param, $value, $param_info ) {
+		protected function set_regular_param( $param, $value, $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
 
 			$this->params[ $param ] = $value;
@@ -412,13 +412,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Gets a regular parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		private function get_regular_param( $param, $param_info ) {
+		protected function get_regular_param( $param, $param_info ) {
 			if ( isset( $this->params[ $param ] ) ) {
 				return $this->params[ $param ];
 			}
@@ -430,13 +430,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Sets a URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		private function set_uri_param( $param, $value, $param_info ) {
+		protected function set_uri_param( $param, $value, $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
 
 			$new_route_uri = $this->route->get_base_uri();
@@ -455,13 +455,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Gets a URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		private function get_uri_param( $param, $param_info ) {
+		protected function get_uri_param( $param, $param_info ) {
 			preg_match( '@^' . $this->route->get_base_uri() . '$@i', $this->route_uri, $matches );
 
 			if ( isset( $matches[ $param ] ) ) {
@@ -475,13 +475,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Sets a custom parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		private function set_custom_param( $param, $value ) {
+		protected function set_custom_param( $param, $value ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
 				throw new Exception( sprintf( 'Cannot set unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_base_uri(), $this->method ) );
 			}
@@ -493,13 +493,13 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Gets a custom parameter.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		private function get_custom_param( $param ) {
+		protected function get_custom_param( $param ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
 				throw new Exception( sprintf( 'Cannot get unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_base_uri(), $this->method ) );
 			}
@@ -515,7 +515,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 * Parses a parameter value.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param mixed  $value The input value.
 		 * @param string $type  The parameter type.
@@ -523,7 +523,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 *                      will be ignored. Default empty.
 		 * @return mixed The parsed value.
 		 */
-		private function parse_param_value( $value, $type, $enum = array() ) {
+		protected function parse_param_value( $value, $type, $enum = array() ) {
 			switch ( $type ) {
 				case 'boolean':
 					$value = (bool) $value;

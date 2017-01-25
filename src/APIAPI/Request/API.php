@@ -28,10 +28,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 		 * The API structure object.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var awsmug\APIAPI\Structures\Structure
 		 */
-		private $structure;
+		protected $structure;
 
 		/**
 		 * Constructor.

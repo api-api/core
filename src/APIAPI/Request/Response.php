@@ -25,56 +25,56 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * The route object for this response.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var awsmug\APIAPI\Structures\Route
 		 */
-		private $route;
+		protected $route;
 
 		/**
 		 * The method that was used to get the response.
 		 * Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $request_method = 'GET';
+		protected $request_method = 'GET';
 
 		/**
 		 * Response headers.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $headers = array();
+		protected $headers = array();
 
 		/**
 		 * Response parameters.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $params = array();
+		protected $params = array();
 
 		/**
 		 * Response as array with 'code' and 'message' keys.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $response = array();
+		protected $response = array();
 
 		/**
 		 * Raw body content of the response.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $raw_body = '';
+		protected $raw_body = '';
 
 		/**
 		 * Constructor.
@@ -223,11 +223,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * Parses the response headers.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param array $headers Array of header strings.
 		 */
-		private function parse_headers( $headers ) {
+		protected function parse_headers( $headers ) {
 			foreach ( $headers as $key => $value ) {
 				if ( is_int( $key ) && is_string( $value ) ) {
 					list( $key, $value ) = explode( ':', $header, 2 );
@@ -250,11 +250,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * Parses the response body.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $body Body content.
 		 */
-		private function parse_body( $body ) {
+		protected function parse_body( $body ) {
 			$this->raw_body = $body;
 
 			if ( $this->route->method_uses_json_response( $this->request_method ) ) {
@@ -266,11 +266,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * Parses the response code and message.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param array $response Array with keys 'code' and 'message'.
 		 */
-		private function parse_response( $response ) {
+		protected function parse_response( $response ) {
 			$this->response['code'] = isset( $response['code'] ) ? (int) $response['code'] : 200;
 			$this->response['message'] = isset( $response['message'] ) ? $response['message'] : 'OK';
 		}
