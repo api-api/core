@@ -1,6 +1,6 @@
 <?php
 /**
- * Requests_Transporters class
+ * Requests_Transporter class
  *
  * @package APIAPI_Defaults
  * @subpackage Transporters
