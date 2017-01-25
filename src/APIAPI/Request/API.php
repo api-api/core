@@ -64,15 +64,29 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 			$route = $this->structure->get_route_object( $route_uri );
 
 			$mode = $this->config->isset( 'mode' ) ? $this->config->get( 'mode' ) : '';
-			$base_uri = $this->structure->get_base_uri( $mode );
-
 			$authenticator = $this->config->isset( 'authenticator' ) ? $this->config->get( 'authenticator' ) : $this->structure->get_authenticator();
 			$authentication_data = $this->config->isset( 'authentication_data' ) ? $this->config->get( 'authentication_data' ) : array();
 
-			$request = new Request( $base_uri, $route_uri, $route, $authenticator, $authentication_data );
-			$request->set_method( $method );
+			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
+		}
 
-			return $request;
+		/**
+		 * Returns a scoped response object for a given request and its response data.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param awsmug\APIAPI\Request\Request $request       Request object.
+		 * @param array                         $response_data Response array containing keys
+		 *                                                     'headers', 'body', 'response' and
+		 *                                                     'cookies'. Not necessarily all of
+		 *                                                     these are included though.
+		 * @return awsmug\APIAPI\Request\Response Response object for the request.
+		 */
+		public function get_response_object( $request, $response_data ) {
+			$route = $request->get_route_object();
+
+			return $route->create_response_object( $response, $request->get_method() );
 		}
 	}
 

@@ -82,7 +82,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param array                          $response       Response array containing keys
+		 * @param array                          $response_data  Response array containing keys
 		 *                                                       'headers', 'body', 'response' and
 		 *                                                       'cookies'. Not necessarily all of
 		 *                                                       these are included though.
@@ -90,20 +90,20 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 *                                                       or 'DELETE'.
 		 * @param awsmug\APIAPI\Structures\Route $route          Route object for the response.
 		 */
-		public function __construct( $response, $request_method, $route ) {
+		public function __construct( $response_data, $request_method, $route ) {
 			$this->route          = $route;
 			$this->request_method = $request_method;
 
-			if ( isset( $response['headers'] ) ) {
-				$this->parse_headers( $response['headers'] );
+			if ( isset( $response_data['headers'] ) ) {
+				$this->parse_headers( $response_data['headers'] );
 			}
 
-			if ( isset( $response['body'] ) ) {
-				$this->parse_body( $response['body'] );
+			if ( isset( $response_data['body'] ) ) {
+				$this->parse_body( $response_data['body'] );
 			}
 
-			if ( isset( $response['response'] ) ) {
-				$this->parse_response( $response['response'] );
+			if ( isset( $response_data['response'] ) ) {
+				$this->parse_response( $response_data['response'] );
 			}
 		}
 
@@ -119,6 +119,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 *                           null if not set.
 		 */
 		public function get_header( $header, $as_array = false ) {
+			$header = $this->canonicalize_header_name( $header );
+
 			if ( ! isset( $this->headers[ $header ] ) ) {
 				return null;
 			}
@@ -152,6 +154,33 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 			}
 
 			return $all_headers;
+		}
+
+		/**
+		 * Gets the content-type of the response.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Parsed content type without additional parameters.
+		 */
+		public function get_content_type() {
+			$value = $this->get_header( 'content-type' );
+			if ( null === $value ) {
+				return null;
+			}
+
+			$parameters = '';
+			if ( strpos( $value, ';' ) ) {
+				list( $value, $parameters ) = explode( ';', $value, 2 );
+			}
+
+			$value = strtolower( $value );
+			if ( strpos( $value, '/' ) === false ) {
+				return null;
+			}
+
+			return trim( $value );
 		}
 
 		/**
@@ -232,6 +261,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 				if ( is_int( $key ) && is_string( $value ) ) {
 					list( $key, $value ) = explode( ':', $header, 2 );
 
+					$key = $this->canonicalize_header_name( $key );
+
 					$value = trim( $value );
 					preg_replace( '#(\s+)#i', ' ', $value );
 
@@ -241,6 +272,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 
 					$this->headers[ $key ][] = $value;
 				} else {
+					$key = $this->canonicalize_header_name( $key );
+
 					$this->headers[ $key ] = (array) $value;
 				}
 			}
@@ -257,7 +290,17 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		protected function parse_body( $body ) {
 			$this->raw_body = $body;
 
-			if ( $this->route->method_uses_json_response( $this->request_method ) ) {
+			$content_type = $this->get_content_type();
+
+			if ( 'application/x-www-form-urlencoded' === $content_type ) {
+				parse_str( $this->raw_body, $params );
+
+				if ( get_magic_quotes_gpc() ) {
+					$params = stripslashes_deep( $params );
+				}
+
+				$this->params = $params;
+			} elseif ( 'application/json' === $content_type ) {
 				$this->params = json_decode( $body, true );
 			}
 		}
@@ -273,6 +316,22 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		protected function parse_response( $response ) {
 			$this->response['code'] = isset( $response['code'] ) ? (int) $response['code'] : 200;
 			$this->response['message'] = isset( $response['message'] ) ? $response['message'] : 'OK';
+		}
+
+		/**
+		 * Canonicalizes the header name.
+		 *
+		 * This ensures that header names are always case insensitive, plus dashes and
+		 * underscores are treated as the same character.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $header Header name.
+		 * @return string Canonicalized header name.
+		 */
+		protected function canonicalize_header_name( $header ) {
+			return str_replace( '-', '_', strtolower( $header ) );
 		}
 	}
 

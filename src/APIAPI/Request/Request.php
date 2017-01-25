@@ -112,16 +112,21 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 *
 		 * @param string                         $base_uri            Base URI for the request.
 		 * @param string                         $route_uri           Route URI for the request.
+		 * @param string                         $method              Either 'GET', 'POST', 'PUT', 'PATCH' or
+		 *                                                            'DELETE'.
 		 * @param awsmug\APIAPI\Structures\Route $route               Route object for the request.
 		 * @param string                         $authenticator       Optional. Authenticator name. Default
 		 *                                                            empty string.
 		 * @param array                          $authentication_data Optional. Authentication data to pass
 		 *                                                            to the authenticator. Default empty array.
 		 */
-		public function __construct( $base_uri, $route_uri, $route, $authenticator = '', $authentication_data = array() ) {
-			$this->base_uri  = $base_uri;
-			$this->route_uri = $route_uri;
-			$this->route     = $route;
+		public function __construct( $base_uri, $route_uri, $method, $route, $authenticator = '', $authentication_data = array() ) {
+			$this->base_uri            = $base_uri;
+			$this->route_uri           = $route_uri;
+			$this->method              = $method;
+			$this->route               = $route;
+			$this->authenticator       = $authenticator;
+			$this->authentication_data = $authentication_data;
 		}
 
 		/**
@@ -134,24 +139,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 */
 		public function get_uri() {
 			return trailingslashit( $this->base_uri ) . ltrim( $this->route_uri, '/' );
-		}
-
-		/**
-		 * Sets the method for this request.
-		 *
-		 * Not all methods are necessarily supported by each route.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
-		 */
-		public function set_method( $method ) {
-			if ( ! $this->route->is_method_supported( $method ) ) {
-				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->route->get_base_uri() ) );
-			}
-
-			$this->method = $method;
 		}
 
 		/**

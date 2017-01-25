@@ -64,7 +64,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 * @access public
 		 *
 		 * @param string                             $uri       The route's base URI.
-		 * @param array                              $data      Route data.
+		 * @param array                              $data      {
+		 *     Array of route data.
+		 *
+		 *     @type array $primary_params Array of primary parameters as `$param_name => $param_data`
+		 *                                 pairs. Each $param_data array can have keys 'required',
+		 *                                 'description', 'type', 'enum' and 'default'.
+		 *     @type array $methods        Array of supported methods as `$method_name => $method_data`
+		 *                                 pairs. Each $method_data array can have keys 'description',
+		 *                                 'params' (works similar like $primary_params),
+		 *                                 'supports_custom_params', 'request_data_type',
+		 *                                 'needs_authentication', 'request_class' and 'response_class'.
+		 * }
 		 * @param awsmug\APIAPI\Structures\Structure $structure The parent API structure.
 		 */
 		public function __construct( $uri, $data, $structure ) {
@@ -171,23 +182,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		}
 
 		/**
-		 * Checks whether a specific method returns the response data as JSON.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
-		 * @return bool Whether response data is returned as JSON, or false if method not supported.
-		 */
-		public function method_uses_json_response( $method ) {
-			if ( ! $this->is_method_supported( $method ) ) {
-				return false;
-			}
-
-			return 'json' === $this->data['methods'][ $method ]['response_data_type'];
-		}
-
-		/**
 		 * Checks whether a specific method needs authentication.
 		 *
 		 * @since 1.0.0
@@ -215,6 +209,55 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 */
 		public function is_method_supported( $method ) {
 			return isset( $this->data['methods'][ $method ] );
+		}
+
+		/**
+		 * Creates a request object based on parameters.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $route_uri           Route URI for the request.
+		 * @param string $method              Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 *                                    Default 'GET'.
+		 * @param string $mode                Optional. API mode to use for the request. Available values
+		 *                                    depend on the API structure. Default empty string.
+		 * @param string $authenticator       Optional. Authenticator name. Default empty string.
+		 * @param array  $authentication_data Optional. Authentication data to pass to the authenticator.
+		 *                                    Default empty array.
+		 * @return awsmug\APIAPI\Request\Request Request object.
+		 */
+		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', $authentication_data = array() ) {
+			if ( ! $this->is_method_supported( $method ) ) {
+				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_base_uri() ) );
+			}
+
+			$class_name = $this->data['methods'][ $method ]['request_class'];
+
+			return new $class_name( $this->structure->get_base_uri( $mode ), $route_uri, $method, $this, $authenticator, $authentication_data );
+		}
+
+		/**
+		 * Creates a response object based on parameters.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param array  $response_data Response array containing keys 'headers', 'body', 'response'
+		 *                              and 'cookies'. Not necessarily all of these are included
+		 *                              though.
+		 * @param string $method        Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 *                              Default 'GET'.
+		 * @return awsmug\APIAPI\Request\Response Response object.
+		 */
+		public function create_response_object( $response_data, $method = 'GET' ) {
+			if ( ! $this->is_method_supported( $method ) ) {
+				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_base_uri() ) );
+			}
+
+			$class_name = $this->data['methods'][ $method ]['response_class'];
+
+			return new $class_name( $response_data, $method, $this );
 		}
 
 		/**
@@ -289,8 +332,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'params'                 => array(),
 					'supports_custom_params' => false,
 					'request_data_type'      => 'raw',
-					'response_data_type'     => 'raw',
 					'needs_authentication'   => false,
+					'request_class'          => 'awsmug\APIAPI\Request\Request',
+					'response_class'         => 'awsmug\APIAPI\Request\Response',
 				), true );
 
 				$data['params'] = $this->parse_param_data( $data['params'] );
