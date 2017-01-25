@@ -199,6 +199,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			if ( function_exists( 'wp_remote_request' ) ) {
 				self::$instance->transporters()->register( 'wordpress', 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter' );
 			}
+
+			self::$instance->authenticators()->register( 'basic', 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator' );
+			self::$instance->authenticators()->register( 'bearer', 'awsmug\APIAPI_Defaults\Authenticators\Bearer_Authenticator' );
+			self::$instance->authenticators()->register( 'x', 'awsmug\APIAPI_Defaults\Authenticators\X_Authenticator' );
 		}
 	}
 
