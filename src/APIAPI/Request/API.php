@@ -9,6 +9,7 @@
 
 namespace awsmug\APIAPI\Request;
 
+use awsmug\APIAPI\Util;
 use awsmug\APIAPI\Name_Trait;
 use awsmug\APIAPI\Config_Trait;
 
@@ -66,6 +67,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 			$mode = $this->config->isset( 'mode' ) ? $this->config->get( 'mode' ) : '';
 			$authenticator = $this->config->isset( 'authenticator' ) ? $this->config->get( 'authenticator' ) : $this->structure->get_authenticator();
 			$authentication_data = $this->config->isset( 'authentication_data' ) ? $this->config->get( 'authentication_data' ) : array();
+
+			$authentication_data = Util::parse_args( $authentication_data, $this->structure->get_authentication_data_defaults() );
 
 			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
 		}

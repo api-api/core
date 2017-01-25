@@ -81,6 +81,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		protected $authenticator = '';
 
 		/**
+		 * Default authentication data to pass to the authenticator.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $authentication_data_defaults = array();
+
+		/**
 		 * Container for API-API-specific instances of this API.
 		 *
 		 * @since 1.0.0
@@ -129,7 +138,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 
 				$config_class = $this->config_class;
 
-				//TODO: Pass more things, like transport, authentication etc.
 				$this->api_objects[ $name ] = new API( $this, new $config_class( $config ) );
 			}
 
@@ -215,6 +223,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		}
 
 		/**
+		 * Returns the default data to send to the authenticator.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of default authentication data.
+		 */
+		public function get_authentication_data_defaults() {
+			return $this->authentication_data_defaults;
+		}
+
+		/**
 		 * Checks whether the API should use an authenticator.
 		 *
 		 * @since 1.0.0
@@ -247,7 +267,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		 * Sets up the API structure.
 		 *
 		 * This method should populate the routes array, and can also be used to
-		 * handle further initialization functionality.
+		 * handle further initialization functionality, like setting the authenticator
+		 * class and default authentication data.
 		 *
 		 * @since 1.0.0
 		 * @access protected
