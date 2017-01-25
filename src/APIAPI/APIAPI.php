@@ -117,8 +117,6 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 				$transporter = $transporters->get( $transporter_name );
 			}
 
-			$transporter = $transporters->get( $transporter_name );
-
 			$response_data = $transporter->send_request( $request );
 
 			$route = $request->get_route_object();
