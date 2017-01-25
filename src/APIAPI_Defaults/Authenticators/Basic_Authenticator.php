@@ -70,7 +70,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator'
 		 * @since 1.0.0
 		 * @access protected
 		 */
-		protected abstract function set_default_args() {
+		protected function set_default_args() {
 			$this->default_args = array(
 				'username'    => '',
 				'password'    => '',
