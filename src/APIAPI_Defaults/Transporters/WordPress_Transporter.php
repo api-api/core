@@ -28,7 +28,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter'
 		 *
 		 * @param awsmug\APIAPI\Request\Request $request The request to send.
 		 * @return array The returned response as an array with 'headers', 'body',
-		 *               'response' and 'cookies' key. The array does not necessarily
+		 *               and 'response' key. The array does not necessarily
 		 *               need to include all of these keys.
 		 */
 		public function send_request( $request ) {

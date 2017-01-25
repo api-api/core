@@ -243,9 +243,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param array  $response_data Response array containing keys 'headers', 'body', 'response'
-		 *                              and 'cookies'. Not necessarily all of these are included
-		 *                              though.
+		 * @param array  $response_data Response array containing keys 'headers', 'body', and 'response'.
+		 *                              Not necessarily all of these are included though.
 		 * @param string $method        Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *                              Default 'GET'.
 		 * @return awsmug\APIAPI\Request\Response Response object.

@@ -83,9 +83,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * @access public
 		 *
 		 * @param array                          $response_data  Response array containing keys
-		 *                                                       'headers', 'body', 'response' and
-		 *                                                       'cookies'. Not necessarily all of
-		 *                                                       these are included though.
+		 *                                                       'headers', 'body', and 'response'.
+		 *                                                       Not necessarily all of these are
+		 *                                                       included though.
 		 * @param string                         $request_method Either 'GET', 'POST', 'PUT', 'PATCH'
 		 *                                                       or 'DELETE'.
 		 * @param awsmug\APIAPI\Structures\Route $route          Route object for the response.

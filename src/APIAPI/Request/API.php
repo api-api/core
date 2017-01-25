@@ -78,9 +78,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 		 *
 		 * @param awsmug\APIAPI\Request\Request $request       Request object.
 		 * @param array                         $response_data Response array containing keys
-		 *                                                     'headers', 'body', 'response' and
-		 *                                                     'cookies'. Not necessarily all of
-		 *                                                     these are included though.
+		 *                                                     'headers', 'body', and 'response'.
+		 *                                                     Not necessarily all of these are
+		 *                                                     included though.
 		 * @return awsmug\APIAPI\Request\Response Response object for the request.
 		 */
 		public function get_response_object( $request, $response_data ) {
