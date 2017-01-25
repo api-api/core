@@ -177,9 +177,28 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		public static function instance() {
 			if ( null === self::$instance ) {
 				self::$instance = new self();
+
+				self::register_defaults();
 			}
 
 			return self::$instance;
+		}
+
+		/**
+		 * Registers default transporters, structures and authenticators.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @static
+		 */
+		private static function register_defaults() {
+			if ( class_exists( 'Requests' ) ) {
+				self::$instance->transporters()->register( 'requests', 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' );
+			}
+
+			if ( function_exists( 'wp_remote_request' ) ) {
+				self::$instance->transporters()->register( 'wordpress', 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter' );
+			}
 		}
 	}
 
