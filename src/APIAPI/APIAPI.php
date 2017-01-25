@@ -100,15 +100,21 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
 			$this->authenticate_request( $request );
 
-			$transporter_name = $this->config->get( 'transporter' );
-			if ( null === $transporter_name ) {
-				throw new Exception( 'The request cannot be sent as no transporter has been provided.' );
-			}
-
 			$transporters = $this->manager->transporters();
 
-			if ( ! $transporters->is_registered( $transporter_name ) ) {
-				throw new Exception( sprintf( 'The request cannot be sent as the transporter with the name %s is not registered.', $transporter_name ) );
+			if ( ! $this->config->isset( 'transporter' ) ) {
+				$transporter = $transporters->get_default();
+				if ( null === $transporter ) {
+					throw new Exception( 'The request cannot be sent as no transporter is available.' );
+				}
+			} else {
+				$transporter_name = $this->config->get( 'transporter' );
+
+				if ( ! $transporters->is_registered( $transporter_name ) ) {
+					throw new Exception( sprintf( 'The request cannot be sent as the transporter with the name %s is not registered.', $transporter_name ) );
+				}
+
+				$transporter = $transporters->get( $transporter_name );
 			}
 
 			$transporter = $transporters->get( $transporter_name );

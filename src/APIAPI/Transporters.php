@@ -20,6 +20,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 	 */
 	class Transporters extends Container {
 		/**
+		 * Name of the default transporter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var string
+		 */
+		protected $default = '';
+
+		/**
 		 * Registers a transporter.
 		 *
 		 * @since 1.0.0
@@ -30,6 +39,12 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 		 */
 		public function register( $name, $transporter ) {
 			parent::register( $name, $transporter );
+
+			$class_name = get_class( $this->modules[ $name ] );
+
+			if ( empty( $this->default ) || 0 === strpos( $class_name, 'awsmug\\APIAPI_Defaults\\' ) ) {
+				$this->default = $name;
+			}
 		}
 
 		/**
@@ -68,6 +83,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Transporters' ) ) {
 		 */
 		public function is_registered( $name ) {
 			return parent::is_registered( $name );
+		}
+
+		/**
+		 * Returns the default transporter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return awsmug\APIAPI\Transporters\Transporter|null The default transporter object, or null if not set.
+		 */
+		public function get_default() {
+			return $this->get( $this->default );
 		}
 
 		/**
