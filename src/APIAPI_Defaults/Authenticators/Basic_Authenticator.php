@@ -34,15 +34,11 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator'
 		public function authenticate_request( $request ) {
 			$data = $this->parse_authentication_data( $request );
 
-			if ( empty( $data['header_name'] ) ) {
-				$data['header_name'] = 'Authorization';
-			}
-
 			if ( empty( $data['username'] ) || empty( $data['password'] ) ) {
 				throw new Exception( sprintf( 'The request to %s could not be authenticated as username and password have not been passed.', $request->get_uri() ) );
 			}
 
-			$request->set_header( $data['header_name'], 'Basic ' . base64_encode( $data['username'] . ':' . $data['password'] ) );
+			$request->set_header( 'Authorization', 'Basic ' . base64_encode( $data['username'] . ':' . $data['password'] ) );
 		}
 
 		/**
@@ -60,11 +56,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator'
 		public function is_authenticated( $request ) {
 			$data = $this->parse_authentication_data( $request );
 
-			if ( empty( $data['header_name'] ) ) {
-				$data['header_name'] = 'Authorization';
-			}
-
-			$header_value = $request->get_header( $data['header_name'] );
+			$header_value = $request->get_header( 'Authorization' );
 			if ( null === $header_value ) {
 				return false;
 			}
@@ -80,7 +72,6 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator'
 		 */
 		protected abstract function set_default_args() {
 			$this->default_args = array(
-				'header_name' => 'Authorization',
 				'username'    => '',
 				'password'    => '',
 			);
