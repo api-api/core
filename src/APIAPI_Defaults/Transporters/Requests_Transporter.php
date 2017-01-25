@@ -12,14 +12,14 @@ namespace awsmug\APIAPI_Defaults\Transporters;
 use awsmug\APIAPI\Transporters\Transporter;
 use awsmug\APIAPI\Exception;
 
-if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporters' ) ) {
+if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' ) ) {
 
 	/**
 	 * Transporter class for WordPress.
 	 *
 	 * @since 1.0.0
 	 */
-	class Requests_Transporters extends Transporter {
+	class Requests_Transporter extends Transporter {
 		/**
 		 * Sends a request and returns the response.
 		 *
