@@ -22,6 +22,9 @@ if ( ! interface_exists( 'awsmug\APIAPI\Authenticators\Authenticator_Interface' 
 		/**
 		 * Authenticates a request.
 		 *
+		 * This method does not yet actually authenticate the request with the server. It only sets
+		 * the required values on the request object.
+		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
@@ -31,6 +34,9 @@ if ( ! interface_exists( 'awsmug\APIAPI\Authenticators\Authenticator_Interface' 
 
 		/**
 		 * Checks whether a request is authenticated.
+		 *
+		 * This method does not check whether the request was actually authenticated with the server.
+		 * It only checks whether authentication data has been properly set on it.
 		 *
 		 * @since 1.0.0
 		 * @access public
