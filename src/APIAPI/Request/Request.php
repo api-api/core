@@ -127,6 +127,14 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 			$this->route               = $route;
 			$this->authenticator       = $authenticator;
 			$this->authentication_data = $authentication_data;
+
+			if ( 'GET' !== $this->method ) {
+				if ( $this->should_use_json() ) {
+					$this->set_header( 'content-type', 'application/json' );
+				} else {
+					$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
+				}
+			}
 		}
 
 		/**
@@ -165,6 +173,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 *                       Default false.
 		 */
 		public function set_header( $header, $value, $add = false ) {
+			$header = $this->canonicalize_header_name( $header );
+
 			if ( $add && ! empty( $this->headers[ $header ] ) ) {
 				$this->headers[ $header ][] = $value;
 			} else {
@@ -184,6 +194,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 *                           null if not set.
 		 */
 		public function get_header( $header, $as_array = false ) {
+			$header = $this->canonicalize_header_name( $header );
+
 			if ( ! isset( $this->headers[ $header ] ) ) {
 				return null;
 			}
@@ -532,6 +544,22 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 			}
 
 			return $value;
+		}
+
+		/**
+		 * Canonicalizes the header name.
+		 *
+		 * This ensures that header names are always case insensitive, plus dashes and
+		 * underscores are treated as the same character.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $header Header name.
+		 * @return string Canonicalized header name.
+		 */
+		protected function canonicalize_header_name( $header ) {
+			return str_replace( '-', '_', strtolower( $header ) );
 		}
 	}
 
