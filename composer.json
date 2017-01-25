@@ -31,7 +31,8 @@
   },
   "autoload": {
     "psr-4": {
-      "awsmug\\APIAPI\\": "src/APIAPI/"
+      "awsmug\\APIAPI\\": "src/APIAPI/",
+      "awsmug\\APIAPI_Defaults\\": "src/APIAPI_Defaults/"
     },
     "files": [
       "src/api-api.php"
