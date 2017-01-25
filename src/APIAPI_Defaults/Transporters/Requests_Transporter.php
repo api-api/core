@@ -45,7 +45,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' 
 					$options['data_format'] = 'body';
 
 					if ( $request->should_use_json() ) {
-						$data = wp_json_encode( $data );
+						$data = json_encode( $data );
 						if ( ! $data ) {
 							throw new Exception( sprintf( 'The request to %s could not be sent as the data could not be JSON-encoded.', $url ) );
 						}
