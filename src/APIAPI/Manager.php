@@ -192,6 +192,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 * @static
 		 */
 		private static function register_defaults() {
+			if ( function_exists( 'curl_init' ) ) {
+				self::$instance->transporters()->register( 'curl', 'awsmug\APIAPI_Defaults\Transporters\cURL_Transporter' );
+			}
+
 			if ( class_exists( 'Requests' ) ) {
 				self::$instance->transporters()->register( 'requests', 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' );
 			}
