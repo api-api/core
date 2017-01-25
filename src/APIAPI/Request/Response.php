@@ -274,7 +274,11 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 				} else {
 					$key = $this->canonicalize_header_name( $key );
 
-					$this->headers[ $key ] = (array) $value;
+					if ( strpos( $value, ',' ) ) {
+						$this->headers[ $key ] = array_map( 'trim', explode( ',', $value ) );
+					} else {
+						$this->headers[ $key ] = (array) $value;
+					}
 				}
 			}
 		}
