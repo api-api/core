@@ -49,7 +49,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter'
 			if ( ! empty( $params ) ) {
 				if ( 'GET' === $args['method'] ) {
 					$url = add_query_arg( $params, $url );
-				} elseif ( $request->should_use_json() ) {
+				} elseif ( 0 === strpos( $request->get_header( 'content-type' ), 'application/json' ) ) {
 					$args['body'] = wp_json_encode( $params );
 					if ( ! $args['body'] ) {
 						throw new Exception( sprintf( 'The request to %s could not be sent as the data could not be JSON-encoded.', $url ) );

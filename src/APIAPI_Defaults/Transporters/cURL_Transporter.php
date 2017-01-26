@@ -56,7 +56,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\cURL_Transporter' ) ) 
 				if ( 'GET' === $method ) {
 					$url = $this->build_get_query( $url, $data );
 				} else {
-					if ( $request->should_use_json() ) {
+					if ( 0 === strpos( $request->get_header( 'content-type' ), 'application/json' ) ) {
 						$data = json_encode( $data );
 						if ( ! $data ) {
 							throw new Exception( sprintf( 'The request to %s could not be sent as the data could not be JSON-encoded.', $url ) );
