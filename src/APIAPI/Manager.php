@@ -207,6 +207,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			self::$instance->authenticators()->register( 'basic', 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator' );
 			self::$instance->authenticators()->register( 'bearer', 'awsmug\APIAPI_Defaults\Authenticators\Bearer_Authenticator' );
 			self::$instance->authenticators()->register( 'x', 'awsmug\APIAPI_Defaults\Authenticators\X_Authenticator' );
+			self::$instance->authenticators()->register( 'oauth1', 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator' );
 		}
 	}
 
