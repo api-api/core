@@ -72,12 +72,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 			}
 
 			if ( is_string( $module ) ) {
-				if ( ! is_subclass_of( $module, $this->module_class_name ) ) {
-					throw new Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
-				}
-
 				$module = new $module( $name );
-			} elseif ( ! is_a( $module, $this->module_class_name ) ) {
+			}
+
+			if ( ! is_a( $module, $this->module_class_name ) ) {
 				throw new Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
 			}
 
