@@ -59,7 +59,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' 
 				throw new Exception( sprintf( 'The request to %1$s could not be sent: %2$s', $url, $e->getMessage() ) );
 			}
 
-			$response = array(
+			$response_data = array(
 				'headers'  => $requests_response->headers->getAll(),
 				'body'     => $requests_response->body,
 				'response' => array(
@@ -68,7 +68,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\Requests_Transporter' 
 				),
 			);
 
-			return $response;
+			return $response_data;
 		}
 	}
 

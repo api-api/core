@@ -119,7 +119,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\cURL_Transporter' ) ) 
 
 			$body = substr( $curl_response, $separator_position + strlen( "\n\r\n\r" ) );
 
-			$response = array(
+			$response_data = array(
 				'headers'  => $headers_assoc,
 				'body'     => $body,
 				'response' => array(
@@ -128,7 +128,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\cURL_Transporter' ) ) 
 				),
 			);
 
-			return $response;
+			return $response_data;
 		}
 
 		/**

@@ -59,17 +59,17 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter'
 				}
 			}
 
-			$response = wp_remote_request( $url, $args );
-			if ( is_wp_error( $response ) ) {
-				throw new Exception( sprintf( 'The request to %1$s could not be sent: %2$s', $url, $response->get_error_message() ) );
+			$response_data = wp_remote_request( $url, $args );
+			if ( is_wp_error( $response_data ) ) {
+				throw new Exception( sprintf( 'The request to %1$s could not be sent: %2$s', $url, $response_data->get_error_message() ) );
 			}
 
 			// Cookies are not supported at this point.
-			if ( isset( $response['cookies'] ) ) {
-				unset( $response['cookies'] );
+			if ( isset( $response_data['cookies'] ) ) {
+				unset( $response_data['cookies'] );
 			}
 
-			return $response;
+			return $response_data;
 		}
 	}
 
