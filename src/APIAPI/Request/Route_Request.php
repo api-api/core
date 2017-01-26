@@ -320,7 +320,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		protected function set_uri_param( $param, $value, $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
 
-			$new_route_uri = $this->route->get_base_uri();
+			$new_route_uri = $this->route->get_uri();
 			foreach ( $this->route->get_primary_params() as $name => $param_info ) {
 				if ( $name === $param ) {
 					$new_route_uri = preg_replace( '@\/\(\?P\<' . $param . '\>\[(.+)\]\+\)@U', '/' . $value, $new_route_uri );
@@ -343,7 +343,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @return mixed Parameter value, or null if unset.
 		 */
 		protected function get_uri_param( $param, $param_info ) {
-			preg_match( '@^' . $this->route->get_base_uri() . '$@i', $this->route_uri, $matches );
+			preg_match( '@^' . $this->route->get_uri() . '$@i', $this->route_uri, $matches );
 
 			if ( isset( $matches[ $param ] ) ) {
 				return $this->parse_param_value( $matches[ $param ], $param_info['type'], $param_info['enum'] );
@@ -364,7 +364,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 */
 		protected function set_custom_param( $param, $value ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot set unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_base_uri(), $this->method ) );
+				throw new Exception( sprintf( 'Cannot set unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
 			}
 
 			$this->custom_params[ $param ] = $value;
@@ -382,7 +382,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 */
 		protected function get_custom_param( $param ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot get unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_base_uri(), $this->method ) );
+				throw new Exception( sprintf( 'Cannot get unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
 			}
 
 			if ( isset( $this->custom_params[ $param ] ) ) {

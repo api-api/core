@@ -89,14 +89,14 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		}
 
 		/**
-		 * Returns the base URI for this route.
+		 * Returns the URI for this route.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
 		 * @return string The base URI.
 		 */
-		public function get_base_uri() {
+		public function get_uri() {
 			return $this->uri;
 		}
 
@@ -229,7 +229,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 */
 		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
-				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_base_uri() ) );
+				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
 
 			$class_name = $this->data['methods'][ $method ]['request_class'];
@@ -251,7 +251,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 */
 		public function create_response_object( $response_data, $method = 'GET' ) {
 			if ( ! $this->is_method_supported( $method ) ) {
-				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_base_uri() ) );
+				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
 
 			$class_name = $this->data['methods'][ $method ]['response_class'];
