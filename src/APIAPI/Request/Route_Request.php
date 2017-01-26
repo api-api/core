@@ -91,14 +91,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			$this->route_uri           = $route_uri;
 			$this->authenticator       = $authenticator;
 			$this->authentication_data = $authentication_data;
-
-			if ( 'GET' !== $this->method ) {
-				if ( $this->should_use_json() ) {
-					$this->set_header( 'content-type', 'application/json' );
-				} else {
-					$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
-				}
-			}
 		}
 
 		/**
@@ -287,6 +279,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
 
 			$this->params[ $param ] = $value;
+
+			$this->maybe_set_default_content_type();
 		}
 
 		/**
@@ -368,6 +362,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			}
 
 			$this->custom_params[ $param ] = $value;
+
+			$this->maybe_set_default_content_type();
 		}
 
 		/**
@@ -426,6 +422,22 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			}
 
 			return $value;
+		}
+
+		/**
+		 * Sets the default content type if none has been set yet.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function maybe_set_default_content_type() {
+			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {
+				if ( $this->should_use_json() ) {
+					$this->set_header( 'content-type', 'application/json' );
+				} else {
+					$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
+				}
+			}
 		}
 	}
 

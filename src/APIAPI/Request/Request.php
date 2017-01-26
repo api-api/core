@@ -174,6 +174,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 */
 		public function set_param( $param, $value ) {
 			$this->params[ $param ] = $value;
+
+			$this->maybe_set_default_content_type();
 		}
 
 		/**
@@ -217,6 +219,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Request' ) ) {
 		 */
 		public function get_params() {
 			return $this->params;
+		}
+
+		/**
+		 * Sets the default content type if none has been set yet.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function maybe_set_default_content_type() {
+			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {
+				$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
+			}
 		}
 
 		/**
