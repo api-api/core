@@ -59,7 +59,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 		 * @param string $route_uri URI of the route.
 		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *                          Default 'GET'.
-		 * @return awsmug\APIAPI\Request\Request Request object for the route.
+		 * @return awsmug\APIAPI\Request\Route_Request Request object for the route.
 		 */
 		public function get_request_object( $route_uri, $method = 'GET' ) {
 			$route = $this->structure->get_route_object( $route_uri );
@@ -79,12 +79,12 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\API' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param awsmug\APIAPI\Request\Request $request       Request object.
-		 * @param array                         $response_data Response array containing keys
-		 *                                                     'headers', 'body', and 'response'.
-		 *                                                     Not necessarily all of these are
-		 *                                                     included though.
-		 * @return awsmug\APIAPI\Request\Response Response object for the request.
+		 * @param awsmug\APIAPI\Request\Route_Request $request       Request object.
+		 * @param array                               $response_data Response array containing keys
+		 *                                                           'headers', 'body', and 'response'.
+		 *                                                           Not necessarily all of these are
+		 *                                                           included though.
+		 * @return awsmug\APIAPI\Request\Route_Response Response object for the request.
 		 */
 		public function get_response_object( $request, $response_data ) {
 			$route = $request->get_route_object();

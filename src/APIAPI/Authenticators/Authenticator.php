@@ -52,7 +52,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Authenticators\Authenticator' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param awsmug\APIAPI\Request\Request $request The request to send.
+		 * @param awsmug\APIAPI\Request\Route_Request $request The request to send.
 		 * @return array Parsed authentication data for the request.
 		 */
 		protected function parse_authentication_data( $request ) {

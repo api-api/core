@@ -154,7 +154,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		 * @param string               $route_uri URI of the route.
 		 * @param string               $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
 		 *                                        or 'DELETE'. Default 'GET'.
-		 * @return awsmug\APIAPI\Request\Request Request object for the route.
+		 * @return awsmug\APIAPI\Request\Route_Request Request object for the route.
 		 */
 		public function get_request_object( $apiapi, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $apiapi )->get_request_object( $route_uri, $method );

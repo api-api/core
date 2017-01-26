@@ -1,6 +1,6 @@
 <?php
 /**
- * API-API class for a scoped response
+ * API-API class for a general response
  *
  * @package APIAPI
  * @subpackage Request
@@ -9,37 +9,16 @@
 
 namespace awsmug\APIAPI\Request;
 
-use awsmug\APIAPI\Exception;
-
 if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 
 	/**
 	 * Response class for the API-API.
 	 *
-	 * Represents an API response, scoped for an API-API instance.
+	 * Represents a general API response.
 	 *
 	 * @since 1.0.0
 	 */
-	class Response {
-		/**
-		 * The route object for this response.
-		 *
-		 * @since 1.0.0
-		 * @access protected
-		 * @var awsmug\APIAPI\Structures\Route
-		 */
-		protected $route;
-
-		/**
-		 * The method that was used to get the response.
-		 * Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
-		 *
-		 * @since 1.0.0
-		 * @access protected
-		 * @var string
-		 */
-		protected $request_method = 'GET';
-
+	class Response implements Response_Interface {
 		/**
 		 * Response headers.
 		 *
@@ -82,18 +61,10 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param array                          $response_data  Response array containing keys
-		 *                                                       'headers', 'body', and 'response'.
-		 *                                                       Not necessarily all of these are
-		 *                                                       included though.
-		 * @param string                         $request_method Either 'GET', 'POST', 'PUT', 'PATCH'
-		 *                                                       or 'DELETE'.
-		 * @param awsmug\APIAPI\Structures\Route $route          Route object for the response.
+		 * @param array $response_data Response array containing keys 'headers', 'body', and 'response'.
+		 *                             Not necessarily all of these are included though.
 		 */
-		public function __construct( $response_data, $request_method, $route ) {
-			$this->route          = $route;
-			$this->request_method = $request_method;
-
+		public function __construct( $response_data ) {
 			if ( isset( $response_data['headers'] ) ) {
 				$this->parse_headers( $response_data['headers'] );
 			}
@@ -234,18 +205,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 */
 		public function get_response_message() {
 			return $this->response['message'];
-		}
-
-		/**
-		 * Returns the route object.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @return awsmug\APIAPI\Structures\Route Route object.
-		 */
-		public function get_route_object() {
-			return $this->route;
 		}
 
 		/**

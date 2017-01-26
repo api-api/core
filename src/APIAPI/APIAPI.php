@@ -9,7 +9,7 @@
 
 namespace awsmug\APIAPI;
 
-use awsmug\APIAPI\Request\Response;
+use awsmug\APIAPI\Request\Route_Response;
 
 if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
@@ -77,7 +77,7 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @param string $api_name  Unique slug of the API. Must match the slug of a registered structure.
 		 * @param string $route_uri URI of the route.
 		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'GET'.
-		 * @return awsmug\APIAPI\Request\Request Request object.
+		 * @return awsmug\APIAPI\Request\Route_Request Request object.
 		 */
 		public function get_request_object( $api_name, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $api_name )->get_request_object( $route_uri, $method );
@@ -89,8 +89,8 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param awsmug\APIAPI\Request\Request $request The request to send.
-		 * @return awsmug\APIAPI\Request\Response The returned response.
+		 * @param awsmug\APIAPI\Request\Route_Request $request The request to send.
+		 * @return awsmug\APIAPI\Request\Route_Response The returned response.
 		 */
 		public function send_request( $request ) {
 			$missing_parameters = $request->is_valid();
@@ -132,7 +132,7 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access private
 		 *
-		 * @param awsmug\APIAPI\Request\Request $request The request to authenticate.
+		 * @param awsmug\APIAPI\Request\Route_Request $request The request to authenticate.
 		 */
 		private function authenticate_request( $request ) {
 			$authenticator_name = $request->get_authenticator();

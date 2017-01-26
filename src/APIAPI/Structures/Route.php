@@ -225,7 +225,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 * @param string $authenticator       Optional. Authenticator name. Default empty string.
 		 * @param array  $authentication_data Optional. Authentication data to pass to the authenticator.
 		 *                                    Default empty array.
-		 * @return awsmug\APIAPI\Request\Request Request object.
+		 * @return awsmug\APIAPI\Request\Route_Request Request object.
 		 */
 		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -234,7 +234,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 
 			$class_name = $this->data['methods'][ $method ]['request_class'];
 
-			return new $class_name( $this->structure->get_base_uri( $mode ), $route_uri, $method, $this, $authenticator, $authentication_data );
+			return new $class_name( $this->structure->get_base_uri( $mode ), $method, $this, $route_uri, $authenticator, $authentication_data );
 		}
 
 		/**
@@ -247,7 +247,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 *                              Not necessarily all of these are included though.
 		 * @param string $method        Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *                              Default 'GET'.
-		 * @return awsmug\APIAPI\Request\Response Response object.
+		 * @return awsmug\APIAPI\Request\Route_Response Response object.
 		 */
 		public function create_response_object( $response_data, $method = 'GET' ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -332,8 +332,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'supports_custom_params' => false,
 					'request_data_type'      => 'raw',
 					'needs_authentication'   => false,
-					'request_class'          => 'awsmug\APIAPI\Request\Request',
-					'response_class'         => 'awsmug\APIAPI\Request\Response',
+					'request_class'          => 'awsmug\APIAPI\Request\Route_Request',
+					'response_class'         => 'awsmug\APIAPI\Request\Route_Response',
 				), true );
 
 				$data['params'] = $this->parse_param_data( $data['params'] );
