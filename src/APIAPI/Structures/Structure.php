@@ -280,6 +280,23 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		}
 
 		/**
+		 * Processes the response.
+		 *
+		 * This method can contain API-specific logic to verify the response is correct.
+		 * It should either return the passed $response object in its original state or
+		 * throw an exception.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param awsmug\APIAPI\Request\Route_Response $response Response object.
+		 * @return awsmug\APIAPI\Request\Route_Response Response object.
+		 */
+		public function process_response( $response ) {
+			return $response;
+		}
+
+		/**
 		 * Sets up the API structure.
 		 *
 		 * This method should populate the routes array, and can also be used to

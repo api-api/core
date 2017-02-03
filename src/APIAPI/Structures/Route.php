@@ -258,7 +258,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 
 			$class_name = $this->data['methods'][ $method ]['response_class'];
 
-			return new $class_name( $response_data, $method, $this );
+			return $this->structure->process_response( new $class_name( $response_data, $method, $this ) );
 		}
 
 		/**
