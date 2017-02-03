@@ -1,6 +1,6 @@
-[![Code Climate](https://codeclimate.com/github/awsmug/api-api/badges/gpa.svg)](https://codeclimate.com/github/awsmug/api-api)
-[![Latest Stable Version](https://poser.pugx.org/awsmug/api-api/version)](https://packagist.org/packages/awsmug/api-api)
-[![License](https://poser.pugx.org/awsmug/api-api/license)](https://packagist.org/packages/awsmug/api-api)
+[![Code Climate](https://codeclimate.com/github/api-api/core/badges/gpa.svg)](https://codeclimate.com/github/api-api/core)
+[![Latest Stable Version](https://poser.pugx.org/api-api/core/version)](https://packagist.org/packages/api-api/core)
+[![License](https://poser.pugx.org/api-api/core/license)](https://packagist.org/packages/api-api/core)
 
 # API-API
 

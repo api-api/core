@@ -1,5 +1,5 @@
 {
-  "name": "awsmug/api-api",
+  "name": "api-api/core",
   "description": "A library of API components to interact with external APIs.",
   "version": "1.0.0",
   "license": "GPL-3.0",
@@ -24,15 +24,15 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/awsmug/api-api/issues"
+    "issues": "https://github.com/api-api/core/issues"
   },
   "config": {
     "preferred-install": "dist"
   },
   "autoload": {
     "psr-4": {
-      "awsmug\\APIAPI\\": "src/APIAPI/",
-      "awsmug\\APIAPI_Defaults\\": "src/APIAPI_Defaults/"
+      "APIAPI\\Core\\": "src/Core/",
+      "APIAPI\\Defaults\\": "src/Defaults/"
     },
     "files": [
       "src/api-api.php"
