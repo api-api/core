@@ -276,7 +276,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 */
 		protected function set_regular_param( $param, $value, $param_info ) {
-			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
+			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
 
 			$this->params[ $param ] = $value;
 
@@ -312,7 +312,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 */
 		protected function set_uri_param( $param, $value, $param_info ) {
-			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'] );
+			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
 
 			$new_route_uri = $this->route->get_uri();
 			foreach ( $this->route->get_primary_params() as $name => $param_info ) {
@@ -340,7 +340,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			preg_match( '@^' . $this->route->get_uri() . '$@i', $this->route_uri, $matches );
 
 			if ( isset( $matches[ $param ] ) ) {
-				return $this->parse_param_value( $matches[ $param ], $param_info['type'], $param_info['enum'] );
+				return $this->parse_param_value( $matches[ $param ], $param_info['type'], $param_info['enum'], $param_info['items'] );
 			}
 
 			return $param_info['default'];
@@ -398,12 +398,14 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param string $type  The parameter type.
 		 * @param array  $enum  Optional. Allowed values for the parameter. An empty array
 		 *                      will be ignored. Default empty.
+		 * @param array  $items Optional. Associative array of sub item info. Only needed
+		 *                      for params with $type set to 'array'.
 		 * @return mixed The parsed value.
 		 */
-		protected function parse_param_value( $value, $type, $enum = array() ) {
+		protected function parse_param_value( $value, $type, $enum = array(), $items = array() ) {
 			switch ( $type ) {
 				case 'boolean':
-					$value = (bool) $value;
+					$value = boolval( $value );
 					break;
 				case 'float':
 				case 'number':
@@ -413,8 +415,28 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 					$value = intval( $value );
 					break;
 				case 'string':
-				default:
 					$value = strval( $value );
+					break;
+				case 'array':
+					$value = (array) $value;
+
+					if ( isset( $items['type'] ) ) {
+						switch ( $items['type'] ) {
+							case 'boolean':
+								$value = array_map( 'boolval', $value );
+								break;
+							case 'float':
+							case 'number':
+								$value = array_map( 'floatval', $value );
+								break;
+							case 'integer':
+								$value = array_map( 'intval', $value );
+								break;
+							case 'string':
+								$value = array_map( 'strval', $value );
+								break;
+						}
+					}
 			}
 
 			if ( ! empty( $enum ) && ! in_array( $value, $enum, true ) ) {

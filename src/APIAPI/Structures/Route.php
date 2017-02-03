@@ -359,8 +359,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'required'    => false,
 					'description' => '',
 					'type'        => 'string',
-					'enum'        => array(),
 					'default'     => null,
+					'enum'        => array(),
+					'items'       => array(),
 				), true );
 			}
 
