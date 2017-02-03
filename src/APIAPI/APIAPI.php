@@ -45,6 +45,8 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
 			$this->set_name( $name );
 			$this->config( $config );
+
+			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.started' );
 		}
 
 		/**
@@ -93,6 +95,8 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		 * @return awsmug\APIAPI\Request\Route_Response The returned response.
 		 */
 		public function send_request( $request ) {
+			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.pre_send_request', $request, $this );
+
 			$missing_parameters = $request->is_valid();
 			if ( is_array( $missing_parameters ) ) {
 				throw new Exception( sprintf( 'The request to send is invalid. The following required parameters have not been provided: %s', implode( ', ', $missing_parameters ) ) );
@@ -121,7 +125,11 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 
 			$route = $request->get_route_object();
 
-			return $route->create_response_object( $response_data, $request->get_method() );
+			$response = $route->create_response_object( $response_data, $request->get_method() );
+
+			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.response_received', $response, $request, $this );
+
+			return $response;
 		}
 
 		/**
@@ -137,6 +145,8 @@ if ( ! class_exists( 'awsmug\APIAPI\APIAPI' ) ) {
 		private function authenticate_request( $request ) {
 			$authenticator_name = $request->get_authenticator();
 			if ( ! empty( $authenticator_name ) ) {
+				$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.pre_authenticate_request', $request, $this );
+
 				$authenticators = $this->manager->authenticators();
 
 				if ( ! $authenticators->is_registered( $authenticator_name ) ) {

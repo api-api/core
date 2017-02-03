@@ -112,7 +112,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Hooks' ) ) {
 		 */
 		public function trigger( $hook_name ) {
 			if ( $this->is_hook_triggered( $hook_name ) ) {
-				throw new Exception( sprintf( 'Invalid triggering of hook %s while it was already triggered.', $hook_name ) );
+				return;
 			}
 
 			if ( ! isset( $this->hooks[ $hook_name ] ) ) {

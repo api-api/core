@@ -93,6 +93,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			$this->authenticators = new Authenticators( $this );
 
 			$this->hooks = new Hooks();
+
+			$this->hooks->trigger( 'apiapi.manager.started', $this );
 		}
 
 		/**

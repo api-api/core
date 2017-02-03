@@ -136,6 +136,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 		 * @return bool True if the module is registered, false otherwise.
 		 */
 		public function is_registered( $name ) {
+			$this->manager->hooks()->trigger( 'apiapi.manager.' . $this->type . 's.pre_is_registered', $name, $this );
+
 			return isset( $this->modules[ $name ] );
 		}
 
