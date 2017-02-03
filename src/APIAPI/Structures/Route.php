@@ -133,7 +133,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 				return array();
 			}
 
-			return array_merge( $this->primary_params, $this->data['methods'][ $method ]['params'] );
+			return array_merge( $this->primary_params, $this->data['methods'][ $method ]['params'], $this->structure->get_global_params() );
 		}
 
 		/**

@@ -11,6 +11,7 @@ namespace awsmug\APIAPI\Structures;
 
 use awsmug\APIAPI\Request\API;
 use awsmug\APIAPI\Name_Trait;
+use awsmug\APIAPI\Util;
 
 if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 
@@ -72,6 +73,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		protected $routes = array();
 
 		/**
+		 * Optional global parameters the API supports.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $global_params = array();
+
+		/**
 		 * Name of the authenticator to use for the API.
 		 *
 		 * @since 1.0.0
@@ -124,6 +134,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 
 			$this->setup();
 			$this->process_routes();
+			$this->process_global_params();
 		}
 
 		/**
@@ -218,6 +229,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		 */
 		public function get_route_objects() {
 			return $this->routes;
+		}
+
+		/**
+		 * Returns the available global parameters information.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Global parameters as `$param => $param_info` pairs.
+		 */
+		public function get_global_params() {
+			return $this->global_params;
 		}
 
 		/**
@@ -326,6 +349,26 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 			}
 
 			$this->routes = $route_objects;
+		}
+
+		/**
+		 * Ensures that all global parameters contain the necessary data.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function process_global_params() {
+			foreach ( $this->global_params as $param => &$data ) {
+				$data = Util::parse_args( $data, array(
+					'required'    => false,
+					'description' => '',
+					'type'        => 'string',
+					'default'     => null,
+					'location'    => '',
+					'enum'        => array(),
+					'items'       => array(),
+				), true );
+			}
 		}
 	}
 
