@@ -93,6 +93,10 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @return APIAPI\Core\Transporters\Transporter|null The default transporter object, or null if not set.
 		 */
 		public function get_default() {
+			if ( empty( $this->default ) ) {
+				throw new Exception( 'No transporter is available to make a request.' );
+			}
+
 			return $this->get( $this->default );
 		}
 
