@@ -90,6 +90,16 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		protected $authentication_data_defaults = array();
 
 		/**
+		 * Default authentication data to pass to the authenticator, for additional
+		 * modes. Must be an associative array of $mode => $defaults pairs.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $advanced_authentication_data_defaults = array();
+
+		/**
 		 * Container for API-API-specific instances of this API.
 		 *
 		 * @since 1.0.0
@@ -228,9 +238,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Structure' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
+		 * @param string $mode Optional. Mode for which to get the authentication data
+		 *                     defaults. Default empty.
 		 * @return array Array of default authentication data.
 		 */
-		public function get_authentication_data_defaults() {
+		public function get_authentication_data_defaults( $mode = '' ) {
+			if ( ! empty( $mode ) && isset( $this->advanced_authentication_data_defaults[ $mode ] ) ) {
+				return $this->advanced_authentication_data_defaults[ $mode ];
+			}
+
 			return $this->authentication_data_defaults;
 		}
 

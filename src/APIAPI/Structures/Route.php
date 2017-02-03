@@ -234,6 +234,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 
 			$class_name = $this->data['methods'][ $method ]['request_class'];
 
+			$authentication_data = Util::parse_args( $authentication_data, $this->structure->get_authentication_data_defaults( $mode ) );
+
 			return new $class_name( $this->structure->get_base_uri( $mode ), $method, $this, $route_uri, $authenticator, $authentication_data );
 		}
 
