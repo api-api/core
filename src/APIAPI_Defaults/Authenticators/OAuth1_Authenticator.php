@@ -37,7 +37,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator
 		public function authenticate_request( $request ) {
 			$data = $this->parse_authentication_data( $request );
 
-			foreach ( array( 'request_url', 'authorize_url', 'access_url', 'callback_url' ) as $url ) {
+			foreach ( array( 'request', 'authorize', 'access', 'callback' ) as $url ) {
 				if ( empty( $url ) ) {
 					throw new Exception( sprintf( 'The request to %s could not be authenticated as one of the required URLs has not been provided.', $request->get_uri() ) );
 				}
@@ -65,14 +65,14 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator
 
 			if ( empty( $token ) || empty( $token_secret ) ) {
 				if ( empty( $temporary_token ) || empty( $temporary_token_secret ) ) {
-					list( $temporary_token, $temporary_token_secret ) = $this->get_temporary_credentials( $data['request_url'], $consumer_key, $consumer_secret, $data['callback_url'], 'POST' );
+					list( $temporary_token, $temporary_token_secret ) = $this->get_temporary_credentials( $data['request'], $consumer_key, $consumer_secret, $data['callback'], 'POST' );
 				}
 
 				if ( empty( $temporary_token_verifier ) ) {
-					$this->authorize_user( $data['authorize_url'], $temporary_token, $temporary_token_secret );
+					$this->authorize_user( $data['authorize'], $temporary_token, $temporary_token_secret );
 				}
 
-				list( $token, $token_secret ) = $this->get_token_credentials( $data['access_url'], $consumer_key, $consumer_secret, $temporary_token, $temporary_token_secret, $temporary_token_verifier, 'POST' );
+				list( $token, $token_secret ) = $this->get_token_credentials( $data['access'], $consumer_key, $consumer_secret, $temporary_token, $temporary_token_secret, $temporary_token_verifier, 'POST' );
 
 				call_user_func( $data['apply_token_callback'], $consumer_key, $consumer_secret, $token, $token_secret );
 			}
@@ -169,7 +169,7 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator
 			$authorize_url = $authorize_url . ( false !== strpos( $authorize_url, '?' ) ? '&' : '?' ) . $authorize_query_string;
 
 			throw new Authorization_Required_Exception( 'Authorization is required.', 0, array(
-				'authorize_url'          => $authorize_url,
+				'authorize'              => $authorize_url,
 				'temporary_token'        => $temporary_token,
 				'temporary_token_secret' => $temporary_token_secret,
 			) );
@@ -336,10 +336,10 @@ if ( ! class_exists( 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator
 		 */
 		protected function set_default_args() {
 			$this->default_args = array(
-				'request_url'              => '',
-				'authorize_url'            => '',
-				'access_url'               => '',
-				'callback_url'             => '',
+				'request'                  => '',
+				'authorize'                => '',
+				'access'                   => '',
+				'callback'                 => '',
 				'apply_token_callback'     => null,
 				'consumer_key'             => '',
 				'consumer_secret'          => '',
