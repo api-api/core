@@ -61,6 +61,15 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		private $authenticators;
 
 		/**
+		 * The hooks instance.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var awsmug\APIAPI\Hooks
+		 */
+		private $hooks;
+
+		/**
 		 * Instance holder.
 		 *
 		 * @since 1.0.0
@@ -82,6 +91,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			$this->transporters   = new Transporters();
 			$this->structures     = new Structures();
 			$this->authenticators = new Authenticators();
+
+			$this->hooks = new Hooks();
 		}
 
 		/**
@@ -164,6 +175,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 */
 		public function authenticators() {
 			return $this->authenticators;
+		}
+
+		/**
+		 * Returns the hooks instance.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return awsmug\APIAPI\Hooks The hooks instance.
+		 */
+		public function hooks() {
+			return $this->hooks;
 		}
 
 		/**
