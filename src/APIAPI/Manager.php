@@ -88,9 +88,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		private function __construct() {
 			$this->instances = array();
 
-			$this->transporters   = new Transporters();
-			$this->structures     = new Structures();
-			$this->authenticators = new Authenticators();
+			$this->transporters   = new Transporters( $this );
+			$this->structures     = new Structures( $this );
+			$this->authenticators = new Authenticators( $this );
 
 			$this->hooks = new Hooks();
 		}

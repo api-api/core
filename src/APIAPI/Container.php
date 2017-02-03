@@ -47,12 +47,23 @@ if ( ! class_exists( 'awsmug\APIAPI\Container' ) ) {
 		protected $modules = array();
 
 		/**
+		 * The manager instance.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var awsmug\APIAPI\Manager
+		 */
+		protected $manager;
+
+		/**
 		 * Constructor.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 */
-		public function __construct() {
+		public function __construct( $manager ) {
+			$this->manager = $manager;
+
 			$this->type              = $this->get_type();
 			$this->module_class_name = $this->get_module_class_name();
 		}
