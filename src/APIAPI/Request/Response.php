@@ -265,6 +265,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 				$this->params = $params;
 			} elseif ( 'application/json' === $content_type ) {
 				$this->params = json_decode( $body, true );
+			} elseif ( 'application/xml' === $content_type ) {
+				$this->params = $this->xml_decode( $body );
 			}
 		}
 
@@ -295,6 +297,49 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Response' ) ) {
 		 */
 		protected function canonicalize_header_name( $header ) {
 			return str_replace( '-', '_', strtolower( $header ) );
+		}
+
+		/**
+		 * Decodes an XML string into an array of parameters.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $xml XML string to decode.
+		 * @return array Decoded XML as array, or empty array on failure.
+		 */
+		protected function xml_decode( $xml ) {
+			$xml_element = simplexml_load_string( $xml );
+			if ( ! is_a( $xml_element, 'SimpleXMLElement' ) ) {
+				return array();
+			}
+
+			return $this->xml_element_to_array( $xml_element );
+		}
+
+		/**
+		 * Parses a SimpleXMLElement into an array.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param SimpleXMLElement $xml_element XML element.
+		 * @return array Parsed array.
+		 */
+		protected function xml_element_to_array( $xml_element ) {
+			$xml_array = (array) $xml_element;
+
+			if ( count( $xml_array ) === 0 ) {
+				return (string) $xml_element;
+			}
+
+			foreach ( $xml_array as $key => $value ) {
+				if ( is_object( $value ) && false !== strpos( get_class( $value ), 'SimpleXML' ) || ! is_object( $value ) ) {
+					$xml_array[ $key ] = $this->xml_element_to_array( $value );
+				}
+			}
+
+			return $xml_array;
 		}
 	}
 
