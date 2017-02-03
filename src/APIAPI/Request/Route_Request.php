@@ -102,7 +102,12 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @return string The full request URI.
 		 */
 		public function get_uri() {
-			return trailingslashit( parent::get_uri() ) . ltrim( $this->route_uri, '/' );
+			$uri = parent::get_uri();
+			if ( '/' !== substr( $uri, -1 ) ) {
+				$uri .= '/';
+			}
+
+			return $uri . ltrim( $this->route_uri, '/' );
 		}
 
 		/**
@@ -234,7 +239,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @return string Authenticator name, or empty string if authentication is not required.
 		 */
 		public function get_authenticator() {
-			if ( ! $this->route->needs_authentication( $this->method ) ) {
+			if ( ! $this->route->method_needs_authentication( $this->method ) ) {
 				return '';
 			}
 

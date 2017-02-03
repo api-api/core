@@ -271,20 +271,20 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 * @access private
 		 */
 		private function set_primary_params() {
-			preg_match_all( '@\/\(\?P\<([A-Za-z_]+)\>\[(.+)\]\+\)@U', $this->uri, $matches );
+			preg_match_all( '@(\/|^)\(\?P\<([A-Za-z_]+)\>\[(.+)\]\+\)@U', $this->uri, $matches );
 
 			$this->primary_params = array();
 			for ( $i = 0; $i < count( $matches[0] ); $i++ ) {
-				$type = '\d' === $matches[2][ $i ] ? 'integer' : 'string';
+				$type = '\d' === $matches[3][ $i ] ? 'integer' : 'string';
 
 				$description = '';
 				$default     = null;
-				if ( isset( $this->data['primary_params'][ $matches[1][ $i ] ] ) ) {
-					$description = $this->data['primary_params'][ $matches[1][ $i ] ]['description'];
-					$default     = $this->data['primary_params'][ $matches[1][ $i ] ]['default'];
+				if ( isset( $this->data['primary_params'][ $matches[2][ $i ] ] ) ) {
+					$description = $this->data['primary_params'][ $matches[2][ $i ] ]['description'];
+					$default     = $this->data['primary_params'][ $matches[2][ $i ] ]['default'];
 				}
 
-				$this->primary_params[ $matches[1][ $i ] ] = array(
+				$this->primary_params[ $matches[2][ $i ] ] = array(
 					'required'    => true,
 					'description' => $description,
 					'type'        => $type,
@@ -294,6 +294,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'primary'     => true,
 				);
 			}
+
+			unset( $this->data['primary_params'] );
 		}
 
 		/**
