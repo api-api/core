@@ -280,7 +280,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 */
 		protected function set_regular_param( $param, $value, $param_info ) {
-			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
+			$value = $this->parse_param_value( $value, $param_info );
 
 			$this->params[ $param ] = $value;
 
@@ -316,7 +316,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 */
 		protected function set_uri_param( $param, $value, $param_info ) {
-			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
+			$value = $this->parse_param_value( $value, $param_info );
 
 			$new_route_uri = $this->route->get_uri();
 			foreach ( $this->route->get_primary_params() as $name => $param_info ) {
@@ -344,7 +344,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			preg_match( '@^' . $this->route->get_uri() . '$@i', $this->route_uri, $matches );
 
 			if ( isset( $matches[ $param ] ) ) {
-				return $this->parse_param_value( $matches[ $param ], $param_info['type'], $param_info['enum'], $param_info['items'] );
+				return $this->parse_param_value( $matches[ $param ], $param_info );
 			}
 
 			return $param_info['default'];
@@ -361,7 +361,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 */
 		protected function set_query_param( $param, $value, $param_info ) {
-			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
+			$value = $this->parse_param_value( $value, $param_info );
 
 			$query_params = $this->get_query_params( $this->route_uri );
 
@@ -390,7 +390,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 			$query_params = $this->get_query_params( $this->route_uri );
 
 			if ( isset( $query_params[ $param ] ) ) {
-				return $this->parse_param_value( urldecode( $query_params[ $param ] ), $param_info['type'], $param_info['enum'], $param_info['items'] );
+				return $this->parse_param_value( urldecode( $query_params[ $param ] ), $param_info );
 			}
 
 			return $param_info['default'];
@@ -444,16 +444,12 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param mixed  $value The input value.
-		 * @param string $type  The parameter type.
-		 * @param array  $enum  Optional. Allowed values for the parameter. An empty array
-		 *                      will be ignored. Default empty.
-		 * @param array  $items Optional. Associative array of sub item info. Only needed
-		 *                      for params with $type set to 'array'.
+		 * @param mixed $value      The input value.
+		 * @param array $param_info Parameter info.
 		 * @return mixed The parsed value.
 		 */
-		protected function parse_param_value( $value, $type, $enum = array(), $items = array() ) {
-			switch ( $type ) {
+		protected function parse_param_value( $value, $param_info ) {
+			switch ( $param_info['type'] ) {
 				case 'boolean':
 					$value = boolval( $value );
 					break;
@@ -463,15 +459,29 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 					break;
 				case 'integer':
 					$value = intval( $value );
+
+					if ( isset( $param_info['minimum'] ) && $value < $param_info['minimum'] ) {
+						throw new Exception( sprintf( 'The value %1$s is smaller than the minimum allowed value of %2$s.', $value, $param_info['minimum'] ) );
+					}
+
+					if ( isset( $param_info['maximum'] ) && $value > $param_info['maximum'] ) {
+						throw new Exception( sprintf( 'The value %1$s is greater than the maximum allowed value of %2$s.', $value, $param_info['maximum'] ) );
+					}
+
 					break;
 				case 'string':
 					$value = strval( $value );
+
+					if ( ! empty( $param_info['enum'] ) && ! in_array( $value, $param_info['enum'], true ) ) {
+						throw new Exception( sprintf( 'The value %1$s is not within the allowed values of %2$s.', $value, implode( ', ', $param_info['enum'] ) ) );
+					}
+
 					break;
 				case 'array':
 					$value = (array) $value;
 
-					if ( isset( $items['type'] ) ) {
-						switch ( $items['type'] ) {
+					if ( isset( $param_info['items'] ) && isset( $param_info['items']['type'] ) ) {
+						switch ( $param_info['items']['type'] ) {
 							case 'boolean':
 								$value = array_map( 'boolval', $value );
 								break;
@@ -487,10 +497,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 								break;
 						}
 					}
-			}
-
-			if ( ! empty( $enum ) && ! in_array( $value, $enum, true ) ) {
-				throw new Exception( sprintf( 'The value %1$s is not within the allowed values of %2$s.', $value, implode( ', ', $enum ) ) );
 			}
 
 			return $value;
