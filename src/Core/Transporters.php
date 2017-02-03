@@ -41,7 +41,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 
 			$class_name = get_class( $this->modules[ $name ] );
 
-			if ( empty( $this->default ) || 0 === strpos( $class_name, 'APIAPI\\Defaults\\' ) ) {
+			if ( empty( $this->default ) ) {
 				$this->default = $name;
 			}
 		}

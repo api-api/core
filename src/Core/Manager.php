@@ -79,16 +79,6 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		private static $instance = null;
 
 		/**
-		 * Defaults to register.
-		 *
-		 * @since 1.0.0
-		 * @access private
-		 * @static
-		 * @var array
-		 */
-		private static $defaults = array();
-
-		/**
 		 * Constructor.
 		 *
 		 * @since 1.0.0
@@ -104,9 +94,6 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 			$this->hooks = new Hooks();
 
 			$this->hooks->trigger( 'apiapi.manager.started', $this );
-
-			$this->hooks->on( 'apiapi.manager.structures.pre_is_registered', array( $this, 'lazyload_structures' ) );
-			$this->hooks->on( 'apiapi.manager.authenticators.pre_is_registered', array( $this, 'lazyload_authenticators' ) );
 		}
 
 		/**
@@ -204,48 +191,6 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		}
 
 		/**
-		 * Hook callback to lazyload default structures.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param APIAPI\Core\Hook       $hook       Hook object.
-		 * @param string                   $name       Transporter name.
-		 * @param APIAPI\Core\Structures $structures Structures container.
-		 */
-		public function lazyload_structures( $hook, $name, $structures ) {
-			if ( isset( self::$defaults['structures'][ $name ] ) ) {
-				$structures->register( $name, self::$defaults['structures'][ $name ] );
-				unset( self::$defaults['structures'][ $name ] );
-			}
-
-			if ( empty( self::$defaults['structures'] ) ) {
-				$hook->remove();
-			}
-		}
-
-		/**
-		 * Hook callback to lazyload default authenticators.
-		 *
-		 * @since 1.0.0
-		 * @access public
-		 *
-		 * @param APIAPI\Core\Hook           $hook           Hook object.
-		 * @param string                       $name           Transporter name.
-		 * @param APIAPI\Core\Authenticators $authenticators Authenticators container.
-		 */
-		public function lazyload_authenticators( $hook, $name, $authenticators ) {
-			if ( isset( self::$defaults['authenticators'][ $name ] ) ) {
-				$authenticators->register( $name, self::$defaults['authenticators'][ $name ] );
-				unset( self::$defaults['authenticators'][ $name ] );
-			}
-
-			if ( empty( self::$defaults['authenticators'] ) ) {
-				$hook->remove();
-			}
-		}
-
-		/**
 		 * Returns the canonical API-API instance.
 		 *
 		 * @since 1.0.0
@@ -256,43 +201,9 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		public static function instance() {
 			if ( null === self::$instance ) {
 				self::$instance = new self();
-
-				self::setup_defaults();
 			}
 
 			return self::$instance;
-		}
-
-		/**
-		 * Registers default transporters, structures and authenticators.
-		 *
-		 * @since 1.0.0
-		 * @access private
-		 * @static
-		 */
-		private static function setup_defaults() {
-			self::$defaults = array(
-				'transporters'   => array(),
-				'structures'     => array(),
-				'authenticators' => array(
-					'basic'  => 'APIAPI\Defaults\Authenticators\Basic_Authenticator',
-					'bearer' => 'APIAPI\Defaults\Authenticators\Bearer_Authenticator',
-					'x'      => 'APIAPI\Defaults\Authenticators\X_Authenticator',
-					'oauth1' => 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator',
-				),
-			);
-
-			if ( function_exists( 'curl_init' ) ) {
-				self::$instance->transporters()->register( 'curl', 'APIAPI\Defaults\Transporters\cURL_Transporter' );
-			}
-
-			if ( class_exists( 'Requests' ) ) {
-				self::$instance->transporters()->register( 'requests', 'APIAPI\Defaults\Transporters\Requests_Transporter' );
-			}
-
-			if ( function_exists( 'wp_remote_request' ) ) {
-				self::$instance->transporters()->register( 'wordpress', 'APIAPI\Defaults\Transporters\WordPress_Transporter' );
-			}
 		}
 	}
 
