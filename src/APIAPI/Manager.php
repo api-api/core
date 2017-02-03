@@ -80,6 +80,16 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		private static $instance = null;
 
 		/**
+		 * Defaults to register.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @static
+		 * @var array
+		 */
+		private static $defaults = array();
+
+		/**
 		 * Constructor.
 		 *
 		 * @since 1.0.0
@@ -95,6 +105,9 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			$this->hooks = new Hooks();
 
 			$this->hooks->trigger( 'apiapi.manager.started', $this );
+
+			$this->hooks->on( 'apiapi.manager.structures.pre_is_registered', array( $this, 'lazyload_structures' ) );
+			$this->hooks->on( 'apiapi.manager.authenticators.pre_is_registered', array( $this, 'lazyload_authenticators' ) );
 		}
 
 		/**
@@ -192,6 +205,48 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		}
 
 		/**
+		 * Hook callback to lazyload default structures.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param awsmug\APIAPI\Hook       $hook       Hook object.
+		 * @param string                   $name       Transporter name.
+		 * @param awsmug\APIAPI\Structures $structures Structures container.
+		 */
+		public function lazyload_structures( $hook, $name, $structures ) {
+			if ( isset( self::$defaults['structures'][ $name ] ) ) {
+				$structures->register( $name, self::$defaults['structures'][ $name ] );
+				unset( self::$defaults['structures'][ $name ] );
+			}
+
+			if ( empty( self::$defaults['structures'] ) ) {
+				$hook->remove();
+			}
+		}
+
+		/**
+		 * Hook callback to lazyload default authenticators.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param awsmug\APIAPI\Hook           $hook           Hook object.
+		 * @param string                       $name           Transporter name.
+		 * @param awsmug\APIAPI\Authenticators $authenticators Authenticators container.
+		 */
+		public function lazyload_authenticators( $hook, $name, $authenticators ) {
+			if ( isset( self::$defaults['authenticators'][ $name ] ) ) {
+				$authenticators->register( $name, self::$defaults['authenticators'][ $name ] );
+				unset( self::$defaults['authenticators'][ $name ] );
+			}
+
+			if ( empty( self::$defaults['authenticators'] ) ) {
+				$hook->remove();
+			}
+		}
+
+		/**
 		 * Returns the canonical API-API instance.
 		 *
 		 * @since 1.0.0
@@ -203,7 +258,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			if ( null === self::$instance ) {
 				self::$instance = new self();
 
-				self::register_defaults();
+				self::setup_defaults();
 			}
 
 			return self::$instance;
@@ -216,7 +271,18 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 		 * @access private
 		 * @static
 		 */
-		private static function register_defaults() {
+		private static function setup_defaults() {
+			self::$defaults = array(
+				'transporters'   => array(),
+				'structures'     => array(),
+				'authenticators' => array(
+					'basic'  => 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator',
+					'bearer' => 'awsmug\APIAPI_Defaults\Authenticators\Bearer_Authenticator',
+					'x'      => 'awsmug\APIAPI_Defaults\Authenticators\X_Authenticator',
+					'oauth1' => 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator',
+				),
+			);
+
 			if ( function_exists( 'curl_init' ) ) {
 				self::$instance->transporters()->register( 'curl', 'awsmug\APIAPI_Defaults\Transporters\cURL_Transporter' );
 			}
@@ -228,11 +294,6 @@ if ( ! class_exists( 'awsmug\APIAPI\Manager' ) ) {
 			if ( function_exists( 'wp_remote_request' ) ) {
 				self::$instance->transporters()->register( 'wordpress', 'awsmug\APIAPI_Defaults\Transporters\WordPress_Transporter' );
 			}
-
-			self::$instance->authenticators()->register( 'basic', 'awsmug\APIAPI_Defaults\Authenticators\Basic_Authenticator' );
-			self::$instance->authenticators()->register( 'bearer', 'awsmug\APIAPI_Defaults\Authenticators\Bearer_Authenticator' );
-			self::$instance->authenticators()->register( 'x', 'awsmug\APIAPI_Defaults\Authenticators\X_Authenticator' );
-			self::$instance->authenticators()->register( 'oauth1', 'awsmug\APIAPI_Defaults\Authenticators\OAuth1_Authenticator' );
 		}
 	}
 

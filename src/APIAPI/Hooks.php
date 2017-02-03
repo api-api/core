@@ -121,7 +121,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Hooks' ) ) {
 
 			$hooks = $this->hooks[ $hook_name ];
 
-			usort( $hooks );
+			usort( $hooks, array( $this, 'sort_callback' ) );
 
 			$args = array_slice( func_get_args(), 1 );
 
