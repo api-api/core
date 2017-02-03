@@ -121,6 +121,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 				$this->set_custom_param( $param, $value );
 			} elseif ( isset( $params[ $param ]['primary'] ) ) {
 				$this->set_uri_param( $param, $value, $params[ $param ] );
+			} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+				$this->set_query_param( $param, $value, $params[ $param ] );
 			} else {
 				$this->set_regular_param( $param, $value, $params[ $param ] );
 			}
@@ -142,6 +144,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 				return $this->get_custom_param( $param );
 			} elseif ( isset( $params[ $param ]['primary'] ) ) {
 				return $this->get_uri_param( $param, $params[ $param ] );
+			} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+				return $this->get_query_param( $param, $params[ $param ] );
 			} else {
 				return $this->get_regular_param( $param, $params[ $param ] );
 			}
@@ -150,7 +154,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		/**
 		 * Gets all parameters.
 		 *
-		 * URI parameters are not included as they are part of the URI.
+		 * URI and query parameters are not included as they are part of the URI.
 		 *
 		 * @since 1.0.0
 		 * @access public
@@ -347,6 +351,52 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 		}
 
 		/**
+		 * Sets a query parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $param      Parameter name.
+		 * @param mixed  $value      Parameter value.
+		 * @param array  $param_info Parameter info.
+		 */
+		protected function set_query_param( $param, $value, $param_info ) {
+			$value = $this->parse_param_value( $value, $param_info['type'], $param_info['enum'], $param_info['items'] );
+
+			$query_params = $this->get_query_params( $this->route_uri );
+
+			if ( empty( $query_params ) ) {
+				$this->route_uri .= '?' . $param . '=' . urlencode( $value );
+			} elseif ( ! isset( $query_params[ $param ] ) ) {
+				$this->route_uri .= '&' . $param . '=' . urlencode( $value );
+			} else {
+				$old_value = $query_params[ $param ];
+
+				$this->route_uri = preg_replace( "/(\?|\&)$param=$old_value/", "$1" . $param . '=' . urlencode( $value ), $this->route_uri );
+			}
+		}
+
+		/**
+		 * Gets a query parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $param      Parameter name.
+		 * @param array  $param_info Parameter info.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		protected function get_query_param( $param, $param_info ) {
+			$query_params = $this->get_query_params( $this->route_uri );
+
+			if ( isset( $query_params[ $param ] ) ) {
+				return $this->parse_param_value( urldecode( $query_params[ $param ] ), $param_info['type'], $param_info['enum'], $param_info['items'] );
+			}
+
+			return $param_info['default'];
+		}
+
+		/**
 		 * Sets a custom parameter.
 		 *
 		 * @since 1.0.0
@@ -460,6 +510,39 @@ if ( ! class_exists( 'awsmug\APIAPI\Request\Route_Request' ) ) {
 					$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
 				}
 			}
+		}
+
+		/**
+		 * Gets the query parameters of a URL.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $url URL to get query parameters.
+		 * @return array Query parameters as `$key => $value` pairs.
+		 */
+		protected function get_query_params( $url ) {
+			$query = parse_url( $url, PHP_URL_QUERY );
+
+			if ( empty( $query ) ) {
+				return array();
+			}
+
+			if ( false === strpos( $query, '&' ) ) {
+				list( $key, $value ) = explode( '=', $query, 2 );
+
+				return array( $key => $value );
+			}
+
+			$query_params = array();
+
+			$pairs = explode( '&', $query );
+			foreach ( $pairs as $pair ) {
+				list( $key, $value ) = explode( '=', $pair, 2 );
+				$query_params[ $key ] = $value;
+			}
+
+			return $query_params;
 		}
 	}
 

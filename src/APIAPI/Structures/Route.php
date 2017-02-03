@@ -69,7 +69,8 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 		 *
 		 *     @type array $primary_params Array of primary parameters as `$param_name => $param_data`
 		 *                                 pairs. Each $param_data array can have keys 'required',
-		 *                                 'description', 'type', 'enum' and 'default'.
+		 *                                 'description', 'type', 'default', 'location', 'enum' and
+		 *                                 'items'.
 		 *     @type array $methods        Array of supported methods as `$method_name => $method_data`
 		 *                                 pairs. Each $method_data array can have keys 'description',
 		 *                                 'params' (works similar like $primary_params),
@@ -289,6 +290,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'type'        => $type,
 					'enum'        => array(),
 					'default'     => $default,
+					'location'    => 'path',
 					'primary'     => true,
 				);
 			}
@@ -360,6 +362,7 @@ if ( ! class_exists( 'awsmug\APIAPI\Structures\Route' ) ) {
 					'description' => '',
 					'type'        => 'string',
 					'default'     => null,
+					'location'    => '',
 					'enum'        => array(),
 					'items'       => array(),
 				), true );
