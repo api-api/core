@@ -233,7 +233,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 				} else {
 					$key = $this->canonicalize_header_name( $key );
 
-					if ( strpos( $value, ',' ) ) {
+					if ( is_string( $value ) && strpos( $value, ',' ) ) {
 						$this->headers[ $key ] = array_map( 'trim', explode( ',', $value ) );
 					} else {
 						$this->headers[ $key ] = (array) $value;
