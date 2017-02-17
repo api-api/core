@@ -45,6 +45,16 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * @return bool True if the request is authenticated, otherwise false.
 		 */
 		public function is_authenticated( $request );
+
+		/**
+		 * Returns the default arguments.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of `$key => $value` pairs.
+		 */
+		public function get_default_args();
 	}
 
 }

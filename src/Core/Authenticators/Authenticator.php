@@ -47,6 +47,18 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		}
 
 		/**
+		 * Returns the default arguments.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of `$key => $value` pairs.
+		 */
+		public function get_default_args() {
+			return $this->default_args;
+		}
+
+		/**
 		 * Parses request authentication data.
 		 *
 		 * @since 1.0.0
