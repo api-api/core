@@ -253,20 +253,26 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		protected function parse_body( $body ) {
 			$this->raw_body = $body;
 
+			if ( empty( $this->raw_body ) ) {
+				return;
+			}
+
 			$content_type = $this->get_content_type();
 
-			if ( 'application/x-www-form-urlencoded' === $content_type ) {
-				parse_str( $this->raw_body, $params );
-
-				if ( get_magic_quotes_gpc() ) {
-					$params = stripslashes_deep( $params );
-				}
-
-				$this->params = $params;
-			} elseif ( 'application/json' === $content_type ) {
+			if ( 'application/json' === $content_type ) {
 				$this->params = json_decode( $body, true );
 			} elseif ( 'application/xml' === $content_type ) {
 				$this->params = $this->xml_decode( $body );
+			} else {
+				parse_str( $this->raw_body, $params );
+
+				if ( ! empty( $params ) ) {
+					if ( get_magic_quotes_gpc() ) {
+						$params = stripslashes_deep( $params );
+					}
+
+					$this->params = $params;
+				}
 			}
 		}
 
