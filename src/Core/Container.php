@@ -136,6 +136,18 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		}
 
 		/**
+		 * Returns all registered modules.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of module objects.
+		 */
+		public function get_all() {
+			return $this->modules;
+		}
+
+		/**
 		 * Checks whether a specific module is registered.
 		 *
 		 * @since 1.0.0

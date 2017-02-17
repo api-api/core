@@ -72,6 +72,18 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		}
 
 		/**
+		 * Returns all registered transporterss.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of transporters objects.
+		 */
+		public function get_all() {
+			return parent::get_all();
+		}
+
+		/**
 		 * Checks whether a specific transporter is registered.
 		 *
 		 * @since 1.0.0

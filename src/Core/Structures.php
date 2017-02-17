@@ -57,6 +57,18 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		}
 
 		/**
+		 * Returns all registered structures.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of structure objects.
+		 */
+		public function get_all() {
+			return parent::get_all();
+		}
+
+		/**
 		 * Checks whether a specific structure is registered.
 		 *
 		 * @since 1.0.0

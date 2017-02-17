@@ -57,6 +57,18 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		}
 
 		/**
+		 * Returns all registered authenticators.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of authenticator objects.
+		 */
+		public function get_all() {
+			return parent::get_all();
+		}
+
+		/**
 		 * Checks whether a specific authenticator is registered.
 		 *
 		 * @since 1.0.0
