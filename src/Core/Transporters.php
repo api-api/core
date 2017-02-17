@@ -37,7 +37,8 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @param APIAPI\Core\Transporters\Transporter|string $transporter Transporter class instance or class name.
 		 */
 		public function register( $name, $transporter ) {
-			parent::register( $name, $transporter );
+			$args = func_get_args();
+			call_user_func_array( array( 'parent', __FUNCTION__ ), $args );
 
 			$class_name = get_class( $this->modules[ $name ] );
 

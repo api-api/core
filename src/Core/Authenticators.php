@@ -28,7 +28,8 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @param APIAPI\Core\Authenticators\Authenticator|string $authenticator Authenticator class instance or class name.
 		 */
 		public function register( $name, $authenticator ) {
-			parent::register( $name, $authenticator );
+			$args = func_get_args();
+			call_user_func_array( array( 'parent', __FUNCTION__ ), $args );
 		}
 
 		/**

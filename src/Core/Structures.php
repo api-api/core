@@ -28,7 +28,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		 * @param APIAPI\Core\Structures\Structure|string $structure Structure class instance or class name.
 		 */
 		public function register( $name, $structure ) {
-			parent::register( $name, $structure );
+			$args = func_get_args();
+			call_user_func_array( array( 'parent', __FUNCTION__ ), $args );
 		}
 
 		/**
