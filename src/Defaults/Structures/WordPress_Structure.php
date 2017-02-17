@@ -107,10 +107,10 @@ if ( ! class_exists( 'APIAPI\Defaults\Structures\WordPress_Structure' ) ) {
 
 			if ( isset( $structure_response['authentication']['oauth1'] ) ) {
 				$this->authenticator = 'oauth1';
-				$this->authentication_data = $structure_response['authentication']['oauth1'];
+				$this->authentication_data_defaults = $structure_response['authentication']['oauth1'];
 			} else {
 				$this->authenticator = 'x';
-				$this->authentication_data = array(
+				$this->authentication_data_defaults = array(
 					'header_name' => 'WP-Nonce',
 				);
 			}
