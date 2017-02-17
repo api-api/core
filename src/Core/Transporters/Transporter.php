@@ -28,9 +28,10 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access protected
+		 * @static
 		 * @var array
 		 */
-		protected $status_messages = array();
+		protected static $status_messages = array();
 
 		/**
 		 * Constructor.
@@ -42,24 +43,26 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 */
 		public function __construct( $name ) {
 			$this->set_name( $name );
-			$this->set_status_messages();
+
+			self::set_status_messages();
 		}
 
 		/**
 		 * Returns the status message for a given status code.
 		 *
 		 * @since 1.0.0
-		 * @access protected
+		 * @access public
+		 * @static
 		 *
 		 * @param int $status_code Status code.
 		 * @return string Status message, or empty string if invalid code.
 		 */
-		protected final function get_status_message( $status_code ) {
-			if ( ! isset( $this->status_messages[ $status_code ] ) ) {
+		public static function get_status_message( $status_code ) {
+			if ( ! isset( self::$status_messages[ $status_code ] ) ) {
 				return '';
 			}
 
-			return $this->status_messages[ $status_code ];
+			return self::$status_messages[ $status_code ];
 		}
 
 		/**
@@ -67,9 +70,10 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access protected
+		 * @static
 		 */
-		protected final function set_status_messages() {
-			$this->status_messages = array(
+		protected static function set_status_messages() {
+			self::$status_messages = array(
 				100 => 'Continue',
 				101 => 'Switching Protocols',
 				102 => 'Processing',

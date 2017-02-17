@@ -153,7 +153,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 
 			$status_code = (int) $matches[2];
 			if ( $status_code < 200 || $status_code >= 300 ) {
-				throw new Exception( sprintf( 'The request to %1$s returned status code %2$s: %3$s', $url, $status_code, $this->get_status_message( $status_code ) ) );
+				throw new Exception( sprintf( 'The request to %1$s returned status code %2$s: %3$s', $url, $status_code, self::get_status_message( $status_code ) ) );
 			}
 
 			$headers_assoc = array();
@@ -173,7 +173,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 				'body'     => $body,
 				'response' => array(
 					'code'    => $status_code,
-					'message' => $this->get_status_message( $status_code ),
+					'message' => self::get_status_message( $status_code ),
 				),
 			);
 

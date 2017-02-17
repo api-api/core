@@ -64,7 +64,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\Requests_Transporter' ) ) {
 				'body'     => $requests_response->body,
 				'response' => array(
 					'code'    => (int) $requests_response->status_code,
-					'message' => $this->get_status_message( $requests_response->status_code ),
+					'message' => self::get_status_message( $requests_response->status_code ),
 				),
 			);
 
