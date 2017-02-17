@@ -37,7 +37,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		public function authenticate_request( $request ) {
 			$data = $this->parse_authentication_data( $request );
 
-			foreach ( array( 'request', 'authorize', 'access', 'callback' ) as $url ) {
+			foreach ( array( 'request', 'authorize', 'access' ) as $url ) {
 				if ( empty( $url ) ) {
 					throw new Exception( sprintf( 'The request to %s could not be authenticated as one of the required URLs has not been provided.', $request->get_uri() ) );
 				}
@@ -83,11 +83,10 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 			$protocol_params = $this->get_protocol_params( $consumer_key, array( 'oauth_token' => $token ) );
 
 			$params_to_sign = $protocol_params;
-			if ( 'GET' !== $method ) {
-				$request_params = $request->get_params();
-				if ( ! empty( $request_params ) ) {
-					$params_to_sign = array_merge( $protocol_params, $request_params );
-				}
+
+			$request_params = $request->get_params();
+			if ( ! empty( $request_params ) ) {
+				$params_to_sign = array_merge( $protocol_params, $request_params );
 			}
 
 			$protocol_params['oauth_signature'] = $this->sign_params( $url, $params_to_sign, $consumer_secret, $token_secret, $method );
@@ -133,7 +132,13 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		 *               element.
 		 */
 		protected function get_temporary_credentials( $request_url, $consumer_key, $consumer_secret, $callback_url, $method = 'POST' ) {
-			$protocol_params = $this->get_protocol_params( $consumer_key, array( 'oauth_callback' => $callback_url ) );
+			$additional_params = array();
+			if ( ! empty( $callback_url ) ) {
+				$additional_params['oauth_callback'] = $callback_url;
+			}
+
+			$protocol_params = $this->get_protocol_params( $consumer_key, $additional_params );
+
 			$protocol_params['oauth_signature'] = $this->sign_params( $request_url, $protocol_params, $consumer_secret, '', $method );
 
 			$request = new Request( $request_url, $method );
@@ -243,9 +248,10 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
+		 * @param int $length Optional. Length of the random string. Default 32.
 		 * @return string Nonce string.
 		 */
-		protected function create_nonce() {
+		protected function create_nonce( $length = 32 ) {
 			$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			return substr( str_shuffle( str_repeat( $pool, 5 ) ), 0, $length );
@@ -284,15 +290,15 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 			ksort( $params );
 
 			$query_parts = array();
-			foreach ( $authorization as $key => $value ) {
-				$query_parts[] = $key . '=' . $value;
+			foreach ( $params as $key => $value ) {
+				$query_parts[] = $key . '%3D' . $value;
 			}
 
-			$base_string .= implode( '&', $query_parts );
+			$base_string .= implode( '%26', $query_parts );
 
-			$key = rawurlencode( $consumer_secret );
+			$key = rawurlencode( $consumer_secret ) . '&';
 			if ( ! empty( $token_secret ) ) {
-				$key .= '&' . rawurlencode( $token_secret );
+				$key .= rawurlencode( $token_secret );
 			}
 
 			return base64_encode( hash_hmac( 'sha1', $base_string, $key, true ) );

@@ -20,7 +20,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authorization_Required_Exceptio
 	 * `Authorization_Required_Exception::get_temporary_token()` and
 	 * `Authorization_Required_Exception::get_temporary_token_secret()` and store the two
 	 * values temporarily. After storing them, the user should be redirected to the URL available
-	 * through `Authorization_Required_Exception::get_authorize_url()`.
+	 * through `Authorization_Required_Exception::get_authorize()`.
 	 *
 	 * After redirecting the user to that URL, they will be automatically redirected back to the
 	 * callback URL specified in the respective API config. The GET parameters `oauth_token` and
@@ -48,7 +48,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authorization_Required_Exceptio
 		 * @param array  $data    {
 		 *     Additional data related to the exception. Default null.
 		 *
-		 *     @type string $authorize_url          URL for authorization.
+		 *     @type string $authorize              URL for authorization.
 		 *     @type string $temporary_token        Temporary OAuth token.
 		 *     @type string $temporary_token_secret Temporary OAuth token secret.
 		 * }
@@ -69,8 +69,8 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authorization_Required_Exceptio
 		 *
 		 * @return string URL for authorization.
 		 */
-		public function get_authorize_url() {
-			return $this->data['authorize_url'];
+		public function get_authorize() {
+			return $this->data['authorize'];
 		}
 
 		/**
