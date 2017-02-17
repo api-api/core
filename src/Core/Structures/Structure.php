@@ -110,6 +110,15 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		protected $advanced_authentication_data_defaults = array();
 
 		/**
+		 * Whether the class has been setup.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var bool
+		 */
+		protected $setup_loaded = false;
+
+		/**
 		 * Container for API-API-specific instances of this API.
 		 *
 		 * @since 1.0.0
@@ -131,6 +140,22 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 
 			$this->config_class = 'APIAPI\Core\Config';
 			$this->config_key   = $this->name;
+		}
+
+		/**
+		 * Lazily sets up the structure.
+		 *
+		 * This method is invoked whenever a relevant class method is called.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function lazyload_setup() {
+			if ( $this->setup_loaded ) {
+				return;
+			}
+
+			$this->setup_loaded = true;
 
 			$this->setup();
 			$this->process_routes();
@@ -149,6 +174,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return APIAPI\Core\Request\API The API object.
 		 */
 		public function get_api_object( $apiapi ) {
+			$this->lazyload_setup();
+
 			$name = $apiapi->get_name();
 
 			if ( ! isset( $this->api_objects[ $name ] ) ) {
@@ -191,6 +218,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return APIAPI\Core\Request\Route The route object.
 		 */
 		public function get_route_object( $route_uri ) {
+			$this->lazyload_setup();
+
 			if ( isset( $this->routes[ $route_uri ] ) ) {
 				return $this->routes[ $route_uri ];
 			}
@@ -228,6 +257,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return array Array of route objects.
 		 */
 		public function get_route_objects() {
+			$this->lazyload_setup();
+
 			return $this->routes;
 		}
 
@@ -240,6 +271,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return array Global parameters as `$param => $param_info` pairs.
 		 */
 		public function get_global_params() {
+			$this->lazyload_setup();
+
 			return $this->global_params;
 		}
 
@@ -252,6 +285,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return string Authenticator name, or empty string if not set.
 		 */
 		public function get_authenticator() {
+			$this->lazyload_setup();
+
 			return $this->authenticator;
 		}
 
@@ -266,6 +301,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return array Array of default authentication data.
 		 */
 		public function get_authentication_data_defaults( $mode = '' ) {
+			$this->lazyload_setup();
+
 			if ( ! empty( $mode ) && isset( $this->advanced_authentication_data_defaults[ $mode ] ) ) {
 				return $this->advanced_authentication_data_defaults[ $mode ];
 			}
@@ -282,6 +319,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return bool True if the API should use an authenticator, otherwise false.
 		 */
 		public function has_authenticator() {
+			$this->lazyload_setup();
+
 			return ! empty( $this->authenticator );
 		}
 
@@ -295,6 +334,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return string Base URI.
 		 */
 		public function get_base_uri( $mode = '' ) {
+			$this->lazyload_setup();
+
 			if ( ! empty( $mode ) && isset( $this->advanced_uris[ $mode ] ) ) {
 				return $this->advanced_uris[ $mode ];
 			}
@@ -316,6 +357,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return APIAPI\Core\Request\Route_Response Response object.
 		 */
 		public function process_response( $response ) {
+			$this->lazyload_setup();
+
 			return $response;
 		}
 
