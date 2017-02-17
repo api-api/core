@@ -175,7 +175,12 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 					continue;
 				}
 
-				$all_params[ $param ] = $this->get_regular_param( $param, $param_info );
+				$value = $this->get_regular_param( $param, $param_info );
+				if ( null === $value ) {
+					continue;
+				}
+
+				$all_params[ $param ] = $value;
 			}
 
 			if ( $this->route->method_supports_custom_params( $this->method ) ) {
