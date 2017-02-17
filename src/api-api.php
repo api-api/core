@@ -28,10 +28,10 @@ if ( ! function_exists( 'apiapi' ) ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string                          $name  Unique slug of the instance.
+	 * @param string                        $name  Unique slug of the instance.
 	 * @param APIAPI\Core\Config|array|bool $force Optional. Whether to create the instance if it does not exist.
-	 *                                               Can also be a configuration object or array to fill the set up
-	 *                                               the new instance with this configuration. Default false.
+	 *                                             Can also be a configuration object or array to fill the set up
+	 *                                             the new instance with this configuration. Default false.
 	 * @return APIAPI\Core\APIAPI|null The API-API instance, or null if it does not exist.
 	 */
 	function apiapi( $name, $force = false ) {
@@ -58,6 +58,10 @@ if ( ! function_exists( 'apiapi_register_defaults' ) ) {
 		apiapi_manager()->authenticators()->register( 'bearer', 'APIAPI\Defaults\Authenticators\Bearer_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'x', 'APIAPI\Defaults\Authenticators\X_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'oauth1', 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' );
+
+		apiapi_manager()->structures()->register( 'leaves-and-love', 'APIAPI\Defaults\Structures\WordPress_Structure', 'https://leaves-and-love.net/api/' );
+		apiapi_manager()->structures()->register( 'google-compute-v1', 'APIAPI\Defaults\Structures\Google_Structure', 'https://www.googleapis.com/discovery/v1/apis/compute/v1/rest' );
+		apiapi_manager()->structures()->register( 'twitter', 'APIAPI\Defaults\Structures\Twitter_Structure' );
 	}
 
 	apiapi_register_defaults();
