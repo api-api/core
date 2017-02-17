@@ -24,6 +24,42 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 	 */
 	class cURL_Transporter extends Transporter {
 		/**
+		 * Contains temporary headers.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var string
+		 */
+		protected $headers = '';
+
+		/**
+		 * Temporarily stores whether headers have been received.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var bool
+		 */
+		protected $done_headers = false;
+
+		/**
+		 * Contains temporary response data.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var string
+		 */
+		protected $response_data = '';
+
+		/**
+		 * Temporarily counts response bytes.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var int
+		 */
+		protected $response_bytes = 0;
+
+		/**
 		 * Sends a request and returns the response.
 		 *
 		 * @since 1.0.0
@@ -35,6 +71,11 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 		 *               need to include all of these keys.
 		 */
 		public function send_request( $request ) {
+			$this->headers = '';
+			$this->done_headers = false;
+			$this->response_data = '';
+			$this->response_bytes = 0;
+
 			$handle = curl_init();
 
 			curl_setopt( $handle, CURLOPT_HEADER, true );
@@ -80,7 +121,11 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 				curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 			}
 
-			$curl_response = curl_exec( $handle );
+			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( $this, 'stream_headers' ) );
+			curl_setopt( $handle, CURLOPT_WRITEFUNCTION, array( $this, 'stream_body' ) );
+			curl_setopt( $handle, CURLOPT_BUFFERSIZE, 1160 );
+
+			curl_exec( $handle );
 
 			if ( ( $error_code = curl_errno( $handle ) ) ) {
 				$error_message = curl_error( $handle );
@@ -91,11 +136,13 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 
 			curl_close( $handle );
 
-			if ( false === ( $separator_position = strpos( $curl_response, "\r\n\r\n" ) ) ) {
+			$headers = $this->headers;
+			if ( false === ( $separator_position = strpos( $this->response_data, $this->headers ) ) ) {
 				throw new Exception( sprintf( 'The request to %s returned an invalid response without a header/body separator.', $url ) );
 			}
 
-			$headers = substr( $curl_response, 0, $separator_position );
+			$body = substr( $this->response_data, $separator_position + strlen( $this->headers ) );
+
 			$headers = preg_replace( '/\n[ \t]/', ' ', str_replace( "\r\n", "\n", $headers ) );
 			$headers = explode( "\n", $headers );
 
@@ -111,13 +158,15 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 
 			$headers_assoc = array();
 			foreach ( $headers as $header ) {
+				if ( empty( $header ) ) {
+					continue;
+				}
+
 				list( $key, $value ) = explode( ':', $header, 2 );
 				$value = trim( $value );
 				preg_replace( '#(\s+)#i', ' ', $value );
 				$headers_assoc[ $key ] = $value;
 			}
-
-			$body = substr( $curl_response, $separator_position + strlen( "\n\r\n\r" ) );
 
 			$response_data = array(
 				'headers'  => $headers_assoc,
@@ -129,6 +178,48 @@ if ( ! class_exists( 'APIAPI\Defaults\Transporters\cURL_Transporter' ) ) {
 			);
 
 			return $response_data;
+		}
+
+		/**
+		 * Receives the streamed headers.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param resource $handle  cURL resource.
+		 * @param string   $headers Headers string.
+		 * @return int Length of provided header.
+		 */
+		public function stream_headers( $handle, $headers ) {
+			if ( $this->done_headers ) {
+				$this->headers = '';
+				$this->done_headers = false;
+			}
+
+			$this->headers .= $headers;
+
+			if ( $headers === "\r\n" ) {
+				$this->done_headers = true;
+			}
+
+			return strlen( $headers );
+		}
+
+		/**
+		 * Receives the streamed body.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param resource $handle cURL resource.
+		 * @param string   $data   Body string.
+		 * @return int Length of provided body.
+		 */
+		public function stream_body( $handle, $data ) {
+			$this->response_data .= $data;
+			$this->response_bytes += strlen( $data );
+
+			return strlen( $data );
 		}
 
 		/**
