@@ -114,6 +114,18 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		}
 
 		/**
+		 * Returns the name of the default transporter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Name of the default transporter.
+		 */
+		public function get_default_name() {
+			return $this->default;
+		}
+
+		/**
 		 * Returns the type of the modules in this container.
 		 *
 		 * @since 1.0.0
