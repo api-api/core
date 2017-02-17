@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use ReflectionClass;
+
 if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 
 	/**
@@ -82,7 +84,15 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 			}
 
 			if ( is_string( $module ) ) {
-				$module = new $module( $name );
+				$args = array_slice( func_get_args(), 2 );
+
+				if ( ! empty( $args ) ) {
+					array_unshift( $args, $name );
+					$reflected_class = new ReflectionClass( $module );
+					$module = $reflected_class->newInstanceArgs( $args );
+				} else {
+					$module = new $module( $name );
+				}
 			}
 
 			if ( ! is_a( $module, $this->module_class_name ) ) {
