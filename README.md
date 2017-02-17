@@ -2,11 +2,11 @@
 [![Latest Stable Version](https://poser.pugx.org/api-api/core/version)](https://packagist.org/packages/api-api/core)
 [![License](https://poser.pugx.org/api-api/core/license)](https://packagist.org/packages/api-api/core)
 
-# API-API
+# API-API Core
 
 A library of API components to interact with external APIs.
 
 ## Requirements
 
 **You should not use this at the moment.**
-Requires PHP >= 5.3
+Requires PHP >= 5.4

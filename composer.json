@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "license": "GPL-3.0",
   "keywords": [
+    "api-api",
     "api",
+    "rest",
     "library",
-    "rest api"
+    "client",
+    "request"
   ],
   "homepage": "http://awesome.ug",
   "authors": [
@@ -14,13 +17,13 @@
       "name": "Felix Arntz",
       "email": "felix-arntz@leaves-and-love.net",
       "homepage": "https://leaves-and-love.net",
-      "role": "Developer"
+      "role": "Lead Developer"
     },
     {
       "name": "Sven Wagener",
-      "email": "very@awesome.ug",
+      "email": "sven@awesome.ug",
       "homepage": "http://awesome.ug",
-      "role": "Developer"
+      "role": "Head of Development"
     }
   ],
   "support": {
