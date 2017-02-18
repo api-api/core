@@ -150,13 +150,18 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 
 				$required_exist = true;
 				foreach ( $oauth1_required_fields as $required_field ) {
-					if ( ! isset( $value['authentication_data'][ $required_field ] ) ) {
+					if ( empty( $value['authentication_data'][ $required_field ] ) ) {
 						$required_exist = false;
 						break;
 					}
 				}
 
 				if ( ! $required_exist ) {
+					continue;
+				}
+
+				/* We don't need to handle anything if these are manually set. */
+				if ( ! empty( $values['authentication_data']['token'] ) && ! empty( $values['authentication_data']['token_secret'] ) ) {
 					continue;
 				}
 
