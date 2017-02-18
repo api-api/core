@@ -33,7 +33,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                           $name        Unique slug for the transporter.
+		 * @param string                                      $name        Unique slug for the transporter.
 		 * @param APIAPI\Core\Transporters\Transporter|string $transporter Transporter class instance or class name.
 		 */
 		public function register( $name, $transporter ) {

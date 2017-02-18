@@ -1,6 +1,6 @@
 <?php
 /**
- * API-API Authenticators class
+ * API-API Storages class
  *
  * @package APIAPICore
  * @since 1.0.0
@@ -8,75 +8,75 @@
 
 namespace APIAPI\Core;
 
-if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
+if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 
 	/**
-	 * Authenticators class for the API-API.
+	 * Storages class for the API-API.
 	 *
-	 * Manages authenticators.
+	 * Manages storages.
 	 *
 	 * @since 1.0.0
 	 */
-	class Authenticators extends Container {
+	class Storages extends Container {
 		/**
-		 * Registers an authenticator.
+		 * Registers a storage.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                                          $name          Unique slug for the authenticator.
-		 * @param APIAPI\Core\Authenticators\Authenticator|string $authenticator Authenticator class instance or class name.
+		 * @param string                              $name    Unique slug for the storage.
+		 * @param APIAPI\Core\Storages\Storage|string $storage Storage class instance or class name.
 		 */
-		public function register( $name, $authenticator ) {
+		public function register( $name, $storage ) {
 			$args = func_get_args();
 			call_user_func_array( array( 'parent', __FUNCTION__ ), $args );
 		}
 
 		/**
-		 * Unregisters an authenticator.
+		 * Unregisters a storage.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $name Unique slug of the authenticator.
+		 * @param string $name Unique slug of the storage.
 		 */
 		public function unregister( $name ) {
 			parent::unregister( $name );
 		}
 
 		/**
-		 * Returns a specific authenticator.
+		 * Returns a specific storage.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $name Unique slug of the authenticator.
-		 * @return APIAPI\Core\Authenticators\Authenticator|null The authenticator object, or null if it does not exist.
+		 * @param string $name Unique slug of the storage.
+		 * @return APIAPI\Core\Storages\Storage|null The storage object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );
 		}
 
 		/**
-		 * Returns all registered authenticators.
+		 * Returns all registered storages.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return array Array of authenticator objects.
+		 * @return array Array of storage objects.
 		 */
 		public function get_all() {
 			return parent::get_all();
 		}
 
 		/**
-		 * Checks whether a specific authenticator is registered.
+		 * Checks whether a specific storage is registered.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $name Unique slug of the authenticator.
-		 * @return bool True if the authenticator is registered, false otherwise.
+		 * @param string $name Unique slug of the storage.
+		 * @return bool True if the storage is registered, false otherwise.
 		 */
 		public function is_registered( $name ) {
 			return parent::is_registered( $name );
@@ -91,7 +91,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @return string Type of the modules.
 		 */
 		protected function get_type() {
-			return 'authenticator';
+			return 'storage';
 		}
 
 		/**
@@ -103,7 +103,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'APIAPI\Core\Authenticators\Authenticator';
+			return 'APIAPI\Core\Storages\Storage';
 		}
 	}
 

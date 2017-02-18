@@ -60,6 +60,15 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		private $authenticators;
 
 		/**
+		 * The storages container.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var APIAPI\Core\Storages
+		 */
+		private $storages;
+
+		/**
 		 * The hooks instance.
 		 *
 		 * @since 1.0.0
@@ -90,6 +99,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 			$this->transporters   = new Transporters( $this );
 			$this->structures     = new Structures( $this );
 			$this->authenticators = new Authenticators( $this );
+			$this->storages       = new Storages( $this );
 
 			$this->hooks = new Hooks();
 
@@ -176,6 +186,18 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 */
 		public function authenticators() {
 			return $this->authenticators;
+		}
+
+		/**
+		 * Returns the storages container.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return APIAPI\Core\Storages The storages container.
+		 */
+		public function storages() {
+			return $this->storages;
 		}
 
 		/**

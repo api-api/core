@@ -24,7 +24,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                                    $name      Unique slug for the structure.
+		 * @param string                                  $name      Unique slug for the structure.
 		 * @param APIAPI\Core\Structures\Structure|string $structure Structure class instance or class name.
 		 */
 		public function register( $name, $structure ) {
