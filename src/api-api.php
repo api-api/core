@@ -69,6 +69,7 @@ if ( ! function_exists( 'apiapi_register_defaults' ) ) {
 		apiapi_manager()->authenticators()->register( 'bearer', 'APIAPI\Defaults\Authenticators\Bearer_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'x', 'APIAPI\Defaults\Authenticators\X_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'oauth1', 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' );
+		apiapi_manager()->authenticators()->register( 'twitter-oauth1', 'APIAPI\Defaults\Authenticators\Twitter_OAuth1_Authenticator' );
 
 		apiapi_manager()->structures()->register( 'leaves-and-love', 'APIAPI\Defaults\Structures\WordPress_Structure', 'https://leaves-and-love.net/api/' );
 		apiapi_manager()->structures()->register( 'google-compute-v1', 'APIAPI\Defaults\Structures\Google_Structure', 'https://www.googleapis.com/discovery/v1/apis/compute/v1/rest' );

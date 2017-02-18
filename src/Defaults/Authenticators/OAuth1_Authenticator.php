@@ -37,7 +37,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		public function authenticate_request( $request ) {
 			$data = $this->parse_authentication_data( $request );
 
-			foreach ( array( 'request', 'authorize', 'access' ) as $url ) {
+			foreach ( array( 'request', 'authorize', 'access', 'callback' ) as $url ) {
 				if ( empty( $url ) ) {
 					throw new Exception( sprintf( 'The request to %s could not be authenticated as one of the required URLs has not been provided.', $request->get_uri() ) );
 				}
@@ -142,12 +142,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		 *               element.
 		 */
 		protected function get_temporary_credentials( $request_url, $consumer_key, $consumer_secret, $callback_url, $method = 'POST' ) {
-			$additional_params = array();
-			if ( ! empty( $callback_url ) ) {
-				$additional_params['oauth_callback'] = $callback_url;
-			}
-
-			$protocol_params = $this->get_protocol_params( $consumer_key, $additional_params );
+			$protocol_params = $this->get_protocol_params( $consumer_key, array( 'oauth_callback' => $callback_url ) );
 
 			$protocol_params['oauth_signature'] = $this->sign_params( $request_url, $protocol_params, $consumer_secret, '', $method );
 

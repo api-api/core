@@ -32,7 +32,7 @@ if ( ! class_exists( 'APIAPI\Defaults\Structures\Twitter_Structure' ) ) {
 		protected function setup() {
 			$this->base_uri = 'https://api.twitter.com/1.1';
 
-			$this->authenticator = 'oauth1';
+			$this->authenticator = 'twitter-oauth1';
 			$this->authentication_data_defaults = array(
 				'request'   => 'https://api.twitter.com/oauth/request_token',
 				'authorize' => 'https://api.twitter.com/oauth/authorize',
