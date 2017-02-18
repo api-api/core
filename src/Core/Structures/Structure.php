@@ -26,15 +26,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		use Name_Trait;
 
 		/**
-		 * Name of the config class to use with this structure.
-		 *
-		 * @since 1.0.0
-		 * @access protected
-		 * @var string
-		 */
-		protected $config_class = '';
-
-		/**
 		 * Key in the main configuration to extract relevant
 		 * configuration for this structure.
 		 *
@@ -138,8 +129,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		public function __construct( $name ) {
 			$this->set_name( $name );
 
-			$this->config_class = 'APIAPI\Core\Config';
-			$this->config_key   = $this->name;
+			$this->config_key = $this->name;
 		}
 
 		/**
@@ -179,14 +169,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			$name = $apiapi->get_name();
 
 			if ( ! isset( $this->api_objects[ $name ] ) ) {
-				$config = array();
-				if ( ! empty( $this->config_key ) && $apiapi->config()->isset( $this->config_key ) ) {
-					$config = $apiapi->config()->get( $this->config_key );
-				}
-
-				$config_class = $this->config_class;
-
-				$this->api_objects[ $name ] = new API( $this, new $config_class( $config ) );
+				$this->api_objects[ $name ] = new API( $this, $apiapi->config() );
 			}
 
 			return $this->api_objects[ $name ];
@@ -341,6 +324,20 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			}
 
 			return $this->base_uri;
+		}
+
+		/**
+		 * Returns the config key.
+		 *
+		 * This identifies the configuration array where values for this API are stored in.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string The config key.
+		 */
+		public function get_config_key() {
+			return $this->config_key;
 		}
 
 		/**
