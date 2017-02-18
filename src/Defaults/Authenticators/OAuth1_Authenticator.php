@@ -55,6 +55,14 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 				throw new Exception( sprintf( 'The request to %s could not be authenticated as no callback function for applying the token has been provided.', $request->get_uri() ) );
 			}
 
+			if ( empty( $data['apply_temporary_token_callback'] ) ) {
+				throw new Exception( sprintf( 'The request to %s could not be authenticated as no callback function for applying the temporary token has been provided.', $request->get_uri() ) );
+			}
+
+			if ( empty( $data['authorize_redirect_callback'] ) ) {
+				throw new Exception( sprintf( 'The request to %s could not be authenticated as no callback function for redirecting to the authorize URL has been provided.', $request->get_uri() ) );
+			}
+
 			$consumer_key             = $data['consumer_key'];
 			$consumer_secret          = $data['consumer_secret'];
 			$temporary_token          = isset( $data['temporary_token'] ) ? $data['temporary_token'] : '';
@@ -66,10 +74,12 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 			if ( empty( $token ) || empty( $token_secret ) ) {
 				if ( empty( $temporary_token ) || empty( $temporary_token_secret ) ) {
 					list( $temporary_token, $temporary_token_secret ) = $this->get_temporary_credentials( $data['request'], $consumer_key, $consumer_secret, $data['callback'], 'POST' );
+
+					call_user_func( $data['apply_temporary_token_callback'], $consumer_key, $consumer_secret, $temporary_token, $temporary_token_secret );
 				}
 
 				if ( empty( $temporary_token_verifier ) ) {
-					$this->authorize_user( $data['authorize'], $temporary_token, $temporary_token_secret );
+					$this->authorize_user( $data['authorize'], $temporary_token, $data['authorize_redirect_callback'] );
 				}
 
 				list( $token, $token_secret ) = $this->get_token_credentials( $data['access'], $consumer_key, $consumer_secret, $temporary_token, $temporary_token_secret, $temporary_token_verifier, 'POST' );
@@ -164,20 +174,18 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param string $authorize_url          The API's authorize URL that asks the user to grant
-		 *                                       access to the service.
-		 * @param string $temporary_token        The temporary token.
-		 * @param string $temporary_token_secret The temporary token secret.
+		 * @param string   $authorize_url               The API's authorize URL that asks the user to grant
+		 *                                              access to the service.
+		 * @param string   $temporary_token             The temporary token.
+		 * @param callable $authorize_redirect_callback The callback that handles the redirect.
 		 */
-		protected function authorize_user( $authorize_url, $temporary_token, $temporary_token_secret ) {
+		protected function authorize_user( $authorize_url, $temporary_token, $authorize_redirect_callback ) {
 			$authorize_query_string = http_build_query( array( 'oauth_token' => $temporary_token ) );
 			$authorize_url = $authorize_url . ( false !== strpos( $authorize_url, '?' ) ? '&' : '?' ) . $authorize_query_string;
 
-			throw new Authorization_Required_Exception( 'Authorization is required.', 0, array(
-				'authorize'              => $authorize_url,
-				'temporary_token'        => $temporary_token,
-				'temporary_token_secret' => $temporary_token_secret,
-			) );
+			/* This callback needs to terminate the request by redirecting. */
+			call_user_func( $authorize_redirect_callback, $authorize_url );
+			exit;
 		}
 
 		/**
@@ -342,18 +350,20 @@ if ( ! class_exists( 'APIAPI\Defaults\Authenticators\OAuth1_Authenticator' ) ) {
 		 */
 		protected function set_default_args() {
 			$this->default_args = array(
-				'request'                  => '',
-				'authorize'                => '',
-				'access'                   => '',
-				'callback'                 => '',
-				'apply_token_callback'     => null,
-				'consumer_key'             => '',
-				'consumer_secret'          => '',
-				'temporary_token'          => '',
-				'temporary_token_secret'   => '',
-				'temporary_token_verifier' => '',
-				'token'                    => '',
-				'token_secret'             => '',
+				'request'                        => '',
+				'authorize'                      => '',
+				'access'                         => '',
+				'callback'                       => '',
+				'apply_token_callback'           => null,
+				'apply_temporary_token_callback' => null,
+				'authorize_redirect_callback'    => null,
+				'consumer_key'                   => '',
+				'consumer_secret'                => '',
+				'temporary_token'                => '',
+				'temporary_token_secret'         => '',
+				'temporary_token_verifier'       => '',
+				'token'                          => '',
+				'token_secret'                   => '',
 			);
 		}
 	}
