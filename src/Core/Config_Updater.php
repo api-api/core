@@ -160,27 +160,28 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 					continue;
 				}
 
-				/* We don't need to handle anything if these are manually set. */
-				if ( ! empty( $values['authentication_data']['token'] ) && ! empty( $values['authentication_data']['token_secret'] ) ) {
-					continue;
-				}
-
 				$this->structure_names[] = $key;
 
-				$values = $this->storage->retrieve_multi( $this->args['auth_basename'], $key, $oauth1_fields );
-				foreach ( $values as $k => $v ) {
-					if ( $v ) {
-						$value['authentication_data'][ $k ] = $v;
+				if ( empty( $value['authentication_data']['token'] ) || empty( $value['authentication_data']['token_secret'] ) ) {
+					$values = $this->storage->retrieve_multi( $this->args['auth_basename'], $key, $oauth1_fields );
+
+					if ( isset( $values['consumer_key'] ) && $values['consumer_key'] === $value['authentication_data']['consumer_key']
+						&& isset( $values['consumer_secret'] ) && $values['consumer_secret'] === $value['authentication_data']['consumer_secret'] ) {
+						foreach ( $values as $k => $v ) {
+							if ( $v ) {
+								$value['authentication_data'][ $k ] = $v;
+							}
+						}
 					}
 				}
 
-				$authentication_data['callback'] = $this->base_url . $this->args['listener_query_var'] . '=' . $key;
+				$value['authentication_data']['callback'] = $base_url . $this->args['listener_query_var'] . '=' . $key;
 
-				$authentication_data['apply_token_callback']           = array( $this, 'apply_' . $key . '_permanent_token_callback' );
-				$authentication_data['apply_temporary_token_callback'] = array( $this, 'apply_' . $key . '_temporary_token_callback' );
+				$value['authentication_data']['apply_token_callback']           = array( $this, 'apply_' . $key . '_permanent_token_callback' );
+				$value['authentication_data']['apply_temporary_token_callback'] = array( $this, 'apply_' . $key . '_temporary_token_callback' );
 
-				if ( empty( $authentication_data['authorize_redirect_callback'] ) ) {
-					$authentication_data['authorize_redirect_callback'] = array( $this, 'redirect_' . $key . '_callback' );
+				if ( empty( $value['authentication_data']['authorize_redirect_callback'] ) ) {
+					$value['authentication_data']['authorize_redirect_callback'] = array( $this, 'redirect_' . $key . '_callback' );
 				}
 
 				$this->config->set( $key, 'authentication_data', $value['authentication_data'] );
@@ -227,21 +228,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		}
 
 		/**
-		 * Returns default values for the arguments array.
-		 *
-		 * @since 1.0.0
-		 * @access private
-		 *
-		 * @return array Array of default `$key => $value` pairs.
-		 */
-		private function get_defaults() {
-			return array(
-				'listener_query_var' => 'apiapi_' . $this->apiapi_name . '_callback',
-				'auth_basename'      => $this->apiapi_name . '_config_auth',
-			);
-		}
-
-		/**
 		 * Callback to apply a token.
 		 *
 		 * @since 1.0.0
@@ -265,16 +251,21 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 				return;
 			}
 
+			$token_values = array(
+				'consumer_key'    => $consumer_key,
+				'consumer_secret' => $consumer_secret,
+			);
+
 			if ( 'temporary' === $type ) {
-				$token_values = array(
+				$token_values = array_merge( $token_values, array(
 					'temporary_token'        => $token,
 					'temporary_token_secret' => $token_secret,
-				);
+				) );
 			} else {
-				$token_values = array(
+				$token_values = array_merge( $token_values, array(
 					'token'        => $token,
 					'token_secret' => $token_secret,
-				);
+				) );
 
 				$this->storage->delete_multi( $this->args['auth_basename'], $structure_name, array(
 					'temporary_token',
@@ -306,6 +297,21 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		private function redirect_callback( $authorize_url, $structure_name ) {
 			header( 'Location: ' . $authorize_url );
 			exit;
+		}
+
+		/**
+		 * Returns default values for the arguments array.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 *
+		 * @return array Array of default `$key => $value` pairs.
+		 */
+		private function get_defaults() {
+			return array(
+				'listener_query_var' => 'apiapi_' . $this->apiapi_name . '_callback',
+				'auth_basename'      => 'apiapi_' . $this->apiapi_name . '_config_auth',
+			);
 		}
 	}
 
