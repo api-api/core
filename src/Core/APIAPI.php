@@ -30,12 +30,21 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		private $manager;
 
 		/**
+		 * The config updater for this API-API instance.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 * @var APIAPI\Core\Config_Updater
+		 */
+		private $config_updater;
+
+		/**
 		 * Constructor.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                     $name    Slug of this instance.
+		 * @param string                   $name    Slug of this instance.
 		 * @param APIAPI\Core\Manager      $manager The APIAPI Manager object.
 		 * @param APIAPI\Core\Config|array $config  Optional. Configuration object or associative array. Default empty array.
 		 */
@@ -44,6 +53,8 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
 			$this->set_name( $name );
 			$this->config( $config );
+
+			$this->set_config_updater( $this->config() );
 
 			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.started' );
 		}
@@ -157,6 +168,37 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 					$authenticator->authenticate_request( $request );
 				}
 			}
+		}
+
+		/**
+		 * Creates a config updater for this API-API instance.
+		 *
+		 * This only happens if the key 'config_updater' is set to true in the configuration.
+		 *
+		 * @since 1.0.0
+		 * @access private
+		 *
+		 * @param APIAPI\Core\Config $config Configuration object.
+		 */
+		private function set_config_updater( $config ) {
+			if ( ! $config->get( 'config_updater' ) ) {
+				return;
+			}
+
+			$storage_name = $config->get( 'config_updater_storage' );
+			if ( ! $storage_name ) {
+				return;
+			}
+
+			$storages = $this->manager->storages();
+
+			if ( ! $storages->is_registered( $storage_name ) ) {
+				throw new Exception( sprintf( 'The storage %s is not registered.', $storage_name ) );
+			}
+
+			$storage = $storages->get( $storage_name );
+
+			$this->config_updater = new Config_Updater( $this->get_name(), $config, $storage );
 		}
 	}
 

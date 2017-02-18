@@ -132,14 +132,14 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 
 			if ( ! is_null( $subparam ) ) {
 				// Do not allow removal of default parameters.
-				if ( isset( $defaults[ $param ] ) && isset( $defaults[ $param ][ $subparam ] ) ) {
+				if ( array_key_exists( $param, $defaults ) && array_key_exists( $subparam, $defaults[ $param ] ) ) {
 					return;
 				}
 
 				unset( $this->params[ $param ][ $subparam ] );
 			} else {
 				// Do not allow removal of default parameters.
-				if ( isset( $defaults[ $param ] ) ) {
+				if ( array_key_exists( $param, $defaults ) ) {
 					return;
 				}
 
@@ -188,7 +188,11 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * @return array Associative array of default config parameters with their values.
 		 */
 		protected function get_defaults() {
-			return array();
+			return array(
+				'transporter'            => '',
+				'config_updater'         => false,
+				'config_updater_storage' => '',
+			);
 		}
 	}
 
