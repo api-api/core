@@ -54,6 +54,17 @@ if ( ! function_exists( 'apiapi_register_defaults' ) ) {
 			apiapi_manager()->transporters()->register( 'curl', 'APIAPI\Defaults\Transporters\cURL_Transporter' );
 		}
 
+		apiapi_manager()->storages()->register( 'cookie', 'APIAPI\Defaults\Storages\Cookie_Storage' );
+		apiapi_manager()->storages()->register( 'session', 'APIAPI\Defaults\Storages\Session_Storage' );
+
+		if ( function_exists( 'get_option' ) ) {
+			apiapi_manager()->storages()->register( 'wordpress-option', 'APIAPI\Defaults\Storages\WordPress_Option_Storage' );
+		}
+
+		if ( function_exists( 'get_user_meta' ) ) {
+			apiapi_manager()->storages()->register( 'wordpress-user-meta', 'APIAPI\Defaults\Storages\WordPress_User_Meta_Storage' );
+		}
+
 		apiapi_manager()->authenticators()->register( 'basic', 'APIAPI\Defaults\Authenticators\Basic_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'bearer', 'APIAPI\Defaults\Authenticators\Bearer_Authenticator' );
 		apiapi_manager()->authenticators()->register( 'x', 'APIAPI\Defaults\Authenticators\X_Authenticator' );
