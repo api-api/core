@@ -2,16 +2,16 @@
 /**
  * Array_Storage class
  *
- * @package APIAPIDefaults
+ * @package APIAPICore
  * @subpackage Storages
  * @since 1.0.0
  */
 
-namespace APIAPI\Defaults\Storages;
+namespace APIAPI\Core\Storages;
 
 use APIAPI\Core\Storages\Storage;
 
-if ( ! class_exists( 'APIAPI\Defaults\Storages\Array_Storage' ) ) {
+if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 
 	/**
 	 * Storage base class for an array storage.
