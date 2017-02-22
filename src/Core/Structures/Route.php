@@ -213,6 +213,18 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		}
 
 		/**
+		 * Returns all supported methods.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Array of methods.
+		 */
+		public function get_supported_methods() {
+			return array_keys( $this->data['methods'] );
+		}
+
+		/**
 		 * Creates a request object based on parameters.
 		 *
 		 * @since 1.0.0
