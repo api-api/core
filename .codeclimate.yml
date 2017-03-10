@@ -11,7 +11,6 @@ engines:
     enabled: true
     config:
       file_extensions: "php,inc"
-      standard: "WordPress"
   phpmd:
     enabled: true
     config:
