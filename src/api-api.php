@@ -40,6 +40,55 @@ if ( ! function_exists( 'apiapi' ) ) {
 
 }
 
+if ( ! function_exists( 'apiapi_load_extensions_from_global' ) ) {
+
+	/**
+	 * Loads extensions stored in a global.
+	 *
+	 * When an extension is loaded before the API-API Core, it cannot register itself and instead stores
+	 * its values in a global. This function registers any modules stored in one of the globals and unsets
+	 * them afterwards.
+	 *
+	 * @since 1.0.0
+	 */
+	function apiapi_load_extensions_from_global() {
+		if ( isset( $GLOBALS['_apiapi_storages_loader'] ) ) {
+			foreach ( $GLOBALS['_apiapi_storages_loader'] as $name => $storage ) {
+				apiapi_manager()->storages()->register( $name, $storage );
+			}
+
+			unset( $GLOBALS['_apiapi_storages_loader'] );
+		}
+
+		if ( isset( $GLOBALS['_apiapi_transporters_loader'] ) ) {
+			foreach ( $GLOBALS['_apiapi_transporters_loader'] as $name => $transporter ) {
+				apiapi_manager()->transporters()->register( $name, $transporter );
+			}
+
+			unset( $GLOBALS['_apiapi_transporters_loader'] );
+		}
+
+		if ( isset( $GLOBALS['_apiapi_authenticators_loader'] ) ) {
+			foreach ( $GLOBALS['_apiapi_authenticators_loader'] as $name => $authenticator ) {
+				apiapi_manager()->authenticators()->register( $name, $authenticator );
+			}
+
+			unset( $GLOBALS['_apiapi_authenticators_loader'] );
+		}
+
+		if ( isset( $GLOBALS['_apiapi_structures_loader'] ) ) {
+			foreach ( $GLOBALS['_apiapi_structures_loader'] as $name => $structure ) {
+				apiapi_manager()->structures()->register( $name, $structure );
+			}
+
+			unset( $GLOBALS['_apiapi_structures_loader'] );
+		}
+	}
+
+	apiapi_load_extensions_from_global();
+
+}
+
 if ( ! function_exists( 'apiapi_register_defaults' ) ) {
 	function apiapi_register_defaults() {
 		if ( function_exists( 'wp_remote_request' ) ) {
