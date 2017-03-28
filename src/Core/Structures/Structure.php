@@ -12,6 +12,7 @@ namespace APIAPI\Core\Structures;
 use APIAPI\Core\Request\API;
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Util;
+use APIAPI\Core\Exception;
 
 if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 
