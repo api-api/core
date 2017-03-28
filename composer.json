@@ -34,8 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "APIAPI\\Core\\": "src/Core/",
-      "APIAPI\\Defaults\\": "src/Defaults/"
+      "APIAPI\\Core\\": "src/Core/"
     },
     "files": [
       "src/api-api.php"
