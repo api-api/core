@@ -120,6 +120,19 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		}
 
 		/**
+		 * Returns the available base parameter information for a specific base URI.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $base_uri Base URI.
+		 * @return array Array of URI parameters.
+		 */
+		public function get_base_uri_params( $base_uri ) {
+			return $this->structure->get_base_uri_params_by_uri( $base_uri );
+		}
+
+		/**
 		 * Returns the available parameter information for a specific method.
 		 *
 		 * @since 1.0.0

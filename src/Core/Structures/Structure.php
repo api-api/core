@@ -365,6 +365,30 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		}
 
 		/**
+		 * Returns required parameters that are part of a given base URI.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $base_uri Base URI.
+		 * @return array Base URI parameters.
+		 */
+		public function get_base_uri_params_by_uri( $base_uri ) {
+			$this->lazyload_setup();
+
+			if ( $this->base_uri === $base_uri ) {
+				return $this->base_uri_params;
+			}
+
+			$mode = array_search( $base_uri, $this->advanced_uris, true );
+			if ( false !== $mode ) {
+				return $this->advanced_uri_params[ $mode ];
+			}
+
+			return array();
+		}
+
+		/**
 		 * Returns the config key.
 		 *
 		 * This identifies the configuration array where values for this API are stored in.
@@ -491,9 +515,10 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 					'description' => '',
 					'type'        => 'string',
 					'default'     => null,
-					'location'    => 'base',
+					'location'    => '',
 					'enum'        => array(),
 					'internal'    => false,
+					'base'        => true,
 				);
 
 				foreach ( array( 'description', 'enum', 'internal' ) as $field ) {
