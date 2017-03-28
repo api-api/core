@@ -45,6 +45,15 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		protected $base_uri = '';
 
 		/**
+		 * Parameters that are part of the base URI. Some APIs use such.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $base_uri_params = array();
+
+		/**
 		 * Advanced URIs for the API, for example a sandbox URI.
 		 * Must be an associative array of $mode => $uri pairs.
 		 *
@@ -53,6 +62,15 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @var array
 		 */
 		protected $advanced_uris = array();
+
+		/**
+		 * Parameters that are part of the advanced URIs. Some APIs use such.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $advanced_uri_params = array();
 
 		/**
 		 * Route objects as part of this structure.
@@ -150,6 +168,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			$this->setup();
 			$this->process_routes();
 			$this->process_global_params();
+			$this->process_uri_params();
 		}
 
 		/**
@@ -327,6 +346,25 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		}
 
 		/**
+		 * Returns required parameters that are part of this API's base URI for a specific mode.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $mode Optional. Mode for which to get the base URI parameters. Default empty.
+		 * @return array Base URI parameters.
+		 */
+		public function get_base_uri_params( $mode = '' ) {
+			$this->lazyload_setup();
+
+			if ( ! empty( $mode ) && isset( $this->advanced_uri_params[ $mode ] ) ) {
+				return $this->advanced_uri_params[ $mode ];
+			}
+
+			return $this->base_uri_params;
+		}
+
+		/**
 		 * Returns the config key.
 		 *
 		 * This identifies the configuration array where values for this API are stored in.
@@ -407,8 +445,65 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 					'location'    => '',
 					'enum'        => array(),
 					'items'       => array(),
+					'internal'    => false,
 				), true );
 			}
+		}
+
+		/**
+		 * Ensures that all URI parameters contain the necessary data.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function process_uri_params() {
+			$this->base_uri_params = $this->process_uri_params_set( $this->base_uri, $this->base_uri_params );
+
+			foreach ( $this->advanced_uris as $mode => $advanced_uri ) {
+				if ( ! isset( $this->advanced_uri_params[ $mode ] ) ) {
+					$this->advanced_uri_params[ $mode ] = array();
+				}
+
+				$this->advanced_uri_params[ $mode ] = $this->process_uri_params_set( $advanced_uri, $this->advanced_uri_params[ $mode ] );
+			}
+		}
+
+		/**
+		 * Processes a single set of URI and its params.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $uri    URI to extract params from.
+		 * @param array  $params Parameter definition, if already provided.
+		 * @return array Processed set of parameters.
+		 */
+		protected function process_uri_params_set( $uri, $params ) {
+			if ( ! preg_match_all( '#\{([A-Za-z0-9_]+)\}#', $this->uri, $matches ) ) {
+				return array();
+			}
+
+			$processed_params = array();
+
+			foreach ( $matches[1] as $uri_param ) {
+				$processed_params[ $uri_param ] = array(
+					'required' => true,
+					'description' => '',
+					'type'        => 'string',
+					'default'     => null,
+					'location'    => 'base',
+					'enum'        => array(),
+					'internal'    => false,
+				);
+
+				foreach ( array( 'description', 'enum', 'internal' ) as $field ) {
+					if ( isset( $params[ $uri_param ][ $field ] ) ) {
+						$processed_params[ $uri_param ][ $field ] = $params[ $uri_param ][ $field ];
+					}
+				}
+			}
+
+			return $processed_params;
 		}
 	}
 
