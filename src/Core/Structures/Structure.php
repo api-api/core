@@ -504,7 +504,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @return array Processed set of parameters.
 		 */
 		protected function process_uri_params_set( $uri, $params ) {
-			if ( ! preg_match_all( '#\{([A-Za-z0-9_]+)\}#', $this->uri, $matches ) ) {
+			if ( ! preg_match_all( '#\{([A-Za-z0-9_]+)\}#', $uri, $matches ) ) {
 				return array();
 			}
 
