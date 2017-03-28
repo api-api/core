@@ -69,23 +69,34 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		protected $custom_params = array();
 
 		/**
+		 * Contains placeholders used in the base URI.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var array
+		 */
+		protected $uri_placeholders = array();
+
+		/**
 		 * Constructor.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                         $base_uri            Base URI for the request.
-		 * @param string                         $method              Either 'GET', 'POST', 'PUT', 'PATCH' or
-		 *                                                            'DELETE'.
+		 * @param string                       $base_uri            Base URI for the request. May contain placeholders within curly braces.
+		 * @param string                       $method              Either 'GET', 'POST', 'PUT', 'PATCH' or
+		 *                                                          'DELETE'.
 		 * @param APIAPI\Core\Structures\Route $route               Route object for the request.
-		 * @param string                         $route_uri           Route URI for the request.
-		 * @param string                         $authenticator       Optional. Authenticator name. Default
-		 *                                                            empty string.
-		 * @param array                          $authentication_data Optional. Authentication data to pass
-		 *                                                            to the authenticator. Default empty array.
+		 * @param string                       $route_uri           Route URI for the request.
+		 * @param string                       $authenticator       Optional. Authenticator name. Default
+		 *                                                          empty string.
+		 * @param array                        $authentication_data Optional. Authentication data to pass
+		 *                                                          to the authenticator. Default empty array.
 		 */
 		public function __construct( $base_uri, $method, $route, $route_uri, $authenticator = '', $authentication_data = array() ) {
 			parent::__construct( $base_uri, $method );
+
+			$this->parse_uri_placeholders();
 
 			$this->route               = $route;
 			$this->route_uri           = $route_uri;
@@ -107,6 +118,17 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				$uri .= '/';
 			}
 
+			if ( ! empty( $this->uri_placeholders ) ) {
+				$search  = array();
+				$replace = array();
+				foreach ( $this->uri_placeholders as $placeholder => $value ) {
+					$search[]  = '{' . $placeholder . '}';
+					$replace[] = $value;
+				}
+
+				$uri = str_replace( $search, $replace, $uri );
+			}
+
 			return $uri . ltrim( $this->route_uri, '/' );
 		}
 
@@ -120,6 +142,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed  $value Parameter value.
 		 */
 		public function set_param( $param, $value ) {
+			if ( isset( $this->uri_placeholders[ $param ] ) ) {
+				$this->uri_placeholders[ $param ] = strval( $value );
+				return;
+			}
+
 			$params = $this->route->get_method_params( $this->method );
 
 			if ( ! isset( $params[ $param ] ) ) {
@@ -143,6 +170,14 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @return mixed Parameter value, or null if unset.
 		 */
 		public function get_param( $param ) {
+			if ( isset( $this->uri_placeholders[ $param ] ) ) {
+				if ( empty( $this->uri_placeholders[ $param ] ) ) {
+					return null;
+				}
+
+				return $this->uri_placeholders[ $param ];
+			}
+
 			$params = $this->route->get_method_params( $this->method );
 
 			if ( ! isset( $params[ $param ] ) ) {
@@ -201,9 +236,15 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @return bool|array True if the request is valid, array of missing parameters otherwise.
 		 */
 		public function is_valid() {
-			$params = $this->route->get_method_params( $this->method );
-
 			$missing_params = array();
+
+			foreach ( $this->uri_placeholders as $placeholder => $value ) {
+				if ( empty( $value ) ) {
+					$missing_params[] = $placeholder;
+				}
+			}
+
+			$params = $this->route->get_method_params( $this->method );
 			foreach ( $params as $param => $param_info ) {
 				if ( ! $param_info['required'] ) {
 					continue;
@@ -559,6 +600,25 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 			}
 
 			return $query_params;
+		}
+
+		/**
+		 * Parses placeholders possibly contained in the base URI.
+		 *
+		 * The placeholders will be put into the $uri_placeholders property as keys
+		 * to fill them with values dynamically.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 */
+		protected function parse_uri_placeholders() {
+			if ( ! preg_match_all( '#\{([A-Za-z0-9_]+)\}#', $this->uri, $matches ) ) {
+				return;
+			}
+
+			foreach ( $matches[1] as $placeholder ) {
+				$this->uri_placeholders[ $placeholder ] = '';
+			}
 		}
 	}
 
