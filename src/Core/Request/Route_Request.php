@@ -122,11 +122,17 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				$search  = array();
 				$replace = array();
 				foreach ( $this->uri_placeholders as $placeholder => $value ) {
+					if ( empty( $value ) ) {
+						continue;
+					}
+
 					$search[]  = '{' . $placeholder . '}';
 					$replace[] = $value;
 				}
 
-				$uri = str_replace( $search, $replace, $uri );
+				if ( ! empty( $search ) ) {
+					$uri = str_replace( $search, $replace, $uri );
+				}
 			}
 
 			return $uri . ltrim( $this->route_uri, '/' );
