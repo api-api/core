@@ -138,12 +138,18 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @param string $method      Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @param bool   $include_all Optional. Whether to also include primary and global parameters.
+		 *                            Default true.
 		 * @return array Array of method parameters, or empty array if method not supported.
 		 */
-		public function get_method_params( $method ) {
+		public function get_method_params( $method, $include_all = true ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				return array();
+			}
+
+			if ( ! $include_all ) {
+				return $this->data['methods'][ $method ]['params'];
 			}
 
 			return array_merge( $this->primary_params, $this->data['methods'][ $method ]['params'], $this->structure->get_global_params() );
