@@ -311,8 +311,15 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 				$description = '';
 				$default     = null;
 				if ( isset( $this->data['primary_params'][ $matches[2][ $i ] ] ) ) {
-					$description = $this->data['primary_params'][ $matches[2][ $i ] ]['description'];
-					$default     = $this->data['primary_params'][ $matches[2][ $i ] ]['default'];
+					if ( isset( $this->data['primary_params'][ $matches[2][ $i ] ]['description'] ) ) {
+						$description = $this->data['primary_params'][ $matches[2][ $i ] ]['description'];
+					}
+					if ( isset( $this->data['primary_params'][ $matches[2][ $i ] ]['default'] ) ) {
+						$default = $this->data['primary_params'][ $matches[2][ $i ] ]['default'];
+					}
+					if ( isset( $this->data['primary_params'][ $matches[2][ $i ] ]['type'] ) ) {
+						$type = $this->data['primary_params'][ $matches[2][ $i ] ]['type'];
+					}
 				}
 
 				$this->primary_params[ $matches[2][ $i ] ] = array(
