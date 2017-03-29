@@ -148,7 +148,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 			$route_uri = $this->route_uri;
 
-			foreach ( $this->primary_params as $param => $value ) {
+			foreach ( $this->uri_params as $param => $value ) {
 				$route_uri = preg_replace( '@\/\(\?P\<' . $param . '\>\[(.+)\]\+\)@U', '/' . $value, $route_uri );
 			}
 
@@ -157,7 +157,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				$query_args[] = $param . '=' . urlencode( $value );
 			}
 
-			if ( preg_match( '/\?([A-Za-z0-9_\-]+)=', $route_uri ) ) {
+			if ( preg_match( '/\?([A-Za-z0-9_\-]+)=/', $route_uri ) ) {
 				$route_uri .= '&' . implode( '&', $query_args );
 			} else {
 				$route_uri .= '?' . implode( '&', $query_args );
