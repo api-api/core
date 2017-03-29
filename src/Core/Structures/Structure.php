@@ -37,6 +37,15 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		protected $config_key = '';
 
 		/**
+		 * Title of the API.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var string
+		 */
+		protected $title = '';
+
+		/**
 		 * Base URI for the API.
 		 *
 		 * @since 1.0.0
@@ -148,7 +157,9 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		public function __construct( $name ) {
 			$this->set_name( $name );
 
+			// Set some defaults, which can be overridden in the setup() method.
 			$this->config_key = $this->name;
+			$this->title      = $this->name;
 		}
 
 		/**
@@ -167,6 +178,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			$this->setup_loaded = true;
 
 			$this->setup();
+
 			$this->process_routes();
 			$this->process_global_params();
 			$this->process_uri_params();
@@ -401,6 +413,18 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 */
 		public function get_config_key() {
 			return $this->config_key;
+		}
+
+		/**
+		 * Returns the API title.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string The title.
+		 */
+		public function get_title() {
+			return $this->title;
 		}
 
 		/**
