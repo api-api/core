@@ -152,15 +152,17 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				$route_uri = preg_replace( '@\/\(\?P\<' . $param . '\>\[(.+)\]\+\)@U', '/' . $value, $route_uri );
 			}
 
-			$query_args = array();
-			foreach ( $this->query_params as $param => $value ) {
-				$query_args[] = $param . '=' . urlencode( $value );
-			}
+			if ( ! empty( $this->query_params ) ) {
+				$query_args = array();
+				foreach ( $this->query_params as $param => $value ) {
+					$query_args[] = $param . '=' . urlencode( $value );
+				}
 
-			if ( preg_match( '/\?([A-Za-z0-9_\-]+)=/', $route_uri ) ) {
-				$route_uri .= '&' . implode( '&', $query_args );
-			} else {
-				$route_uri .= '?' . implode( '&', $query_args );
+				if ( preg_match( '/\?([A-Za-z0-9_\-]+)=/', $route_uri ) ) {
+					$route_uri .= '&' . implode( '&', $query_args );
+				} else {
+					$route_uri .= '?' . implode( '&', $query_args );
+				}
 			}
 
 			return $base_uri . ltrim( $route_uri, '/' );
