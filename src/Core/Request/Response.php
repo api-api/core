@@ -9,6 +9,8 @@
 
 namespace APIAPI\Core\Request;
 
+use APIAPI\Core\Exception;
+
 if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 
 	/**
@@ -260,7 +262,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 			$content_type = $this->get_content_type();
 
 			if ( 'application/json' === $content_type ) {
-				$this->params = json_decode( $body, true );
+				$this->params = $this->json_decode( $body );
 			} elseif ( 'application/xml' === $content_type ) {
 				$this->params = $this->xml_decode( $body );
 			} else {
@@ -306,18 +308,77 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		}
 
 		/**
+		 * Decodes a JSON string into an array of parameters.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param string $json JSON string to decode.
+		 * @return array Decoded JSON as array.
+		 */
+		protected function json_decode( $json ) {
+			$decoded = json_decode( $json, true );
+
+			$error_message = '';
+			switch ( json_last_error() ) {
+				case JSON_ERROR_DEPTH:
+					$error_message = 'Maximum stack depth exceeded.';
+					break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$error_message = 'Invalid or malformed JSON.';
+					break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error_message = 'Control character error, possibly encoded incorrectly.';
+					break;
+				case JSON_ERROR_SYNTAX:
+					$error_message = 'Syntax error.';
+					break;
+				case JSON_ERROR_UTF8:
+					$error_message = 'Malformed UTF-8 characters.';
+					break;
+			}
+
+			if ( ! empty( $error_message ) ) {
+				throw new Exception( 'Could not decode JSON response: ' . $error_message );
+			}
+
+			return $decoded;
+		}
+
+		/**
 		 * Decodes an XML string into an array of parameters.
 		 *
 		 * @since 1.0.0
 		 * @access protected
 		 *
 		 * @param string $xml XML string to decode.
-		 * @return array Decoded XML as array, or empty array on failure.
+		 * @return array Decoded XML as array.
 		 */
 		protected function xml_decode( $xml ) {
+			$original_error_setting = libxml_use_internal_errors( true );
+
 			$xml_element = simplexml_load_string( $xml );
 			if ( ! is_a( $xml_element, 'SimpleXMLElement' ) ) {
-				return array();
+				$error_message = 'Could not decode XML response';
+
+				$error = libxml_get_last_error();
+				if ( $error ) {
+					$error_message .= ': ' . $error->message;
+				} else {
+					$error_message .= '.';
+				}
+
+				libxml_clear_errors();
+				if ( $original_error_setting !== true ) {
+					libxml_use_internal_errors( $original_error_setting );
+				}
+
+				throw new Exception( $error_message );
+			}
+
+			libxml_clear_errors();
+			if ( $original_error_setting !== true ) {
+				libxml_use_internal_errors( $original_error_setting );
 			}
 
 			return $this->xml_element_to_array( $xml_element );
