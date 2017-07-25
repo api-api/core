@@ -56,7 +56,79 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
 			$this->set_config_updater( $this->config() );
 
-			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.started' );
+			$this->trigger_hook( 'started' );
+		}
+
+		/**
+		 * Attaches a hook callback for this API-API instance.
+		 *
+		 * The returned hook object can be passed to `APIAPI\Core\APIAPI::hook_off()` to
+		 * remove it again.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string   $hook_name Hook name.
+		 * @param callable $callback  Hook callback.
+		 * @param int      $priority  Optional. Hook priority. Default 10.
+		 * @return APIAPI\Core\Hook Hook object.
+		 */
+		public function hook_on( $hook_name, $callback, $priority = 10 ) {
+			$hook_name = 'apiapi.' . $this->get_name() . '.' . $hook_name;
+
+			return $this->manager->hooks()->on( $hook_name, $callback, $priority );
+		}
+
+		/**
+		 * Removes a previously attached hook callback for this API-API instance.
+		 *
+		 * The object to pass to this method must have been returned by `APIAPI\Core\APIAPI::hook_on()`.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param APIAPI\Core\Hook $hook Hook object.
+		 */
+		public function hook_off( $hook ) {
+			$hook_name = $hook->get_name();
+
+			if ( 0 !== strpos( $hook_name, 'apiapi.' . $this->get_name() . '.' ) ) {
+				throw new Exception( sprintf( 'Invalid usage of hook object with hook %s.', $hook_name ) );
+			}
+
+			$this->manager->hooks()->off( $hook );
+		}
+
+		/**
+		 * Triggers a hook for this API-API instance.
+		 *
+		 * Any additional parameters passed to the method are passed to each hook callback.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $hook_name Hook name.
+		 */
+		public function trigger_hook( $hook_name ) {
+			$args = func_get_args();
+			$args[0] = 'apiapi.' . $this->get_name() . '.' . $args[0];
+
+			call_user_func_array( array( $this->manager->hooks(), 'trigger' ), $args );
+		}
+
+		/**
+		 * Checks whether a hook is currently triggered.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $hook_name Hook name.
+		 * @return bool True if the hook is triggered, false otherwise.
+		 */
+		public function is_hook_triggered( $hook_name ) {
+			$hook_name = 'apiapi.' . $this->get_name() . '.' . $hook_name;
+
+			return $this->manager->hooks()->is_hook_triggered( $hook_name );
 		}
 
 		/**
@@ -105,7 +177,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @return APIAPI\Core\Request\Route_Response The returned response.
 		 */
 		public function send_request( $request ) {
-			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.pre_send_request', $request, $this );
+			$this->trigger_hook( 'pre_send_request', $request, $this );
 
 			$missing_parameters = $request->is_valid();
 			if ( is_array( $missing_parameters ) ) {
@@ -137,7 +209,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
 			$response = $route->create_response_object( $response_data, $request->get_method() );
 
-			$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.response_received', $response, $request, $this );
+			$this->trigger_hook( 'response_received', $response, $request, $this );
 
 			return $response;
 		}
@@ -155,7 +227,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		private function authenticate_request( $request ) {
 			$authenticator_name = $request->get_authenticator();
 			if ( ! empty( $authenticator_name ) ) {
-				$this->manager->hooks()->trigger( 'apiapi.' . $this->get_name() . '.pre_authenticate_request', $request, $this );
+				$this->trigger_hook( 'pre_authenticate_request', $request, $this );
 
 				$authenticators = $this->manager->authenticators();
 
