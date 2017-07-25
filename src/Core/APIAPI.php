@@ -198,7 +198,12 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
 			$storage = $storages->get( $storage_name );
 
-			$this->config_updater = new Config_Updater( $this->get_name(), $config, $storage );
+			$args = $config->get( 'config_updater_args' );
+			if ( ! is_array( $args ) ) {
+				$args = array();
+			}
+
+			$this->config_updater = new Config_Updater( $this->get_name(), $config, $storage, $args );
 		}
 	}
 
