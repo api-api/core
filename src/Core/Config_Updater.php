@@ -20,46 +20,46 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Slug of the API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var string
 		 */
-		private $apiapi_name = '';
+		protected $apiapi_name = '';
 
 		/**
 		 * Configuration object this updater should manage.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var APIAPI\Core\Config
 		 */
-		private $config;
+		protected $config;
 
 		/**
 		 * Storage to persistently store configuration values.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var APIAPI\Core\Storages\Storage
 		 */
-		private $storage;
+		protected $storage;
 
 		/**
 		 * Array of arguments.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $args = array();
+		protected $args = array();
 
 		/**
 		 * Structure names that are handled by this instance.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 * @var array
 		 */
-		private $structure_names = array();
+		protected $structure_names = array();
 
 		/**
 		 * Constructor.
@@ -110,9 +110,9 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Sets up dynamic configuration values from storage.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 */
-		private function setup_config() {
+		protected function setup_config() {
 			$oauth1_fields = array(
 				'temporary_token',
 				'temporary_token_secret',
@@ -126,7 +126,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 				'consumer_secret',
 			);
 
-			$base_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$base_url = $this->get_callback_base_url();
 			if ( strpos( $base_url, '?' ) ) {
 				$base_url .= '&';
 			} else {
@@ -187,9 +187,9 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Listens for OAuth1 callbacks and persistently stores the necessary data.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 */
-		private function listen_for_callback() {
+		protected function listen_for_callback() {
 			if ( ! isset( $_GET[ $this->args['listener_query_var'] ] ) ) {
 				return;
 			}
@@ -226,7 +226,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Callback to apply a token.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $consumer_key    Consumer key.
 		 * @param string $consumer_secret Consumer secret.
@@ -236,7 +236,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * @param string $type            Optional. Type of the token. Either 'temporary' or 'permanent'.
 		 *                                Default 'permanent'.
 		 */
-		private function apply_token_callback( $consumer_key, $consumer_secret, $token, $token_secret, $structure_name, $type = 'permanent' ) {
+		protected function apply_token_callback( $consumer_key, $consumer_secret, $token, $token_secret, $structure_name, $type = 'permanent' ) {
 			if ( ! in_array( $structure_name, $this->structure_names, true ) ) {
 				return;
 			}
@@ -281,28 +281,47 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Redirect callback to send the user to an authorize URL.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @param string $authorize_url  Authorize URL.
 		 * @param string $structure_name Name of the structure.
 		 */
-		private function redirect_callback( $authorize_url, $structure_name ) {
+		protected function redirect_callback( $authorize_url, $structure_name ) {
 			header( 'Location: ' . $authorize_url );
 			exit;
+		}
+
+		/**
+		 * Returns the base URL to use for authentication callbacks.
+		 *
+		 * If the 'callback_base_url' argument is not set, the current URL will be used.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @return string Callback base URL for authentication redirects.
+		 */
+		protected function get_callback_base_url() {
+			if ( ! empty( $this->args['callback_base_url'] ) ) {
+				return $this->args['callback_base_url'];
+			}
+
+			return ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 
 		/**
 		 * Returns default values for the arguments array.
 		 *
 		 * @since 1.0.0
-		 * @access private
+		 * @access protected
 		 *
 		 * @return array Array of default `$key => $value` pairs.
 		 */
-		private function get_defaults() {
+		protected function get_defaults() {
 			return array(
 				'listener_query_var' => 'apiapi_' . $this->apiapi_name . '_callback',
 				'auth_basename'      => 'apiapi_' . $this->apiapi_name . '_config_auth',
+				'callback_base_url'  => '',
 			);
 		}
 	}

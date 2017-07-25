@@ -181,7 +181,13 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param APIAPI\Core\Config $config Configuration object.
 		 */
 		private function set_config_updater( $config ) {
-			if ( ! $config->get( 'config_updater' ) ) {
+			$updater = $config->get( 'config_updater' );
+			if ( ! $updater ) {
+				return;
+			}
+
+			if ( is_a( $updater, 'APIAPI\Core\Config_Updater' ) ) {
+				$this->config_updater = $updater;
 				return;
 			}
 
