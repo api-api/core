@@ -86,8 +86,21 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 			$this->storage  = $storage;
 			$this->args     = Util::parse_args( $args, $this->get_defaults() );
 
-			$this->setup_config();
-			$this->listen_for_callback();
+			if ( ! empty( $this->args['setup_config_hook'] ) ) {
+				$this->apiapi->hook_on( $this->args['setup_config_hook'], function() {
+					$this->setup_config();
+				});
+			} else {
+				$this->setup_config();
+			}
+
+			if ( ! empty( $this->args['listener_hook'] ) ) {
+				$this->apiapi->hook_on( $this->args['listener_hook'], function() {
+					$this->listen_for_callback();
+				});
+			} else {
+				$this->listen_for_callback();
+			}
 		}
 
 		/**
@@ -330,6 +343,8 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 				'listener_query_var' => 'apiapi_' . $this->apiapi->get_name() . '_callback',
 				'auth_basename'      => 'apiapi_' . $this->apiapi->get_name() . '_config_auth',
 				'callback_base_url'  => '',
+				'setup_config_hook'  => '',
+				'listener_hook'      => '',
 			);
 		}
 	}
