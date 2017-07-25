@@ -558,7 +558,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 
 			foreach ( $matches[1] as $uri_param ) {
 				$processed_params[ $uri_param ] = array(
-					'required' => true,
+					'required'    => true,
 					'description' => '',
 					'type'        => 'string',
 					'default'     => null,

@@ -114,8 +114,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 */
 		private function setup_config() {
 			$oauth1_fields = array(
-				'consumer_key',
-				'consumer_secret',
 				'temporary_token',
 				'temporary_token_secret',
 				'temporary_token_verifier',
@@ -165,12 +163,9 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 				if ( empty( $value['authentication_data']['token'] ) || empty( $value['authentication_data']['token_secret'] ) ) {
 					$values = $this->storage->retrieve_multi( $this->args['auth_basename'], $key, $oauth1_fields );
 
-					if ( isset( $values['consumer_key'] ) && $values['consumer_key'] === $value['authentication_data']['consumer_key']
-						&& isset( $values['consumer_secret'] ) && $values['consumer_secret'] === $value['authentication_data']['consumer_secret'] ) {
-						foreach ( $values as $k => $v ) {
-							if ( $v ) {
-								$value['authentication_data'][ $k ] = $v;
-							}
+					foreach ( $values as $k => $v ) {
+						if ( $v ) {
+							$value['authentication_data'][ $k ] = $v;
 						}
 					}
 				}
@@ -251,10 +246,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 				return;
 			}
 
-			$token_values = array(
-				'consumer_key'    => $consumer_key,
-				'consumer_secret' => $consumer_secret,
-			);
+			$token_values = array();
 
 			if ( 'temporary' === $type ) {
 				$token_values = array_merge( $token_values, array(
