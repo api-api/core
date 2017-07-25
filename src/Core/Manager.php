@@ -116,6 +116,10 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @param APIAPI\Core\Config|array $config Optional. Configuration object or associative array. Default empty array.
 		 */
 		public function create_instance( $name, $config = array() ) {
+			if ( 'manager' === $name ) {
+				throw new Exception( 'The name manager is not allowed for an instance.' );
+			}
+
 			if ( isset( $this->instances[ $name ] ) ) {
 				throw new Exception( sprintf( 'Instance name %s already exists!', $name ) );
 			}
