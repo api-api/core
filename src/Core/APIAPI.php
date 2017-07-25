@@ -54,7 +54,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 			$this->set_name( $name );
 			$this->config( $config );
 
-			$this->set_config_updater( $this->config() );
+			$this->set_config_updater();
 
 			$this->trigger_hook( 'started' );
 		}
@@ -249,10 +249,10 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 *
-		 * @param APIAPI\Core\Config $config Configuration object.
 		 */
-		private function set_config_updater( $config ) {
+		private function set_config_updater() {
+			$config = $this->config();
+
 			$updater = $config->get( 'config_updater' );
 			if ( ! $updater ) {
 				return;
@@ -281,7 +281,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 				$args = array();
 			}
 
-			$this->config_updater = new Config_Updater( $this->get_name(), $config, $storage, $args );
+			$this->config_updater = new Config_Updater( $this, $storage, $args );
 		}
 	}
 

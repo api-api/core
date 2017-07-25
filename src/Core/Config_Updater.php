@@ -17,6 +17,15 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 	 */
 	class Config_Updater {
 		/**
+		 * The API-API instance.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 * @var APIAPI\Core\APIAPI
+		 */
+		protected $apiapi;
+
+		/**
 		 * Slug of the API-API instance.
 		 *
 		 * @since 1.0.0
@@ -67,16 +76,15 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param string                       $apiapi_name The API-API instance slug.
-		 * @param APIAPI\Core\Config           $config      The API-API configuration object.
-		 * @param APIAPI\Core\Storages\Storage $storage     Storage to persistently store configuration values.
-		 * @param array                        $args        Optional. Array of arguments. Default empty array.
+		 * @param APIAPI\Core\APIAPI           $apiapi  The API-API instance.
+		 * @param APIAPI\Core\Storages\Storage $storage Storage to persistently store configuration values.
+		 * @param array                        $args    Optional. Array of arguments. Default empty array.
 		 */
-		public function __construct( $apiapi_name, $config, $storage, $args = array() ) {
-			$this->apiapi_name = $apiapi_name;
-			$this->config      = $config;
-			$this->storage     = $storage;
-			$this->args        = Util::parse_args( $args, $this->get_defaults() );
+		public function __construct( $apiapi, $storage, $args = array() ) {
+			$this->apiapi   = $apiapi;
+			$this->config   = $this->apiapi->config();
+			$this->storage  = $storage;
+			$this->args     = Util::parse_args( $args, $this->get_defaults() );
 
 			$this->setup_config();
 			$this->listen_for_callback();
@@ -319,8 +327,8 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 */
 		protected function get_defaults() {
 			return array(
-				'listener_query_var' => 'apiapi_' . $this->apiapi_name . '_callback',
-				'auth_basename'      => 'apiapi_' . $this->apiapi_name . '_config_auth',
+				'listener_query_var' => 'apiapi_' . $this->apiapi->get_name() . '_callback',
+				'auth_basename'      => 'apiapi_' . $this->apiapi->get_name() . '_config_auth',
 				'callback_base_url'  => '',
 			);
 		}
