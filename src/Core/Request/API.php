@@ -136,11 +136,13 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		public function get_authentication_data() {
 			$config_key = $this->structure->get_config_key();
 
+			$mode = $this->get_mode();
+
 			if ( $this->config->isset( $config_key, 'authentication_data' ) ) {
-				return $this->config->get( $config_key, 'authentication_data' );
+				return Util::parse_args( $this->config->get( $config_key, 'authentication_data' ), $this->structure->get_authentication_data_defaults( $mode ) );
 			}
 
-			return array();
+			return $this->structure->get_authentication_data_defaults( $mode );
 		}
 
 		/**
