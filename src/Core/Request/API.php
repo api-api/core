@@ -90,6 +90,24 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 
 			return $route->create_response_object( $response, $request->get_method() );
 		}
+
+		/**
+		 * Magic call method that proxies to the structure methods.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param string $method Method name.
+		 * @param array  $args   Method arguments.
+		 * @return mixed Result of the called structure method, or null if invalid method.
+		 */
+		public function __call( $method, $args ) {
+			if ( is_callable( array( $this->structure, $method ) ) ) {
+				return call_user_func_array( array( $this->structure, $method ), $args );
+			}
+
+			return null;
+		}
 	}
 
 }
