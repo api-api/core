@@ -63,11 +63,9 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		public function get_request_object( $route_uri, $method = 'GET' ) {
 			$route = $this->structure->get_route_object( $route_uri );
 
-			$config_key = $this->structure->get_config_key();
-
-			$mode = $this->config->isset( $config_key, 'mode' ) ? $this->config->get( $config_key, 'mode' ) : '';
-			$authenticator = $this->config->isset( $config_key, 'authenticator' ) ? $this->config->get( $config_key, 'authenticator' ) : $this->structure->get_authenticator();
-			$authentication_data = $this->config->isset( $config_key, 'authentication_data' ) ? $this->config->get( $config_key, 'authentication_data' ) : array();
+			$mode                = $this->get_mode();
+			$authenticator       = $this->get_authenticator();
+			$authentication_data = $this->get_authentication_data();
 
 			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
 		}
@@ -89,6 +87,60 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 			$route = $request->get_route_object();
 
 			return $route->create_response_object( $response, $request->get_method() );
+		}
+
+		/**
+		 * Returns the current mode in which to call the API.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Mode identifier, or empty for the default mode.
+		 */
+		public function get_mode() {
+			$config_key = $this->structure->get_config_key();
+
+			if ( $this->config->isset( $config_key, 'mode' ) ) {
+				return $this->config->get( $config_key, 'mode' );
+			}
+
+			return '';
+		}
+
+		/**
+		 * Returns the identifier of the authenticator to use when calling the API.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return string Authenticator identifier.
+		 */
+		public function get_authenticator() {
+			$config_key = $this->structure->get_config_key();
+
+			if ( $this->config->isset( $config_key, 'authenticator' ) ) {
+				return $this->config->get( $config_key, 'authenticator' );
+			}
+
+			return $this->structure->get_authenticator();
+		}
+
+		/**
+		 * Returns the authentication data passed to the authenticator.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @return array Authentication data as `$key => $value` pairs. May be empty.
+		 */
+		public function get_authentication_data() {
+			$config_key = $this->structure->get_config_key();
+
+			if ( $this->config->isset( $config_key, 'authentication_data' ) ) {
+				return $this->config->get( $config_key, 'authentication_data' );
+			}
+
+			return array();
 		}
 
 		/**
