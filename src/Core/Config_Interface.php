@@ -26,7 +26,7 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 * @return bool True if the parameter is set, false otherwise.
 		 */
-		public function isset( $param, $subparam = null );
+		public function exists( $param, $subparam = null );
 
 		/**
 		 * Returns the value for a specific parameter.
@@ -56,16 +56,16 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		public function set( $param, $value_or_subparam, $value = null );
 
 		/**
-		 * Unsets a specific parameter.
+		 * Deletes a specific parameter.
 		 *
-		 * It is not possible to unset default parameters.
+		 * It is not possible to delete default parameters.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
 		 */
-		public function unset( $param, $subparam = null );
+		public function delete( $param, $subparam = null );
 
 		/**
 		 * Sets multiple parameters with their values.

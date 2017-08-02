@@ -51,7 +51,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 * @return bool True if the parameter is set, false otherwise.
 		 */
-		public function isset( $param, $subparam = null ) {
+		public function exists( $param, $subparam = null ) {
 			if ( ! isset( $this->params[ $param ] ) ) {
 				return false;
 			}
@@ -74,7 +74,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * @return mixed Value of the parameter, or null if it is not set.
 		 */
 		public function get( $param, $subparam = null ) {
-			if ( ! $this->isset( $param, $subparam ) ) {
+			if ( ! $this->exists( $param, $subparam ) ) {
 				return null;
 			}
 
@@ -103,7 +103,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 			$value    = ! is_null( $value ) ? $value : $value_or_subparam;
 
 			if ( ! is_null( $subparam ) ) {
-				if ( ! $this->isset( $param ) ) {
+				if ( ! $this->exists( $param ) ) {
 					$this->params[ $param ] = array();
 				}
 
@@ -114,17 +114,17 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		}
 
 		/**
-		 * Unsets a specific parameter.
+		 * Deletes a specific parameter.
 		 *
-		 * It is not possible to unset default parameters.
+		 * It is not possible to delete default parameters.
 		 *
 		 * @since 1.0.0
 		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
 		 */
-		public function unset( $param, $subparam = null ) {
-			if ( ! $this->isset( $param, $subparam ) ) {
+		public function delete( $param, $subparam = null ) {
+			if ( ! $this->exists( $param, $subparam ) ) {
 				return;
 			}
 

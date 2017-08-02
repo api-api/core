@@ -65,9 +65,9 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 
 			$config_key = $this->structure->get_config_key();
 
-			$mode = $this->config->isset( $config_key, 'mode' ) ? $this->config->get( $config_key, 'mode' ) : '';
-			$authenticator = $this->config->isset( $config_key, 'authenticator' ) ? $this->config->get( $config_key, 'authenticator' ) : $this->structure->get_authenticator();
-			$authentication_data = $this->config->isset( $config_key, 'authentication_data' ) ? $this->config->get( $config_key, 'authentication_data' ) : array();
+			$mode = $this->config->exists( $config_key, 'mode' ) ? $this->config->get( $config_key, 'mode' ) : '';
+			$authenticator = $this->config->exists( $config_key, 'authenticator' ) ? $this->config->get( $config_key, 'authenticator' ) : $this->structure->get_authenticator();
+			$authentication_data = $this->config->exists( $config_key, 'authentication_data' ) ? $this->config->get( $config_key, 'authentication_data' ) : array();
 
 			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
 		}

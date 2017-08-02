@@ -188,7 +188,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
 			$transporters = $this->manager->transporters();
 
-			if ( ! $this->config->isset( 'transporter' ) ) {
+			if ( ! $this->config->exists( 'transporter' ) ) {
 				$transporter = $transporters->get_default();
 				if ( null === $transporter ) {
 					throw new Exception( 'The request cannot be sent as no transporter is available.' );
