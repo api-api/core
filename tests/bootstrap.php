@@ -6,4 +6,8 @@
  * @subpackage Tests
  */
 
-//TODO: implement unit testing suite
+define( 'VENDOR_DIR', dirname( dirname( __FILE__ ) ) . '/vendor' );
+
+echo VENDOR_DIR;
+
+require_once VENDOR_DIR . '/autoload.php';
