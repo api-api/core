@@ -25,7 +25,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Manager
+		 * @var \APIAPI\Core\Manager
 		 */
 		private $manager;
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Config_Updater
+		 * @var \APIAPI\Core\Config_Updater
 		 */
 		private $config_updater;
 
@@ -45,8 +45,8 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @access public
 		 *
 		 * @param string                   $name    Slug of this instance.
-		 * @param APIAPI\Core\Manager      $manager The APIAPI Manager object.
-		 * @param APIAPI\Core\Config|array $config  Optional. Configuration object or associative array. Default empty array.
+		 * @param \APIAPI\Core\Manager      $manager The APIAPI Manager object.
+		 * @param \APIAPI\Core\Config|array $config  Optional. Configuration object or associative array. Default empty array.
 		 */
 		public function __construct( $name, $manager, $config = array() ) {
 			$this->manager = $manager;
@@ -71,7 +71,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param string   $hook_name Hook name.
 		 * @param callable $callback  Hook callback.
 		 * @param int      $priority  Optional. Hook priority. Default 10.
-		 * @return APIAPI\Core\Hook Hook object.
+		 * @return \APIAPI\Core\Hook Hook object.
 		 */
 		public function hook_on( $hook_name, $callback, $priority = 10 ) {
 			$hook_name = 'apiapi.' . $this->get_name() . '.' . $hook_name;
@@ -87,7 +87,9 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Hook $hook Hook object.
+		 * @param \APIAPI\Core\Hook $hook Hook object.
+		 *
+		 * @throws \APIAPI\Core\Exception
 		 */
 		public function hook_off( $hook ) {
 			$hook_name = $hook->get_name();
@@ -138,7 +140,9 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @access public
 		 *
 		 * @param string $api_name Unique slug of the API. Must match the slug of a registered structure.
-		 * @return APIAPI\Core\Request\API The API object.
+		 * @return \APIAPI\Core\Request\API The API object.
+		 *
+		 * @throws \APIAPI\Core\Exception
 		 */
 		public function get_api_object( $api_name ) {
 			$structures = $this->manager->structures();
@@ -161,7 +165,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param string $api_name  Unique slug of the API. Must match the slug of a registered structure.
 		 * @param string $route_uri URI of the route.
 		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'GET'.
-		 * @return APIAPI\Core\Request\Route_Request Request object.
+		 * @return \APIAPI\Core\Request\Route_Request Request object.
 		 */
 		public function get_request_object( $api_name, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $api_name )->get_request_object( $route_uri, $method );
@@ -173,8 +177,10 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Request\Route_Request $request The request to send.
-		 * @return APIAPI\Core\Request\Route_Response The returned response.
+		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
+		 * @return \APIAPI\Core\Request\Route_Response The returned response.
+		 *
+		 * @throws \APIAPI\Core\Exception
 		 */
 		public function send_request( $request ) {
 			$this->trigger_hook( 'pre_send_request', $request, $this );
@@ -222,7 +228,9 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @since 1.0.0
 		 * @access private
 		 *
-		 * @param APIAPI\Core\Request\Route_Request $request The request to authenticate.
+		 * @param \APIAPI\Core\Request\Route_Request $request The request to authenticate.
+		 *
+		 * @throws \APIAPI\Core\Exception
 		 */
 		private function authenticate_request( $request ) {
 			$authenticator_name = $request->get_authenticator();

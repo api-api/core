@@ -56,7 +56,7 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * @param string   $hook_name Hook name.
 		 * @param callable $callback  Hook callback.
 		 * @param int      $priority  Optional. Hook priority. Default 10.
-		 * @return APIAPI\Core\Hook Hook object.
+		 * @return \APIAPI\Core\Hook Hook object.
 		 */
 		public function on( $hook_name, $callback, $priority = 10 ) {
 			if ( ! isset( $this->hooks[ $hook_name ] ) ) {
@@ -78,7 +78,7 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Hook $hook Hook object.
+		 * @param \APIAPI\Core\Hook $hook Hook object.
 		 */
 		public function off( $hook ) {
 			$name = $hook->get_name();
@@ -152,8 +152,8 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param APIAPI\Core\Hook $hook1 First hook object.
-		 * @param APIAPI\Core\Hook $hook2 Second hook object.
+		 * @param \APIAPI\Core\Hook $hook1 First hook object.
+		 * @param \APIAPI\Core\Hook $hook2 Second hook object.
 		 * @return int Comparator value.
 		 */
 		protected function sort_callback( $hook1, $hook2 ) {

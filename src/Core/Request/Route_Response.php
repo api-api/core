@@ -50,7 +50,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 *                                                     included though.
 		 * @param string                       $request_method Either 'GET', 'POST', 'PUT', 'PATCH'
 		 *                                                     or 'DELETE'.
-		 * @param APIAPI\Core\Structures\Route $route          Route object for the response.
+		 * @param \APIAPI\Core\Structures\Route $route          Route object for the response.
 		 */
 		public function __construct( $response_data, $request_method, $route ) {
 			$this->route          = $route;
@@ -65,7 +65,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Structures\Route Route object.
+		 * @return \APIAPI\Core\Structures\Route Route object.
 		 */
 		public function get_route_object() {
 			return $this->route;

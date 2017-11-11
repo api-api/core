@@ -76,8 +76,8 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\APIAPI           $apiapi  The API-API instance.
-		 * @param APIAPI\Core\Storages\Storage $storage Storage to persistently store configuration values.
+		 * @param \APIAPI\Core\APIAPI           $apiapi  The API-API instance.
+		 * @param \APIAPI\Core\Storages\Storage $storage Storage to persistently store configuration values.
 		 * @param array                        $args    Optional. Array of arguments. Default empty array.
 		 */
 		public function __construct( $apiapi, $storage, $args = array() ) {

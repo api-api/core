@@ -105,7 +105,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param string                       $base_uri            Base URI for the request.
 		 * @param string                       $method              Either 'GET', 'POST', 'PUT', 'PATCH' or
 		 *                                                          'DELETE'.
-		 * @param APIAPI\Core\Structures\Route $route               Route object for the request.
+		 * @param \APIAPI\Core\Structures\Route $route               Route object for the request.
 		 * @param string                       $route_uri           Route URI for the request.
 		 * @param string                       $authenticator       Optional. Authenticator name. Default
 		 *                                                          empty string.
@@ -342,7 +342,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Structures\Route Route object.
+		 * @return \APIAPI\Core\Structures\Route Route object.
 		 */
 		public function get_route_object() {
 			return $this->route;

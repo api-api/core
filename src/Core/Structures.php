@@ -25,7 +25,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		 * @access public
 		 *
 		 * @param string                                  $name      Unique slug for the structure.
-		 * @param APIAPI\Core\Structures\Structure|string $structure Structure class instance or class name.
+		 * @param \APIAPI\Core\Structures\Structure|string $structure Structure class instance or class name.
 		 */
 		public function register( $name, $structure ) {
 			$args = func_get_args();
@@ -51,7 +51,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the structure.
-		 * @return APIAPI\Core\Structures\Structure|null The structure object, or null if it does not exist.
+		 * @return \APIAPI\Core\Structures\Structure|null The structure object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );

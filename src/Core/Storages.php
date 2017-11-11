@@ -25,7 +25,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * @access public
 		 *
 		 * @param string                              $name    Unique slug for the storage.
-		 * @param APIAPI\Core\Storages\Storage|string $storage Storage class instance or class name.
+		 * @param \APIAPI\Core\Storages\Storage|string $storage Storage class instance or class name.
 		 */
 		public function register( $name, $storage ) {
 			$args = func_get_args();
@@ -51,7 +51,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the storage.
-		 * @return APIAPI\Core\Storages\Storage|null The storage object, or null if it does not exist.
+		 * @return \APIAPI\Core\Storages\Storage|null The storage object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );

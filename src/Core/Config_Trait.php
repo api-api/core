@@ -31,8 +31,8 @@ if ( ! trait_exists( 'APIAPI\Core\Config_Trait' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Config|array|null $config Optional. Configuration object or associative array. Default null.
-		 * @return APIAPI\Core\Config Configuration object for the manager.
+		 * @param \APIAPI\Core\Config|array|null $config Optional. Configuration object or associative array. Default null.
+		 * @return \APIAPI\Core\Config Configuration object for the manager.
 		 */
 		public function config( $config = null ) {
 			if ( ! is_null( $config ) ) {

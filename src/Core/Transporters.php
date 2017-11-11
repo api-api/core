@@ -34,7 +34,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @access public
 		 *
 		 * @param string                                      $name        Unique slug for the transporter.
-		 * @param APIAPI\Core\Transporters\Transporter|string $transporter Transporter class instance or class name.
+		 * @param \APIAPI\Core\Transporters\Transporter|string $transporter Transporter class instance or class name.
 		 */
 		public function register( $name, $transporter ) {
 			$args = func_get_args();
@@ -66,7 +66,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the transporter.
-		 * @return APIAPI\Core\Transporters\Transporter|null The transporter object, or null if it does not exist.
+		 * @return \APIAPI\Core\Transporters\Transporter|null The transporter object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );
@@ -103,7 +103,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Transporters\Transporter|null The default transporter object, or null if not set.
+		 * @return \APIAPI\Core\Transporters\Transporter|null The default transporter object, or null if not set.
 		 */
 		public function get_default() {
 			if ( empty( $this->default ) ) {

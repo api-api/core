@@ -51,7 +51,7 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Hooks $manager  Hooks manager instance.
+		 * @param \APIAPI\Core\Hooks $manager  Hooks manager instance.
 		 * @param string              $name     Hook name.
 		 * @param callable            $callback Hook callback.
 		 * @param int                 $priority Optional. Hook priority. Default 10.

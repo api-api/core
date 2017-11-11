@@ -64,7 +64,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param APIAPI\Core\Request\Route_Request $request The request to send.
+		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
 		 * @return array Parsed authentication data for the request.
 		 */
 		protected function parse_authentication_data( $request ) {

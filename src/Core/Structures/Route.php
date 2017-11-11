@@ -77,7 +77,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                                 'supports_custom_params', 'request_data_type',
 		 *                                 'needs_authentication', 'request_class' and 'response_class'.
 		 * }
-		 * @param APIAPI\Core\Structures\Structure $structure The parent API structure.
+		 * @param \APIAPI\Core\Structures\Structure $structure The parent API structure.
 		 */
 		public function __construct( $uri, $data, $structure ) {
 			$this->uri = $uri;
@@ -257,7 +257,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @param string $authenticator       Optional. Authenticator name. Default empty string.
 		 * @param array  $authentication_data Optional. Authentication data to pass to the authenticator.
 		 *                                    Default empty array.
-		 * @return APIAPI\Core\Request\Route_Request Request object.
+		 * @return \APIAPI\Core\Request\Route_Request Request object.
 		 */
 		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -281,7 +281,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                              Not necessarily all of these are included though.
 		 * @param string $method        Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *                              Default 'GET'.
-		 * @return APIAPI\Core\Request\Route_Response Response object.
+		 * @return \APIAPI\Core\Request\Route_Response Response object.
 		 */
 		public function create_response_object( $response_data, $method = 'GET' ) {
 			if ( ! $this->is_method_supported( $method ) ) {

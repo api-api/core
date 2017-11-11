@@ -202,8 +202,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
-		 * @return APIAPI\Core\Request\API The API object.
+		 * @param \APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
+		 * @return \APIAPI\Core\Request\API The API object.
 		 */
 		public function get_api_object( $apiapi ) {
 			$this->lazyload_setup();
@@ -223,11 +223,11 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\APIAPI $apiapi    The API-API instance to get the API object for.
+		 * @param \APIAPI\Core\APIAPI $apiapi    The API-API instance to get the API object for.
 		 * @param string               $route_uri URI of the route.
 		 * @param string               $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
 		 *                                        or 'DELETE'. Default 'GET'.
-		 * @return APIAPI\Core\Request\Route_Request Request object for the route.
+		 * @return \APIAPI\Core\Request\Route_Request Request object for the route.
 		 */
 		public function get_request_object( $apiapi, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $apiapi )->get_request_object( $route_uri, $method );
@@ -240,7 +240,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @access public
 		 *
 		 * @param string $route_uri URI of the route.
-		 * @return APIAPI\Core\Request\Route The route object.
+		 * @return \APIAPI\Core\Request\Route The route object.
 		 */
 		public function get_route_object( $route_uri ) {
 			$this->lazyload_setup();
@@ -459,8 +459,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @param APIAPI\Core\Request\Route_Response $response Response object.
-		 * @return APIAPI\Core\Request\Route_Response Response object.
+		 * @param \APIAPI\Core\Request\Route_Response $response Response object.
+		 * @return \APIAPI\Core\Request\Route_Response Response object.
 		 */
 		public function process_response( $response ) {
 			$this->lazyload_setup();

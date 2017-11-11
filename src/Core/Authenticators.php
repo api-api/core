@@ -25,7 +25,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @access public
 		 *
 		 * @param string                                          $name          Unique slug for the authenticator.
-		 * @param APIAPI\Core\Authenticators\Authenticator|string $authenticator Authenticator class instance or class name.
+		 * @param \APIAPI\Core\Authenticators\Authenticator|string $authenticator Authenticator class instance or class name.
 		 */
 		public function register( $name, $authenticator ) {
 			$args = func_get_args();
@@ -51,7 +51,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @access public
 		 *
 		 * @param string $name Unique slug of the authenticator.
-		 * @return APIAPI\Core\Authenticators\Authenticator|null The authenticator object, or null if it does not exist.
+		 * @return \APIAPI\Core\Authenticators\Authenticator|null The authenticator object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );

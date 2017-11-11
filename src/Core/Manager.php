@@ -37,7 +37,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Transporters
+		 * @var \APIAPI\Core\Transporters
 		 */
 		private $transporters;
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Structures
+		 * @var \APIAPI\Core\Structures
 		 */
 		private $structures;
 
@@ -55,7 +55,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Authenticators
+		 * @var \APIAPI\Core\Authenticators
 		 */
 		private $authenticators;
 
@@ -64,7 +64,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Storages
+		 * @var \APIAPI\Core\Storages
 		 */
 		private $storages;
 
@@ -73,7 +73,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 *
 		 * @since 1.0.0
 		 * @access private
-		 * @var APIAPI\Core\Hooks
+		 * @var \APIAPI\Core\Hooks
 		 */
 		private $hooks;
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access private
 		 * @static
-		 * @var APIAPI\Core\Manager
+		 * @var \APIAPI\Core\Manager
 		 */
 		private static $instance = null;
 
@@ -113,7 +113,9 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @access public
 		 *
 		 * @param string                     $name   Unique slug for the instance.
-		 * @param APIAPI\Core\Config|array $config Optional. Configuration object or associative array. Default empty array.
+		 * @param \APIAPI\Core\Config|array $config Optional. Configuration object or associative array. Default empty array.
+		 *
+		 * @throws \APIAPI\Core\Exception
 		 */
 		public function create_instance( $name, $config = array() ) {
 			if ( 'manager' === $name ) {
@@ -134,10 +136,10 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @access public
 		 *
 		 * @param string                          $name  Unique slug of the instance.
-		 * @param APIAPI\Core\Config|array|bool $force Optional. Whether to create the instance if it does not exist.
+		 * @param \APIAPI\Core\Config|array|bool $force Optional. Whether to create the instance if it does not exist.
 		 *                                               Can also be a configuration object or array to fill the set up
 		 *                                               the new instance with this configuration. Default false.
-		 * @return APIAPI\Core\APIAPI|null The API-API instance, or null if it does not exist.
+		 * @return \APIAPI\Core\APIAPI|null The API-API instance, or null if it does not exist.
 		 */
 		public function get_instance( $name, $force = false ) {
 			if ( ! isset( $this->instances[ $name ] ) ) {
@@ -162,7 +164,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Transporters The transporters container.
+		 * @return \APIAPI\Core\Transporters The transporters container.
 		 */
 		public function transporters() {
 			return $this->transporters;
@@ -174,7 +176,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Transporters The structures container.
+		 * @return \APIAPI\Core\Transporters The structures container.
 		 */
 		public function structures() {
 			return $this->structures;
@@ -186,7 +188,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Transporters The authenticators container.
+		 * @return \APIAPI\Core\Transporters The authenticators container.
 		 */
 		public function authenticators() {
 			return $this->authenticators;
@@ -198,7 +200,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Storages The storages container.
+		 * @return \APIAPI\Core\Storages The storages container.
 		 */
 		public function storages() {
 			return $this->storages;
@@ -210,7 +212,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 *
-		 * @return APIAPI\Core\Hooks The hooks instance.
+		 * @return \APIAPI\Core\Hooks The hooks instance.
 		 */
 		public function hooks() {
 			return $this->hooks;
@@ -222,7 +224,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 * @static
-		 * @return APIAPI\Core\Manager
+		 * @return \APIAPI\Core\Manager
 		 */
 		public static function instance() {
 			if ( null === self::$instance ) {
