@@ -11,6 +11,7 @@ namespace APIAPI\Core\Request;
 
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Config_Trait;
+use APIAPI\Core\Util;
 
 if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 
