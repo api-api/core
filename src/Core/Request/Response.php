@@ -394,19 +394,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * @return array Parsed array.
 		 */
 		protected function xml_element_to_array( $xml_element ) {
-			$xml_array = (array) $xml_element;
-
-			if ( count( $xml_array ) === 0 ) {
-				return (string) $xml_element;
-			}
-
-			foreach ( $xml_array as $key => $value ) {
-				if ( is_object( $value ) && false !== strpos( get_class( $value ), 'SimpleXML' ) || ! is_object( $value ) ) {
-					$xml_array[ $key ] = $this->xml_element_to_array( $value );
-				}
-			}
-
-			return $xml_array;
+			return json_decode( json_encode( $xml_element ), true );
 		}
 	}
 
