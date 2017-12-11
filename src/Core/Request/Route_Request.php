@@ -274,7 +274,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 			$params = array_merge( $this->route->get_base_uri_params( $this->uri ), $this->route->get_method_params( $this->method ) );
 			foreach ( $params as $param => $param_info ) {
-				if ( ! $param_info['required'] || $param_info['internal'] ) {
+				if ( empty( $param_info['required'] ) || ! empty( $param_info['internal'] ) ) {
 					continue;
 				}
 
