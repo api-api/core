@@ -246,7 +246,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * @return string Canonicalized header name.
 		 */
 		protected function canonicalize_header_name( $header ) {
-			return str_replace( '-', '_', strtolower( $header ) );
+			return strtolower( $header );
 		}
 	}
 
