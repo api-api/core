@@ -179,6 +179,21 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		}
 
 		/**
+		 * Sets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
+		 *                              passed should be the value to set, or null to unset it.
+		 */
+		public function set_subparam( ...$param_path ) {
+			$value = array_pop( $param_path );
+
+			$this->set_subparam_value( $this->params, $param_path, $value );
+		}
+
+		/**
 		 * Sets multiple parameters.
 		 *
 		 * @since 1.0.0
@@ -210,6 +225,19 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		}
 
 		/**
+		 * Gets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		public function get_subparam( ...$param_path ) {
+			return $this->get_subparam_value( $this->params, $param_path );
+		}
+
+		/**
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
@@ -219,6 +247,54 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 */
 		public function get_params() {
 			return $this->params;
+		}
+
+		/**
+		 * Internal utility function to set a nested sub parameter value.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $base_array Array where the value should be set in. Passed by reference.
+		 * @param array $param_path Parameter path.
+		 * @param mixed $value      Value to set.
+		 */
+		protected function set_subparam_value( &$base_array, $param_path, $value ) {
+			$last_param = array_pop( $param_path );
+
+			$location = &$base_array;
+			foreach ( $param_path as $param ) {
+				if ( ! array_key_exists( $param, $location ) ) {
+					$location[ $param ] = array();
+				}
+
+				$location = &$location[ $param ];
+			}
+
+			$location[ $last_param ] = $value;
+		}
+
+		/**
+		 * Internal utility function to get a nested sub parameter value.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $base_array Array where the value should be retrieved from.
+		 * @param array $param_path Parameter path.
+		 * @return mixed Retrieved value, or null if unset.
+		 */
+		protected function get_subparam_value( $base_array, $param_path ) {
+			$location = $base_array;
+			foreach ( $param_path as $param ) {
+				if ( ! array_key_exists( $param, $location ) ) {
+					return null;
+				}
+
+				$location = $location[ $param ];
+			}
+
+			return $location;
 		}
 
 		/**

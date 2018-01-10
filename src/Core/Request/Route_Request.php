@@ -684,54 +684,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		}
 
 		/**
-		 * Internal utility function to set a nested sub parameter value.
-		 *
-		 * @since 1.0.0
-		 * @access protected
-		 *
-		 * @param array $base_array Array where the value should be set in. Passed by reference.
-		 * @param array $param_path Parameter path.
-		 * @param mixed $value      Value to set.
-		 */
-		protected function set_subparam_value( &$base_array, $param_path, $value ) {
-			$last_param = array_pop( $param_path );
-
-			$location = &$base_array;
-			foreach ( $param_path as $param ) {
-				if ( ! array_key_exists( $param, $location ) ) {
-					$location[ $param ] = array();
-				}
-
-				$location = &$location[ $param ];
-			}
-
-			$location[ $last_param ] = $value;
-		}
-
-		/**
-		 * Internal utility function to get a nested sub parameter value.
-		 *
-		 * @since 1.0.0
-		 * @access protected
-		 *
-		 * @param array $base_array Array where the value should be retrieved from.
-		 * @param array $param_path Parameter path.
-		 * @return mixed Retrieved value, or null if unset.
-		 */
-		protected function get_subparam_value( $base_array, $param_path ) {
-			$location = $base_array();
-			foreach ( $param_path as $param ) {
-				if ( ! array_key_exists( $param, $location ) ) {
-					return null;
-				}
-
-				$location = $location[ $param ];
-			}
-
-			return $location;
-		}
-
-		/**
 		 * Parses a parameter value.
 		 *
 		 * @since 1.0.0

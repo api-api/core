@@ -89,6 +89,17 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		public function set_param( $param, $value );
 
 		/**
+		 * Sets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
+		 *                              passed should be the value to set, or null to unset it.
+		 */
+		public function set_subparam( ...$param_path );
+
+		/**
 		 * Sets multiple parameters.
 		 *
 		 * @since 1.0.0
@@ -108,6 +119,17 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * @return mixed Parameter value, or null if unset.
 		 */
 		public function get_param( $param );
+
+		/**
+		 * Gets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		public function get_subparam( ...$param_path );
 
 		/**
 		 * Gets all parameters.

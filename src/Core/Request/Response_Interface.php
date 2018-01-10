@@ -56,6 +56,17 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		public function get_param( $param );
 
 		/**
+		 * Gets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		public function get_subparam( ...$param_path );
+
+		/**
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0

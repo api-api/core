@@ -174,6 +174,19 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		}
 
 		/**
+		 * Gets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		public function get_subparam( ...$param_path ) {
+			return $this->get_subparam_value( $this->params, $param_path );
+		}
+
+		/**
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
@@ -207,6 +220,29 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 */
 		public function get_response_message() {
 			return $this->response['message'];
+		}
+
+		/**
+		 * Internal utility function to get a nested sub parameter value.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $base_array Array where the value should be retrieved from.
+		 * @param array $param_path Parameter path.
+		 * @return mixed Retrieved value, or null if unset.
+		 */
+		protected function get_subparam_value( $base_array, $param_path ) {
+			$location = $base_array;
+			foreach ( $param_path as $param ) {
+				if ( ! array_key_exists( $param, $location ) ) {
+					return null;
+				}
+
+				$location = $location[ $param ];
+			}
+
+			return $location;
 		}
 
 		/**
