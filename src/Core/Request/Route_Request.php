@@ -641,6 +641,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and param data.
+		 * @return mixed Parameter value, or null if unset.
 		 */
 		protected function get_regular_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
@@ -655,7 +656,141 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 			return $value;
 		}
 
-		//TODO: Other set/get subparam methods.
+		/**
+		 * Sets a base URI sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 */
+		protected function set_base_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+			$value      = array_pop( $param_path );
+
+			throw new Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+		}
+
+		/**
+		 * Gets a base URI sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path and param data.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		protected function get_base_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+
+			throw new Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+		}
+
+		/**
+		 * Sets a URI sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 */
+		protected function set_uri_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+			$value      = array_pop( $param_path );
+
+			throw new Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+		}
+
+		/**
+		 * Gets a URI sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path and param data.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		protected function get_uri_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+
+			throw new Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+		}
+
+		/**
+		 * Sets a query sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 */
+		protected function set_query_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+			$value      = array_pop( $param_path );
+
+			$param_info = $this->get_subparam_info( $param_path, $param_info );
+
+			$value = $this->parse_param_value( $value, $param_info );
+
+			$this->set_subparam_value( $this->query_params, $param_path, $value );
+		}
+
+		/**
+		 * Gets a query sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path and param data.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		protected function get_query_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+
+			$value = $this->get_subparam_value( $this->query_params, $param_path );
+			if ( null === $value ) {
+				$param_info = $this->get_subparam_info( $param_path, $param_info );
+
+				return $param_info['default'];
+			}
+
+			return $value;
+		}
+
+		/**
+		 * Sets a custom sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path and value to set.
+		 */
+		protected function set_custom_subparam( ...$param_path ) {
+			$value = array_pop( $param_path );
+
+			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
+				throw new Exception( sprintf( 'Cannot set unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			}
+
+			$this->set_subparam_value( $this->custom_params, $param_path, $value );
+		}
+
+		/**
+		 * Gets a custom sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path.
+		 * @return mixed Parameter value, or null if unset.
+		 */
+		protected function get_custom_subparam( ...$param_path ) {
+			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
+				throw new Exception( sprintf( 'Cannot get unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			}
+
+			return $this->get_subparam_value( $this->custom_params, $param_path );
+		}
 
 		/**
 		 * Internal utility function to get nested sub parameter info.
