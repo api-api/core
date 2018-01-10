@@ -507,18 +507,9 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @access protected
 		 */
 		protected function process_global_params() {
-			foreach ( $this->global_params as $param => &$data ) {
-				$data = Util::parse_args( $data, array(
-					'required'    => false,
-					'description' => '',
-					'type'        => 'string',
-					'default'     => null,
-					'location'    => '',
-					'enum'        => array(),
-					'items'       => array(),
-					'internal'    => false,
-				), true );
-			}
+			$this->global_params = Util::parse_params_data( $this->global_params, array(
+				'internal' => false,
+			) );
 		}
 
 		/**
@@ -573,6 +564,11 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 						$processed_params[ $uri_param ][ $field ] = $params[ $uri_param ][ $field ];
 					}
 				}
+
+				$processed_params[ $uri_param ] = Util::parse_param_data( $processed_params[ $uri_param ], array(
+					'internal' => false,
+					'base'     => false,
+				) );
 			}
 
 			return $processed_params;

@@ -396,19 +396,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @return array Parsed param data.
 		 */
 		private function parse_param_data( $param_data ) {
-			foreach ( $param_data as $param => &$data ) {
-				$data = Util::parse_args( $data, array(
-					'required'    => false,
-					'description' => '',
-					'type'        => 'string',
-					'default'     => null,
-					'location'    => '',
-					'enum'        => array(),
-					'items'       => array(),
-				), true );
-			}
-
-			return $param_data;
+			return Util::parse_params_data( $param_data );
 		}
 	}
 
