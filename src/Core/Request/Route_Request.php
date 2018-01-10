@@ -541,14 +541,14 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		protected function parse_param_value( $value, $param_info ) {
 			switch ( $param_info['type'] ) {
 				case 'boolean':
-					$value = boolval( $value );
+					$value = (bool) $value;
 					break;
 				case 'float':
 				case 'number':
-					$value = floatval( $value );
+					$value = (float) $value;
 					break;
 				case 'integer':
-					$value = intval( $value );
+					$value = (int) $value;
 
 					if ( isset( $param_info['minimum'] ) && $value < $param_info['minimum'] ) {
 						throw new Exception( sprintf( 'The value %1$s is smaller than the minimum allowed value of %2$s.', $value, $param_info['minimum'] ) );
@@ -560,7 +560,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 					break;
 				case 'string':
-					$value = strval( $value );
+					$value = (string) $value;
 
 					if ( ! empty( $param_info['enum'] ) && ! in_array( $value, $param_info['enum'], true ) ) {
 						throw new Exception( sprintf( 'The value %1$s is not within the allowed values of %2$s.', $value, implode( ', ', $param_info['enum'] ) ) );
@@ -570,23 +570,31 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				case 'array':
 					$value = (array) $value;
 
-					if ( isset( $param_info['items'] ) && isset( $param_info['items']['type'] ) ) {
-						switch ( $param_info['items']['type'] ) {
-							case 'boolean':
-								$value = array_map( 'boolval', $value );
-								break;
-							case 'float':
-							case 'number':
-								$value = array_map( 'floatval', $value );
-								break;
-							case 'integer':
-								$value = array_map( 'intval', $value );
-								break;
-							case 'string':
-								$value = array_map( 'strval', $value );
-								break;
+					if ( ! empty( $param_info['items'] ) ) {
+						$values = $value;
+						$value  = array();
+
+						foreach ( $values as $val ) {
+							$value[] = $this->parse_param_value( $value, $param_info['items'] );
 						}
 					}
+					break;
+				case 'object':
+					$value = (array) $value;
+
+					if ( ! empty( $param_info['properties'] ) ) {
+						$values = $value;
+						$value  = array();
+
+						foreach ( $values as $key => $val ) {
+							if ( ! isset( $param_info['properties'][ $key ] ) ) {
+								throw new Exception( sprintf( 'The object property %s is not supported.', $key ) );
+							}
+
+							$value[ $key ] = $this->parse_param_value( $val, $param_info['properties'][ $key ] );
+						}
+					}
+					break;
 			}
 
 			return $value;
