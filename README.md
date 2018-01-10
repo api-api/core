@@ -9,4 +9,4 @@ A library of API components to interact with external APIs.
 ## Requirements
 
 **You should not use this at the moment.**
-Requires PHP >= 5.4
+Requires PHP >= 5.6
