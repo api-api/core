@@ -115,12 +115,16 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 				throw new Exception( sprintf( 'The type %s is not a valid parameter type.', $data['type'] ) );
 			}
 
-			if ( ! empty( $data['items'] ) ) {
+			if ( 'array' === $data['type'] && ! empty( $data['items'] ) ) {
 				$data['items'] = self::parse_param_data( $data['items'] );
+			} else {
+				$data['items'] = array();
 			}
 
-			if ( ! empty( $data['properties'] ) ) {
+			if ( 'object' === $data['type'] && ! empty( $data['properties'] ) ) {
 				$data['properties'] = self::parse_params_data( $data['properties'] );
+			} else {
+				$data['properties'] = array();
 			}
 
 			return $data;
