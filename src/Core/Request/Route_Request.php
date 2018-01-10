@@ -226,6 +226,89 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		}
 
 		/**
+		 * Sets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
+		 *                              passed should be the value to set, or null to unset it.
+		 *
+		 * @throws \APIAPI\Core\Exception
+		 */
+		public function set_subparam( ...$param_path ) {
+			if ( count( $param_path ) < 3 ) {
+				throw new Exception( sprintf( '%s expects at least two parameters and a value to set.', __METHOD__ ) );
+			}
+
+			$param = $param_path[0];
+
+			$params = $this->route->get_base_uri_params( $this->uri );
+			if ( isset( $params[ $param ] ) ) {
+				$param_path[] = $params[ $param ];
+				$this->set_base_subparam( ...$param_path );
+				return;
+			}
+
+			$params = $this->route->get_method_params( $this->method );
+
+			if ( ! isset( $params[ $param ] ) ) {
+				$this->set_custom_subparam( ...$param_path );
+			} else {
+				$param_path[] = $params[ $param ];
+
+				if ( isset( $params[ $param ]['primary'] ) ) {
+					$this->set_uri_subparam( ...$param_path );
+				} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+					$this->set_query_subparam( ...$param_path );
+				} else {
+					$this->set_regular_subparam( ...$param_path );
+				}
+			}
+		}
+
+		/**
+		 * Gets a sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 *
+		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
+		 * @return mixed Parameter value, or null if unset.
+		 *
+		 * @throws \APIAPI\Core\Exception
+		 */
+		public function get_subparam( ...$param_path ) {
+			if ( count( $param_path ) < 2 ) {
+				throw new Exception( sprintf( '%s expects at least two parameters.', __METHOD__ ) );
+			}
+
+			$param = $param_path[0];
+
+			$params = $this->route->get_base_uri_params( $this->uri );
+			if ( isset( $params[ $param ] ) ) {
+				$param_path[] = $params[ $param ];
+				return $this->get_base_subparam( ...$param_path );
+			}
+
+			$params = $this->route->get_method_params( $this->method );
+
+			if ( ! isset( $params[ $param ] ) ) {
+				return $this->get_custom_param( $param );
+			} else {
+				$param_path[] = $params[ $param ];
+
+				if ( isset( $params[ $param ]['primary'] ) ) {
+					return $this->get_uri_subparam( $param, $params[ $param ] );
+				} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+					return $this->get_query_subparam( $param, $params[ $param ] );
+				} else {
+					return $this->get_regular_subparam( $param, $params[ $param ] );
+				}
+			}
+		}
+
+		/**
 		 * Gets all parameters.
 		 *
 		 * URI and query parameters are not included as they are part of the URI.
@@ -526,6 +609,126 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 			}
 
 			return null;
+		}
+
+		/**
+		 * Sets a regular sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 */
+		protected function set_regular_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+			$value      = array_pop( $param_path );
+
+			$param_info = $this->get_subparam_info( $param_path, $param_info );
+
+			$value = $this->parse_param_value( $value, $param_info );
+
+			$this->set_subparam_value( $this->params, $param_path, $value );
+
+			$this->maybe_set_default_content_type();
+		}
+
+
+
+		/**
+		 * Gets a regular sub parameter.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param mixed $param_path,... Parameter path and param data.
+		 */
+		protected function get_regular_subparam( ...$param_path ) {
+			$param_info = array_pop( $param_path );
+
+			$value = $this->get_subparam_value( $this->params, $param_path );
+			if ( null === $value ) {
+				$param_info = $this->get_subparam_info( $param_path, $param_info );
+
+				return $param_info['default'];
+			}
+
+			return $value;
+		}
+
+		//TODO: Other set/get subparam methods.
+
+		/**
+		 * Internal utility function to get nested sub parameter info.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $param_path Parameter path.
+		 * @param array $param_info Param data for the first param.
+		 * @return array Param data for the last param in the path.
+		 *
+		 * @throws \APIAPI\Core\Exception
+		 */
+		protected function get_subparam_info( $param_path, $param_info ) {
+			$first_param = array_shift( $param_path );
+
+			foreach ( $param_path as $param ) {
+				if ( ! isset( $param_info['properties'][ $param ] ) ) {
+					throw new Exception( sprintf( 'The subparam %1$s is not a valid sub property of the param %2$s.', $param, $first_param ) );
+				}
+
+				$param_info = $param_info['properties'][ $param ];
+			}
+
+			return $param_info;
+		}
+
+		/**
+		 * Internal utility function to set a nested sub parameter value.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $base_array Array where the value should be set in. Passed by reference.
+		 * @param array $param_path Parameter path.
+		 * @param mixed $value      Value to set.
+		 */
+		protected function set_subparam_value( &$base_array, $param_path, $value ) {
+			$last_param = array_pop( $param_path );
+
+			$location = &$base_array;
+			foreach ( $param_path as $param ) {
+				if ( ! array_key_exists( $param, $location ) ) {
+					$location[ $param ] = array();
+				}
+
+				$location = &$location[ $param ];
+			}
+
+			$location[ $last_param ] = $value;
+		}
+
+		/**
+		 * Internal utility function to get a nested sub parameter value.
+		 *
+		 * @since 1.0.0
+		 * @access protected
+		 *
+		 * @param array $base_array Array where the value should be retrieved from.
+		 * @param array $param_path Parameter path.
+		 * @return mixed Retrieved value, or null if unset.
+		 */
+		protected function get_subparam_value( $base_array, $param_path ) {
+			$location = $base_array();
+			foreach ( $param_path as $param ) {
+				if ( ! array_key_exists( $param, $location ) ) {
+					return null;
+				}
+
+				$location = $location[ $param ];
+			}
+
+			return $location;
 		}
 
 		/**
