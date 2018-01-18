@@ -1,4 +1,4 @@
-<?php
+f<?php
 /**
  * API-API Main class
  *
@@ -11,6 +11,7 @@ namespace APIAPI\Core;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 use APIAPI\Core\Request\API;
+use APIAPI\Core\Request\Method;
 
 if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
@@ -160,7 +161,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'GET'.
 		 * @return Route_Request Request object.
 		 */
-		public function get_request_object( $api_name, $route_uri, $method = 'GET' ) {
+		public function get_request_object( $api_name, $route_uri, $method = Method::GET ) {
 			return $this->get_api_object( $api_name )->get_request_object( $route_uri, $method );
 		}
 

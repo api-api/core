@@ -12,6 +12,7 @@ namespace APIAPI\Core\Structures;
 use APIAPI\Core\Request\API;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
+use APIAPI\Core\Request\Method;
 use APIAPI\Core\APIAPI;
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Util;
@@ -214,7 +215,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 *                          or 'DELETE'. Default 'GET'.
 		 * @return Route_Request Request object for the route.
 		 */
-		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' ) {
+		public function get_request_object( APIAPI $apiapi, $route_uri, $method = Method::GET ) {
 			return $this->get_api_object( $apiapi )->get_request_object( $route_uri, $method );
 		}
 

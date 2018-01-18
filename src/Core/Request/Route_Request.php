@@ -178,7 +178,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				$this->set_custom_param( $param, $value );
 			} elseif ( isset( $params[ $param ]['primary'] ) ) {
 				$this->set_uri_param( $param, $value, $params[ $param ] );
-			} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+			} elseif ( Method::GET !== $this->method && 'query' === $params[ $param ]['location'] ) {
 				$this->set_query_param( $param, $value, $params[ $param ] );
 			} else {
 				$this->set_regular_param( $param, $value, $params[ $param ] );
@@ -205,7 +205,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 				return $this->get_custom_param( $param );
 			} elseif ( isset( $params[ $param ]['primary'] ) ) {
 				return $this->get_uri_param( $param, $params[ $param ] );
-			} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+			} elseif ( Method::GET !== $this->method && 'query' === $params[ $param ]['location'] ) {
 				return $this->get_query_param( $param, $params[ $param ] );
 			} else {
 				return $this->get_regular_param( $param, $params[ $param ] );
@@ -245,7 +245,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 				if ( isset( $params[ $param ]['primary'] ) ) {
 					$this->set_uri_subparam( ...$param_path );
-				} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+				} elseif ( Method::GET !== $this->method && 'query' === $params[ $param ]['location'] ) {
 					$this->set_query_subparam( ...$param_path );
 				} else {
 					$this->set_regular_subparam( ...$param_path );
@@ -285,7 +285,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 				if ( isset( $params[ $param ]['primary'] ) ) {
 					return $this->get_uri_subparam( $param, $params[ $param ] );
-				} elseif ( 'GET' !== $this->method && 'query' === $params[ $param ]['location'] ) {
+				} elseif ( Method::GET !== $this->method && 'query' === $params[ $param ]['location'] ) {
 					return $this->get_query_subparam( $param, $params[ $param ] );
 				} else {
 					return $this->get_regular_subparam( $param, $params[ $param ] );
@@ -869,7 +869,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @since 1.0.0
 		 */
 		protected function maybe_set_default_content_type() {
-			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {
+			if ( Method::GET !== $this->method && null === $this->get_header( 'content-type' ) ) {
 				if ( $this->should_use_json() ) {
 					$this->set_header( 'content-type', 'application/json' );
 				} else {

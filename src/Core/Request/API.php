@@ -60,7 +60,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		 *                          Default 'GET'.
 		 * @return Route_Request Request object for the route.
 		 */
-		public function get_request_object( $route_uri, $method = 'GET' ) {
+		public function get_request_object( $route_uri, $method = Method::GET ) {
 			$route = $this->structure->get_route_object( $route_uri );
 
 			$mode                = $this->get_mode();

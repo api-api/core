@@ -33,7 +33,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * @since 1.0.0
 		 * @var string
 		 */
-		protected $method = 'GET';
+		protected $method = '';
 
 		/**
 		 * Request headers.
@@ -57,9 +57,9 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @param string $uri    URI for the request.
-		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'. Default 'GET'.
 		 */
-		public function __construct( $uri, $method ) {
+		public function __construct( $uri, $method = Method::GET ) {
 			$this->uri    = $uri;
 			$this->method = $method;
 		}
@@ -285,7 +285,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * @since 1.0.0
 		 */
 		protected function maybe_set_default_content_type() {
-			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {
+			if ( Method::GET !== $this->method && null === $this->get_header( 'content-type' ) ) {
 				$this->set_header( 'content-type', 'application/x-www-form-urlencoded' );
 			}
 		}

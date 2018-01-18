@@ -12,6 +12,7 @@ namespace APIAPI\Core\Structures;
 use APIAPI\Core\Util;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
+use APIAPI\Core\Request\Method;
 
 if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 
@@ -247,7 +248,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *
 		 * @throws Exception Thrown when the request method is not supported by the route.
 		 */
-		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', array $authentication_data = array() ) {
+		public function create_request_object( $route_uri, $method = Method::GET, $mode = '', $authenticator = '', array $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
@@ -272,7 +273,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *
 		 * @throws Exception Thrown when the request method is not supported by the route.
 		 */
-		public function create_response_object( array $response_data, $method = 'GET' ) {
+		public function create_response_object( array $response_data, $method = Method::GET ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
@@ -353,7 +354,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @return array Parsed method data.
 		 */
 		private function parse_method_data( $method_data ) {
-			$method_data = array_intersect_key( $method_data, array_flip( array( 'GET', 'POST', 'PUT', 'PATCH', 'DELETE' ) ) );
+			$method_data = array_intersect_key( $method_data, array_flip( array( Method::GET, Method::POST, Method::PUT, Method::PATCH, Method::DELETE ) ) );
 
 			foreach ( $method_data as $method => &$data ) {
 				$data = Util::parse_args( $data, array(

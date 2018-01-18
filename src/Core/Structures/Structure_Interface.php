@@ -13,6 +13,7 @@ use APIAPI\Core\APIAPI;
 use APIAPI\Core\Request\API;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
+use APIAPI\Core\Request\Method;
 
 if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 
@@ -47,7 +48,7 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 *                          or 'DELETE'. Default 'GET'.
 		 * @return Route_Request Request object for the route.
 		 */
-		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' );
+		public function get_request_object( APIAPI $apiapi, $route_uri, $method = Method::GET );
 
 		/**
 		 * Returns the route object for a specific route.

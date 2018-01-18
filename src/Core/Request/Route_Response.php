@@ -36,7 +36,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * @since 1.0.0
 		 * @var string
 		 */
-		protected $request_method = 'GET';
+		protected $request_method = '';
 
 		/**
 		 * Constructor.
@@ -45,7 +45,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 *
 		 * @param array  $response_data  Response array containing keys 'headers', 'body', and 'response'.
 		 *                               Not necessarily all of these are included though.
-		 * @param string $request_method Either 'GET', 'POST', 'PUT', 'PATCH'  or 'DELETE'.
+		 * @param string $request_method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @param Route  $route          Route object for the response.
 		 */
 		public function __construct( array $response_data, $request_method, Route $route ) {
