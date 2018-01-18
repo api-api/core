@@ -14,6 +14,7 @@ use APIAPI\Core\Request\API;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 use APIAPI\Core\Request\Method;
+use APIAPI\Core\Exception\Invalid_Route_Exception;
 
 if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 
@@ -58,7 +59,7 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * @param string $route_uri URI of the route.
 		 * @return Route The route object.
 		 *
-		 * @throws Exception Thrown when the route URI is invalid.
+		 * @throws Invalid_Route_Exception Thrown when the route URI is invalid.
 		 */
 		public function get_route_object( $route_uri );
 

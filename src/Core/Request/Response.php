@@ -9,7 +9,7 @@
 
 namespace APIAPI\Core\Request;
 
-use APIAPI\Core\Exception;
+use APIAPI\Core\Exception\Response_Parse_Exception;
 
 if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 
@@ -332,6 +332,8 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 *
 		 * @param string $json JSON string to decode.
 		 * @return array Decoded JSON as array.
+		 *
+		 * @throws Response_Parse_Exception Thrown when the JSON string cannot be decoded.
 		 */
 		protected function json_decode( $json ) {
 			$decoded = json_decode( $json, true );
@@ -356,7 +358,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 			}
 
 			if ( ! empty( $error_message ) ) {
-				throw new Exception( 'Could not decode JSON response: ' . $error_message );
+				throw new Response_Parse_Exception( 'Could not decode JSON response: ' . $error_message );
 			}
 
 			return $decoded;
@@ -369,6 +371,8 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 *
 		 * @param string $xml XML string to decode.
 		 * @return array Decoded XML as array.
+		 *
+		 * @throws Response_Parse_Exception Thrown when the XML string cannot be decoded.
 		 */
 		protected function xml_decode( $xml ) {
 			$original_error_setting = libxml_use_internal_errors( true );
@@ -385,15 +389,15 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 				}
 
 				libxml_clear_errors();
-				if ( $original_error_setting !== true ) {
+				if ( true !== $original_error_setting ) {
 					libxml_use_internal_errors( $original_error_setting );
 				}
 
-				throw new Exception( $error_message );
+				throw new Response_Parse_Exception( $error_message );
 			}
 
 			libxml_clear_errors();
-			if ( $original_error_setting !== true ) {
+			if ( true !== $original_error_setting ) {
 				libxml_use_internal_errors( $original_error_setting );
 			}
 

@@ -10,6 +10,7 @@
 namespace APIAPI\Core\Transporters;
 
 use APIAPI\Core\Request\Request;
+use APIAPI\Core\Exception\Request_Transport_Exception;
 
 if ( ! interface_exists( 'APIAPI\Core\Transporters\Transporter_Interface' ) ) {
 
@@ -30,6 +31,8 @@ if ( ! interface_exists( 'APIAPI\Core\Transporters\Transporter_Interface' ) ) {
 		 * @return array The returned response as an array with 'headers', 'body',
 		 *               and 'response' key. The array does not necessarily
 		 *               need to include all of these keys.
+		 *
+		 * @throws Request_Transport_Exception Thrown when the request cannot be sent.
 		 */
 		public function send_request( Request $request );
 	}

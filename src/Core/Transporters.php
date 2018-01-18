@@ -9,6 +9,7 @@
 namespace APIAPI\Core;
 
 use APIAPI\Core\Transporters\Transporter;
+use APIAPI\Core\Exception\Module_Not_Registered_Exception;
 
 if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 
@@ -100,11 +101,11 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 *
 		 * @return Transporter|null The default transporter object, or null if not set.
 		 *
-		 * @throws Exception Thrown when no default transporter is available.
+		 * @throws Module_Not_Registered_Exception Thrown when no default transporter is available.
 		 */
 		public function get_default() {
 			if ( empty( $this->default ) ) {
-				throw new Exception( 'No transporter is available to make a request.' );
+				throw new Module_Not_Registered_Exception( 'No transporter is available to make a request.' );
 			}
 
 			return $this->get( $this->default );

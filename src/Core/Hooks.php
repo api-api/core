@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Exception\Namespace_Violation_Exception;
+
 if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 
 	/**
@@ -75,18 +77,18 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 *
 		 * @param Hook $hook Hook object.
 		 *
-		 * @throws Exception Thrown when hook is not part of this hooks instance.
+		 * @throws Namespace_Violation_Exception Thrown when hook is not part of this hooks instance.
 		 */
 		public function off( Hook $hook ) {
 			$name = $hook->get_name();
 
 			if ( ! isset( $this->hooks[ $name ] ) ) {
-				throw new Exception( sprintf( 'Invalid usage of hook object with hook %s.', $name ) );
+				throw new Namespace_Violation_Exception( sprintf( 'Invalid usage of hook object with hook %s.', $name ) );
 			}
 
 			$key = array_search( $hook, $this->hooks[ $name ], true );
 			if ( false === $key ) {
-				throw new Exception( sprintf( 'Invalid usage of hook object with hook %s.', $name ) );
+				throw new Namespace_Violation_Exception( sprintf( 'Invalid usage of hook object with hook %s.', $name ) );
 			}
 
 			array_splice( $this->hooks[ $name ], $key, 1 );

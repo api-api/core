@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Exception\Invalid_Argument_Exception;
+
 if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 
 	/**
@@ -107,15 +109,15 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * @param string       $name   Unique slug for the instance.
 		 * @param Config|array $config Optional. Configuration object or associative array. Default empty array.
 		 *
-		 * @throws Exception Thrown when the instance name is invalid or a duplicate.
+		 * @throws Invalid_Argument_Exception Thrown when the instance name is invalid or a duplicate.
 		 */
 		public function create_instance( $name, $config = array() ) {
 			if ( 'manager' === $name ) {
-				throw new Exception( 'The name manager is not allowed for an instance.' );
+				throw new Invalid_Argument_Exception( 'The name manager is not allowed for an instance.' );
 			}
 
 			if ( isset( $this->instances[ $name ] ) ) {
-				throw new Exception( sprintf( 'Instance name %s already exists!', $name ) );
+				throw new Invalid_Argument_Exception( sprintf( 'Instance name %s already exists!', $name ) );
 			}
 
 			$this->instances[ $name ] = new APIAPI( $name, $this, $config );

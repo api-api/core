@@ -13,6 +13,7 @@ use APIAPI\Core\Util;
 use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 use APIAPI\Core\Request\Method;
+use APIAPI\Core\Exception\Invalid_Request_Method_Exception;
 
 if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 
@@ -246,11 +247,11 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                                    Default empty array.
 		 * @return Route_Request Request object.
 		 *
-		 * @throws Exception Thrown when the request method is not supported by the route.
+		 * @throws Invalid_Request_Method_Exception Thrown when the request method is not supported by the route.
 		 */
 		public function create_request_object( $route_uri, $method = Method::GET, $mode = '', $authenticator = '', array $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
-				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
+				throw new Invalid_Request_Method_Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
 
 			$class_name = $this->data['methods'][ $method ]['request_class'];
@@ -271,11 +272,11 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                              Default 'GET'.
 		 * @return Route_Response Response object.
 		 *
-		 * @throws Exception Thrown when the request method is not supported by the route.
+		 * @throws Invalid_Request_Method_Exception Thrown when the request method is not supported by the route.
 		 */
 		public function create_response_object( array $response_data, $method = Method::GET ) {
 			if ( ! $this->is_method_supported( $method ) ) {
-				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
+				throw new Invalid_Request_Method_Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
 
 			$class_name = $this->data['methods'][ $method ]['response_class'];

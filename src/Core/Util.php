@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Exception\Invalid_Request_Parameter_Exception;
+
 if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 
 	/**
@@ -94,7 +96,7 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 *                                   those are whitelisted as parameter data. Default empty array.
 		 * @return array Parsed parameter data.
 		 *
-		 * @throws Exception Thrown when the parameter type is invalid.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when the parameter type is invalid.
 		 */
 		public static function parse_param_data( array $data, array $additional_defaults = array() ) {
 			$data = static::parse_args( $data, array_merge( array(
@@ -109,7 +111,7 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 			), $additional_defaults ), true );
 
 			if ( ! in_array( $data['type'], self::get_param_types(), true ) ) {
-				throw new Exception( sprintf( 'The type %s is not a valid parameter type.', $data['type'] ) );
+				throw new Invalid_Request_Parameter_Exception( sprintf( 'The type %s is not a valid parameter type.', $data['type'] ) );
 			}
 
 			if ( 'array' === $data['type'] && ! empty( $data['items'] ) ) {

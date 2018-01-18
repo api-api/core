@@ -9,7 +9,8 @@
 
 namespace APIAPI\Core\Request;
 
-use APIAPI\Core\Exception;
+use APIAPI\Core\Exception\Invalid_Argument_Exception;
+use APIAPI\Core\Exception\Invalid_Request_Parameter_Exception;
 use APIAPI\Core\Structures\Route;
 
 if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
@@ -220,11 +221,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
 		 *                              passed should be the value to set, or null to unset it.
 		 *
-		 * @throws Exception Thrown when the function parameters are invalid.
+		 * @throws Invalid_Argument_Exception Thrown when the function parameters are invalid.
 		 */
 		public function set_subparam( ...$param_path ) {
 			if ( count( $param_path ) < 3 ) {
-				throw new Exception( sprintf( '%s expects at least two parameters and a value to set.', __METHOD__ ) );
+				throw new Invalid_Argument_Exception( sprintf( '%s expects at least two parameters and a value to set.', __METHOD__ ) );
 			}
 
 			$param = $param_path[0];
@@ -261,11 +262,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws Exception Thrown when the function parameters are invalid.
+		 * @throws Invalid_Argument_Exception Thrown when the function parameters are invalid.
 		 */
 		public function get_subparam( ...$param_path ) {
 			if ( count( $param_path ) < 2 ) {
-				throw new Exception( sprintf( '%s expects at least two parameters.', __METHOD__ ) );
+				throw new Invalid_Argument_Exception( sprintf( '%s expects at least two parameters.', __METHOD__ ) );
 			}
 
 			$param = $param_path[0];
@@ -548,11 +549,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param string $param Parameter name.
 		 * @param mixed  $value Parameter value.
 		 *
-		 * @throws Exception Thrown when custom parameters are not supported.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when custom parameters are not supported.
 		 */
 		protected function set_custom_param( $param, $value ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot set unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
+				throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot set unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
 			}
 
 			$this->custom_params[ $param ] = $value;
@@ -568,11 +569,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws Exception Thrown when custom parameters are not supported.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when custom parameters are not supported.
 		 */
 		protected function get_custom_param( $param ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot get unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
+				throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot get unsupported parameter %1$s for route %2$s with method %3$s.', $param, $this->route->get_uri(), $this->method ) );
 			}
 
 			if ( isset( $this->custom_params[ $param ] ) ) {
@@ -632,13 +633,13 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
 		 *
-		 * @throws Exception Thrown to indicate nesting base URI parameters is not possible.
+		 * @throws Invalid_Request_Parameter_Exception Thrown to indicate nesting base URI parameters is not possible.
 		 */
 		protected function set_base_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
 			$value      = array_pop( $param_path );
 
-			throw new Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 		}
 
 		/**
@@ -649,12 +650,12 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws Exception Thrown to indicate nesting base URI parameters is not possible.
+		 * @throws Invalid_Request_Parameter_Exception Thrown to indicate nesting base URI parameters is not possible.
 		 */
 		protected function get_base_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
 
-			throw new Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since base URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 		}
 
 		/**
@@ -664,13 +665,13 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
 		 *
-		 * @throws Exception Thrown to indicate nesting URI parameters is not possible.
+		 * @throws Invalid_Request_Parameter_Exception Thrown to indicate nesting URI parameters is not possible.
 		 */
 		protected function set_uri_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
 			$value      = array_pop( $param_path );
 
-			throw new Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot set sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 		}
 
 		/**
@@ -681,12 +682,12 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws Exception Thrown to indicate nesting URI parameters is not possible.
+		 * @throws Invalid_Request_Parameter_Exception Thrown to indicate nesting URI parameters is not possible.
 		 */
 		protected function get_uri_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
 
-			throw new Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+			throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot get sub parameter %1$s for route %2$s with method %3$s since URI parameters do not support nesting.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 		}
 
 		/**
@@ -735,13 +736,13 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 *
 		 * @param mixed $param_path,... Parameter path and value to set.
 		 *
-		 * @throws Exception Thrown when custom parameters are not supported.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when custom parameters are not supported.
 		 */
 		protected function set_custom_subparam( ...$param_path ) {
 			$value = array_pop( $param_path );
 
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot set unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+				throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot set unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 			}
 
 			$this->set_subparam_value( $this->custom_params, $param_path, $value );
@@ -755,11 +756,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed $param_path,... Parameter path.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws Exception Thrown when custom parameters are not supported.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when custom parameters are not supported.
 		 */
 		protected function get_custom_subparam( ...$param_path ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
-				throw new Exception( sprintf( 'Cannot get unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
+				throw new Invalid_Request_Parameter_Exception( sprintf( 'Cannot get unsupported sub parameter %1$s for route %2$s with method %3$s.', array_pop( $param_path ), $this->route->get_uri(), $this->method ) );
 			}
 
 			return $this->get_subparam_value( $this->custom_params, $param_path );
@@ -774,14 +775,14 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array $param_info Param data for the first param.
 		 * @return array Param data for the last param in the path.
 		 *
-		 * @throws Exception Thrown if a subparam is not valid sub property.
+		 * @throws Invalid_Request_Parameter_Exception Thrown if a subparam is not valid sub property.
 		 */
 		protected function get_subparam_info( array $param_path, array $param_info ) {
 			$first_param = array_shift( $param_path );
 
 			foreach ( $param_path as $param ) {
 				if ( ! isset( $param_info['properties'][ $param ] ) ) {
-					throw new Exception( sprintf( 'The subparam %1$s is not a valid sub property of the param %2$s.', $param, $first_param ) );
+					throw new Invalid_Request_Parameter_Exception( sprintf( 'The subparam %1$s is not a valid sub property of the param %2$s.', $param, $first_param ) );
 				}
 
 				$param_info = $param_info['properties'][ $param ];
@@ -799,7 +800,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array $param_info Parameter info.
 		 * @return mixed The parsed value.
 		 *
-		 * @throws Exception Thrown when the value does not validate against the parameter data schema.
+		 * @throws Invalid_Request_Parameter_Exception Thrown when the value does not validate against the parameter data schema.
 		 */
 		protected function parse_param_value( $value, array $param_info ) {
 			switch ( $param_info['type'] ) {
@@ -814,11 +815,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 					$value = (int) $value;
 
 					if ( isset( $param_info['minimum'] ) && $value < $param_info['minimum'] ) {
-						throw new Exception( sprintf( 'The value %1$s is smaller than the minimum allowed value of %2$s.', $value, $param_info['minimum'] ) );
+						throw new Invalid_Request_Parameter_Exception( sprintf( 'The value %1$s is smaller than the minimum allowed value of %2$s.', $value, $param_info['minimum'] ) );
 					}
 
 					if ( isset( $param_info['maximum'] ) && $value > $param_info['maximum'] ) {
-						throw new Exception( sprintf( 'The value %1$s is greater than the maximum allowed value of %2$s.', $value, $param_info['maximum'] ) );
+						throw new Invalid_Request_Parameter_Exception( sprintf( 'The value %1$s is greater than the maximum allowed value of %2$s.', $value, $param_info['maximum'] ) );
 					}
 
 					break;
@@ -826,7 +827,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 					$value = (string) $value;
 
 					if ( ! empty( $param_info['enum'] ) && ! in_array( $value, $param_info['enum'], true ) ) {
-						throw new Exception( sprintf( 'The value %1$s is not within the allowed values of %2$s.', $value, implode( ', ', $param_info['enum'] ) ) );
+						throw new Invalid_Request_Parameter_Exception( sprintf( 'The value %1$s is not within the allowed values of %2$s.', $value, implode( ', ', $param_info['enum'] ) ) );
 					}
 
 					break;
@@ -851,7 +852,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
 						foreach ( $values as $key => $val ) {
 							if ( ! isset( $param_info['properties'][ $key ] ) ) {
-								throw new Exception( sprintf( 'The object property %s is not supported.', $key ) );
+								throw new Invalid_Request_Parameter_Exception( sprintf( 'The object property %s is not supported.', $key ) );
 							}
 
 							$value[ $key ] = $this->parse_param_value( $val, $param_info['properties'][ $key ] );

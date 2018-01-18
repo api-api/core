@@ -10,6 +10,7 @@
 namespace APIAPI\Core\Authenticators;
 
 use APIAPI\Core\Request\Route_Request;
+use APIAPI\Core\Exception\Request_Authentication_Exception;
 
 if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) ) {
 
@@ -30,6 +31,8 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * @since 1.0.0
 		 *
 		 * @param Route_Request $request The request to send.
+		 *
+		 * @throws Request_Authentication_Exception Thrown when the request cannot be authenticated.
 		 */
 		public function authenticate_request( Route_Request $request );
 

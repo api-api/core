@@ -8,6 +8,7 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Exception\Invalid_Argument_Exception;
 use ReflectionClass;
 
 if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
@@ -74,11 +75,11 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * @param string        $name   Unique slug for the module.
 		 * @param object|string $module Module class instance or class name.
 		 *
-		 * @throws Exception Thrown when module is already registered or an invalid class.
+		 * @throws Invalid_Argument_Exception Thrown when module is already registered or an invalid class.
 		 */
 		public function register( $name, $module ) {
 			if ( $this->is_registered( $name ) ) {
-				throw new Exception( sprintf( 'The %1$s %2$s already exists.', $this->type, $name ) );
+				throw new Invalid_Argument_Exception( sprintf( 'The %1$s %2$s already exists.', $this->type, $name ) );
 			}
 
 			if ( is_string( $module ) ) {
@@ -95,7 +96,7 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 			}
 
 			if ( ! is_a( $module, $this->module_class_name ) ) {
-				throw new Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
+				throw new Invalid_Argument_Exception( sprintf( 'The %1$s %2$s must have a subclass of %3$s.', $this->type, $name, $this->module_class_name ) );
 			}
 
 			$this->modules[ $name ] = $module;

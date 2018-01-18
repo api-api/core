@@ -16,7 +16,7 @@ use APIAPI\Core\Request\Method;
 use APIAPI\Core\APIAPI;
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Util;
-use APIAPI\Core\Exception;
+use APIAPI\Core\Exception\Invalid_Route_Exception;
 
 if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 
@@ -227,7 +227,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @param string $route_uri URI of the route.
 		 * @return Route The route object.
 		 *
-		 * @throws Exception Thrown when the route URI is invalid.
+		 * @throws Invalid_Route_Exception Thrown when the route URI is invalid.
 		 */
 		public function get_route_object( $route_uri ) {
 			$this->lazyload_setup();
@@ -242,7 +242,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 				}
 			}
 
-			throw new Exception( sprintf( 'The API %1$s does not provide a route for %2$s.', $this->name, $route_uri ) );
+			throw new Invalid_Route_Exception( sprintf( 'The API %1$s does not provide a route for %2$s.', $this->name, $route_uri ) );
 		}
 
 		/**

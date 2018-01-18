@@ -12,6 +12,9 @@ use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 use APIAPI\Core\Request\API;
 use APIAPI\Core\Request\Method;
+use APIAPI\Core\Exception\Namespace_Violation_Exception;
+use APIAPI\Core\Exception\Module_Not_Registered_Exception;
+use APIAPI\Core\Exception\Invalid_Request_Exception;
 
 if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 
@@ -87,13 +90,13 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @param Hook $hook Hook object.
 		 *
-		 * @throws Exception Thrown when hook was not created by this APIAPI instance.
+		 * @throws Namespace_Violation_Exception Thrown when hook was not created by this APIAPI instance.
 		 */
 		public function hook_off( Hook $hook ) {
 			$hook_name = $hook->get_name();
 
 			if ( 0 !== strpos( $hook_name, 'apiapi.' . $this->get_name() . '.' ) ) {
-				throw new Exception( sprintf( 'Invalid usage of hook object with hook %s.', $hook_name ) );
+				throw new Namespace_Violation_Exception( sprintf( 'Invalid usage of hook object with hook %s.', $hook_name ) );
 			}
 
 			$this->manager->hooks()->off( $hook );
@@ -137,13 +140,13 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param string $api_name Unique slug of the API. Must match the slug of a registered structure.
 		 * @return API The API object.
 		 *
-		 * @throws Exception Thrown when the structure with the slug is not registered.
+		 * @throws Module_Not_Registered_Exception Thrown when the structure with the slug is not registered.
 		 */
 		public function get_api_object( $api_name ) {
 			$structures = $this->manager->structures();
 
 			if ( ! $structures->is_registered( $api_name ) ) {
-				throw new Exception( sprintf( 'The structure for the API %s is not registered.', $api_name ) );
+				throw new Module_Not_Registered_Exception( sprintf( 'The structure for the API %s is not registered.', $api_name ) );
 			}
 
 			$structure = $structures->get( $api_name );
@@ -173,14 +176,15 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param Route_Request $request The request to send.
 		 * @return Route_Response The returned response.
 		 *
-		 * @throws Exception Thrown when request is invalid.
+		 * @throws Invalid_Request_Exception       Thrown when request is invalid.
+		 * @throws Module_Not_Registered_Exception Thrown when the required transporter cannot be found.
 		 */
 		public function send_request( Route_Request $request ) {
 			$this->trigger_hook( 'pre_send_request', $request, $this );
 
 			$missing_parameters = $request->is_valid();
 			if ( is_array( $missing_parameters ) ) {
-				throw new Exception( sprintf( 'The request to send is invalid. The following required parameters have not been provided: %s', implode( ', ', $missing_parameters ) ) );
+				throw new Invalid_Request_Exception( sprintf( 'The request to send is invalid. The following required parameters have not been provided: %s', implode( ', ', $missing_parameters ) ) );
 			}
 
 			$this->authenticate_request( $request );
@@ -190,13 +194,13 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 			if ( ! $this->config->exists( 'transporter' ) ) {
 				$transporter = $transporters->get_default();
 				if ( null === $transporter ) {
-					throw new Exception( 'The request cannot be sent as no transporter is available.' );
+					throw new Module_Not_Registered_Exception( 'The request cannot be sent as no transporter is available.' );
 				}
 			} else {
 				$transporter_name = $this->config->get( 'transporter' );
 
 				if ( ! $transporters->is_registered( $transporter_name ) ) {
-					throw new Exception( sprintf( 'The request cannot be sent as the transporter with the name %s is not registered.', $transporter_name ) );
+					throw new Module_Not_Registered_Exception( sprintf( 'The request cannot be sent as the transporter with the name %s is not registered.', $transporter_name ) );
 				}
 
 				$transporter = $transporters->get( $transporter_name );
@@ -222,7 +226,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @param Route_Request $request The request to authenticate.
 		 *
-		 * @throws Exception Thrown when request cannot be authenticated.
+		 * @throws Module_Not_Registered_Exception Thrown when the authenticator cannot be found.
 		 */
 		private function authenticate_request( Route_Request $request ) {
 			$authenticator_name = $request->get_authenticator();
@@ -232,7 +236,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 				$authenticators = $this->manager->authenticators();
 
 				if ( ! $authenticators->is_registered( $authenticator_name ) ) {
-					throw new Exception( sprintf( 'The request cannot be authenticated as the authenticator with the name %s is not registered.', $authenticator_name ) );
+					throw new Module_Not_Registered_Exception( sprintf( 'The request cannot be authenticated as the authenticator with the name %s is not registered.', $authenticator_name ) );
 				}
 
 				$authenticator = $authenticators->get( $authenticator_name );
@@ -249,7 +253,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @throws Exception Thrown when storage set in the config is not registered.
+		 * @throws Module_Not_Registered_Exception Thrown when storage set in the config is not registered.
 		 */
 		private function set_config_updater() {
 			$config = $this->config();
@@ -272,7 +276,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 			$storages = $this->manager->storages();
 
 			if ( ! $storages->is_registered( $storage_name ) ) {
-				throw new Exception( sprintf( 'The storage %s is not registered.', $storage_name ) );
+				throw new Module_Not_Registered_Exception( sprintf( 'The storage %s is not registered.', $storage_name ) );
 			}
 
 			$storage = $storages->get( $storage_name );

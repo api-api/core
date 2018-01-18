@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Exception\Namespace_Violation_Exception;
+
 if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 
 	/**
@@ -69,13 +71,13 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 *
 		 * @param array $args Parameters to pass to the callback.
 		 *
-		 * @throws Exception Thrown when the hook is manually triggered.
+		 * @throws Namespace_Violation_Exception Thrown when the hook is manually triggered.
 		 */
 		public function execute( array $args ) {
 			if ( ! $this->manager->is_hook_triggered( $this->name ) ) {
 				$callback = $this->get_callback_string();
 
-				throw new Exception( sprintf( 'Invalid manual execution of hook %s.', $callback ) );
+				throw new Namespace_Violation_Exception( sprintf( 'Invalid manual execution of hook %s.', $callback ) );
 			}
 
 			array_unshift( $args, $this );
