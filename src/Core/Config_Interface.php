@@ -20,7 +20,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * Checks whether a specific parameter is set.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param    Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -32,7 +31,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * Returns the value for a specific parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param    Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -44,7 +42,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * Sets a specific parameter to a given value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param             Name of the parameter.
 		 * @param string $value_or_subparam Either new value for the parameter or, when
@@ -61,7 +58,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * It is not possible to delete default parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -75,7 +71,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * unprovided parameters will be filled with their default values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $params Associative array of config parameters with their values.
 		 * @param bool  $reset  Optional. Whether to reset all parameters to the specified ones. Default false.
@@ -86,7 +81,6 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * Returns all parameters with their values as an associative array.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Associative array of config parameters with their values.
 		 */

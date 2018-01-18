@@ -28,7 +28,6 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The API-API instances.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @var array
 		 */
 		private $instances;
@@ -37,8 +36,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The transporters container.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var \APIAPI\Core\Transporters
+		 * @var Transporters
 		 */
 		private $transporters;
 
@@ -46,8 +44,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The structures container.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var \APIAPI\Core\Structures
+		 * @var Structures
 		 */
 		private $structures;
 
@@ -55,8 +52,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The authenticators container.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var \APIAPI\Core\Authenticators
+		 * @var Authenticators
 		 */
 		private $authenticators;
 
@@ -64,8 +60,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The storages container.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var \APIAPI\Core\Storages
+		 * @var Storages
 		 */
 		private $storages;
 
@@ -73,8 +68,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * The hooks instance.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var \APIAPI\Core\Hooks
+		 * @var Hooks
 		 */
 		private $hooks;
 
@@ -82,9 +76,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Instance holder.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @static
-		 * @var \APIAPI\Core\Manager
+		 * @var Manager
 		 */
 		private static $instance = null;
 
@@ -92,7 +85,6 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 */
 		private function __construct() {
 			$this->instances = array();
@@ -111,12 +103,11 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Creates a new API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                     $name   Unique slug for the instance.
-		 * @param \APIAPI\Core\Config|array $config Optional. Configuration object or associative array. Default empty array.
+		 * @param string       $name   Unique slug for the instance.
+		 * @param Config|array $config Optional. Configuration object or associative array. Default empty array.
 		 *
-		 * @throws \APIAPI\Core\Exception
+		 * @throws Exception Thrown when the instance name is invalid or a duplicate.
 		 */
 		public function create_instance( $name, $config = array() ) {
 			if ( 'manager' === $name ) {
@@ -134,13 +125,12 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns a specific API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                          $name  Unique slug of the instance.
-		 * @param \APIAPI\Core\Config|array|bool $force Optional. Whether to create the instance if it does not exist.
-		 *                                               Can also be a configuration object or array to fill the set up
-		 *                                               the new instance with this configuration. Default false.
-		 * @return \APIAPI\Core\APIAPI|null The API-API instance, or null if it does not exist.
+		 * @param string            $name  Unique slug of the instance.
+		 * @param Config|array|bool $force Optional. Whether to create the instance if it does not exist.
+		 *                                 Can also be a configuration object or array to fill the set up
+		 *                                 the new instance with this configuration. Default false.
+		 * @return APIAPI|null The API-API instance, or null if it does not exist.
 		 */
 		public function get_instance( $name, $force = false ) {
 			if ( ! isset( $this->instances[ $name ] ) ) {
@@ -149,7 +139,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 				}
 
 				$config = array();
-				if ( is_a( $force, 'APIAPI\Core\Config' ) || is_array( $force ) ) {
+				if ( is_a( $force, Config::class ) || is_array( $force ) ) {
 					$config = $force;
 				}
 
@@ -163,9 +153,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the transporters container.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Transporters The transporters container.
+		 * @return Transporters The transporters container.
 		 */
 		public function transporters() {
 			return $this->transporters;
@@ -175,9 +164,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the structures container.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Transporters The structures container.
+		 * @return Transporters The structures container.
 		 */
 		public function structures() {
 			return $this->structures;
@@ -187,9 +175,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the authenticators container.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Transporters The authenticators container.
+		 * @return Transporters The authenticators container.
 		 */
 		public function authenticators() {
 			return $this->authenticators;
@@ -199,9 +186,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the storages container.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Storages The storages container.
+		 * @return Storages The storages container.
 		 */
 		public function storages() {
 			return $this->storages;
@@ -211,9 +197,8 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the hooks instance.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Hooks The hooks instance.
+		 * @return Hooks The hooks instance.
 		 */
 		public function hooks() {
 			return $this->hooks;
@@ -223,9 +208,9 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		 * Returns the canonical API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
-		 * @return \APIAPI\Core\Manager
+		 *
+		 * @return Manager
 		 */
 		public static function instance() {
 			if ( null === self::$instance ) {

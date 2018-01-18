@@ -27,7 +27,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 * Contains status messages.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @static
 		 * @var array
 		 */
@@ -37,7 +36,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Slug of the instance.
 		 */
@@ -51,7 +49,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 * Returns the status message for a given status code.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
 		 *
 		 * @param int $status_code Status code.
@@ -69,7 +66,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters\Transporter' ) ) {
 		 * Sets the available status messages.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @static
 		 */
 		protected static function set_status_messages() {

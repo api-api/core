@@ -20,7 +20,6 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 * Parses an object or query string into an array of arguments, optionally filled with defaults.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
 		 *
 		 * @param array|string|object $args     Input to parse.
@@ -53,7 +52,6 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 * Parses data for multiple parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
 		 *
 		 * @param array $params              Associative array of parameters and their data.
@@ -73,7 +71,6 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 * Parses data for a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
 		 *
 		 * @param array $data                {
@@ -97,7 +94,7 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 *                                   those are whitelisted as parameter data. Default empty array.
 		 * @return array Parsed parameter data.
 		 *
-		 * @throws \APIAPI\Core\Exception
+		 * @throws Exception Thrown when the parameter type is invalid.
 		 */
 		public static function parse_param_data( array $data, array $additional_defaults = array() ) {
 			$data = static::parse_args( $data, array_merge( array(
@@ -134,7 +131,6 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 * Gets the available types a parameter can have.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 * @static
 		 *
 		 * @return array Array of types.

@@ -25,8 +25,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * The route object for this response.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Structures\Route
+		 * @var Route
 		 */
 		protected $route;
 
@@ -35,7 +34,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $request_method = 'GET';
@@ -44,15 +42,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param array                        $response_data  Response array containing keys
-		 *                                                     'headers', 'body', and 'response'.
-		 *                                                     Not necessarily all of these are
-		 *                                                     included though.
-		 * @param string                       $request_method Either 'GET', 'POST', 'PUT', 'PATCH'
-		 *                                                     or 'DELETE'.
-		 * @param \APIAPI\Core\Structures\Route $route          Route object for the response.
+		 * @param array  $response_data  Response array containing keys 'headers', 'body', and 'response'.
+		 *                               Not necessarily all of these are included though.
+		 * @param string $request_method Either 'GET', 'POST', 'PUT', 'PATCH'  or 'DELETE'.
+		 * @param Route  $route          Route object for the response.
 		 */
 		public function __construct( array $response_data, $request_method, Route $route ) {
 			$this->route          = $route;
@@ -65,9 +59,8 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 * Returns the route object.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Structures\Route Route object.
+		 * @return Route Route object.
 		 */
 		public function get_route_object() {
 			return $this->route;

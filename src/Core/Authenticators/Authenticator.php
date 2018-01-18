@@ -29,7 +29,6 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * Default authentication arguments.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $default_args = array();
@@ -38,7 +37,6 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Slug of the instance.
 		 */
@@ -51,7 +49,6 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * Returns the default arguments.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of `$key => $value` pairs.
 		 */
@@ -63,9 +60,8 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * Parses request authentication data.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
-		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
+		 * @param Route_Request $request The request to send.
 		 * @return array Parsed authentication data for the request.
 		 */
 		protected function parse_authentication_data( Route_Request $request ) {
@@ -76,7 +72,6 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * Sets the default authentication arguments.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected abstract function set_default_args();
 	}

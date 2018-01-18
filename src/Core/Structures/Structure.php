@@ -10,6 +10,7 @@
 namespace APIAPI\Core\Structures;
 
 use APIAPI\Core\Request\API;
+use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 use APIAPI\Core\APIAPI;
 use APIAPI\Core\Name_Trait;
@@ -33,7 +34,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * configuration for this structure.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $config_key = '';
@@ -42,7 +42,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Title of the API.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $title = '';
@@ -51,7 +50,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Description of the API.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $description = '';
@@ -60,7 +58,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Base URI for the API.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $base_uri = '';
@@ -69,7 +66,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Parameters that are part of the base URI. Some APIs use such.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $base_uri_params = array();
@@ -79,7 +75,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Must be an associative array of $mode => $uri pairs.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $advanced_uris = array();
@@ -88,7 +83,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Parameters that are part of the advanced URIs. Some APIs use such.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $advanced_uri_params = array();
@@ -97,7 +91,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Route objects as part of this structure.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $routes = array();
@@ -106,7 +99,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Optional global parameters the API supports.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $global_params = array();
@@ -115,7 +107,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Name of the authenticator to use for the API.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $authenticator = '';
@@ -124,7 +115,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Default authentication data to pass to the authenticator.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $authentication_data_defaults = array();
@@ -134,7 +124,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * modes. Must be an associative array of $mode => $defaults pairs.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $advanced_authentication_data_defaults = array();
@@ -143,7 +132,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Whether the class has been setup.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var bool
 		 */
 		protected $setup_loaded = false;
@@ -152,7 +140,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Container for API-API-specific instances of this API.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @var array
 		 */
 		private $api_objects = array();
@@ -161,7 +148,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Slug of the instance.
 		 */
@@ -180,7 +166,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * This method is invoked whenever a relevant class method is called.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function lazyload_setup() {
 			if ( $this->setup_loaded ) {
@@ -202,10 +187,9 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * The API object will be instantiated if it does not exist yet.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
-		 * @return \APIAPI\Core\Request\API The API object.
+		 * @param APIAPI $apiapi The API-API instance to get the API object for.
+		 * @return API The API object.
 		 */
 		public function get_api_object( APIAPI $apiapi ) {
 			$this->lazyload_setup();
@@ -223,13 +207,12 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns a scoped request object for a specific route of this API.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\APIAPI $apiapi    The API-API instance to get the API object for.
-		 * @param string               $route_uri URI of the route.
-		 * @param string               $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
-		 *                                        or 'DELETE'. Default 'GET'.
-		 * @return \APIAPI\Core\Request\Route_Request Request object for the route.
+		 * @param APIAPI $apiapi    The API-API instance to get the API object for.
+		 * @param string $route_uri URI of the route.
+		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
+		 *                          or 'DELETE'. Default 'GET'.
+		 * @return Route_Request Request object for the route.
 		 */
 		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $apiapi )->get_request_object( $route_uri, $method );
@@ -239,10 +222,11 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the route object for a specific route.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $route_uri URI of the route.
-		 * @return \APIAPI\Core\Request\Route The route object.
+		 * @return Route The route object.
+		 *
+		 * @throws Exception Thrown when the route URI is invalid.
 		 */
 		public function get_route_object( $route_uri ) {
 			$this->lazyload_setup();
@@ -258,28 +242,30 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			}
 
 			throw new Exception( sprintf( 'The API %1$s does not provide a route for %2$s.', $this->name, $route_uri ) );
-
-			return null;
 		}
 
 		/**
 		 * Checks whether a specific route exists.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $route_uri URI of the route.
 		 * @return bool True if the route exists, otherwise false.
 		 */
 		public function has_route( $route_uri ) {
-			return ! is_null( $this->get_route_object( $route_uri ) );
+			try {
+				$route = $this->get_route_object( $route_uri );
+			} catch ( Exception $e ) {
+				return false;
+			}
+
+			return ! is_null( $route );
 		}
 
 		/**
 		 * Returns all available routes.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of route objects.
 		 */
@@ -293,7 +279,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the available global parameters information.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Global parameters as `$param => $param_info` pairs.
 		 */
@@ -307,7 +292,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the authenticator name for the API.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Authenticator name, or empty string if not set.
 		 */
@@ -321,7 +305,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the default data to send to the authenticator.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $mode Optional. Mode for which to get the authentication data
 		 *                     defaults. Default empty.
@@ -341,7 +324,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Checks whether the API should use an authenticator.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return bool True if the API should use an authenticator, otherwise false.
 		 */
@@ -355,7 +337,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns this API's base URI for a specific mode.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $mode Optional. Mode for which to get the base URI. Default empty.
 		 * @return string Base URI.
@@ -374,7 +355,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns required parameters that are part of this API's base URI for a specific mode.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $mode Optional. Mode for which to get the base URI parameters. Default empty.
 		 * @return array Base URI parameters.
@@ -393,7 +373,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns required parameters that are part of a given base URI.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $base_uri Base URI.
 		 * @return array Base URI parameters.
@@ -419,7 +398,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * This identifies the configuration array where values for this API are stored in.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The config key.
 		 */
@@ -431,7 +409,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the API title.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The title.
 		 */
@@ -443,7 +420,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Returns the API description.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The description.
 		 */
@@ -459,7 +435,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * throw an exception.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param \APIAPI\Core\Request\Route_Response $response Response object.
 		 * @return \APIAPI\Core\Request\Route_Response Response object.
@@ -478,7 +453,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * class and default authentication data.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected abstract function setup();
 
@@ -486,7 +460,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Ensures that all routes are real route objects instead of plain arrays.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function process_routes() {
 			$route_objects = array();
@@ -506,7 +479,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Ensures that all global parameters contain the necessary data.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function process_global_params() {
 			$this->global_params = Util::parse_params_data( $this->global_params, array(
@@ -518,7 +490,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Ensures that all URI parameters contain the necessary data.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function process_uri_params() {
 			$this->base_uri_params = $this->process_uri_params_set( $this->base_uri, $this->base_uri_params );
@@ -536,7 +507,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * Processes a single set of URI and its params.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $uri    URI to extract params from.
 		 * @param array  $params Parameter definition, if already provided.

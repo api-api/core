@@ -20,8 +20,7 @@ if ( ! trait_exists( 'APIAPI\Core\Config_Trait' ) ) {
 		 * Configuration object.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Config
+		 * @var Config
 		 */
 		protected $config;
 
@@ -29,10 +28,9 @@ if ( ! trait_exists( 'APIAPI\Core\Config_Trait' ) ) {
 		 * Returns or sets the configuration object.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Config|array|null $config Optional. Configuration object or associative array. Default null.
-		 * @return \APIAPI\Core\Config Configuration object for the manager.
+		 * @param Config|array|null $config Optional. Configuration object or associative array. Default null.
+		 * @return Config Configuration object for the manager.
 		 */
 		public function config( $config = null ) {
 			if ( ! is_null( $config ) ) {

@@ -23,7 +23,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Stores a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -36,7 +35,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Stores multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename        The basename under which to store.
 		 * @param string $group           The group identifier of the group in which to store.
@@ -48,7 +46,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Retrieves a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -61,7 +58,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Retrieves multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -75,7 +71,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Deletes a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -87,7 +82,6 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * Deletes multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.

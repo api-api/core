@@ -22,7 +22,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Hook name.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $name = '';
@@ -31,7 +30,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Hook callback.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var callable
 		 */
 		protected $callback = null;
@@ -40,7 +38,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Hook priority.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var int
 		 */
 		protected $priority = 10;
@@ -49,12 +46,11 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Hooks $manager  Hooks manager instance.
-		 * @param string              $name     Hook name.
-		 * @param callable            $callback Hook callback.
-		 * @param int                 $priority Optional. Hook priority. Default 10.
+		 * @param Hooks    $manager  Hooks manager instance.
+		 * @param string   $name     Hook name.
+		 * @param callable $callback Hook callback.
+		 * @param int      $priority Optional. Hook priority. Default 10.
 		 */
 		public function __construct( Hooks $manager, $name, callable $callback, $priority = 10 ) {
 			$this->manager = $manager;
@@ -70,9 +66,10 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * The hook object itself and any hook parameters are passed to the callback.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param array Parameters to pass to the callback.
+		 * @param array $args Parameters to pass to the callback.
+		 *
+		 * @throws Exception Thrown when the hook is manually triggered.
 		 */
 		public function execute( array $args ) {
 			if ( ! $this->manager->is_hook_triggered( $this->name ) ) {
@@ -90,7 +87,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Returns the hook name.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Hook name.
 		 */
@@ -102,7 +98,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Returns the hook priority.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return int Hook priority.
 		 */
@@ -114,7 +109,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Removes this callback so that it is not executed again.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 */
 		public function remove() {
 			$this->manager->off( $this );
@@ -124,7 +118,6 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * Returns a string representation of the hook callback.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Representation of the callback.
 		 */

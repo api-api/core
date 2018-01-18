@@ -27,7 +27,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * The route's base URI. May contain regular expressions.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @var string
 		 */
 		private $uri;
@@ -36,8 +35,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * The API structure this route belongs to.
 		 *
 		 * @since 1.0.0
-		 * @access private
-		 * @var APIAPI\Core\Structures\Structure
+		 * @var Structure
 		 */
 		private $structure;
 
@@ -45,7 +43,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Array of primary parameters.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @var array
 		 */
 		private $primary_params = array();
@@ -54,7 +51,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Array of supported methods and their data.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 * @var array
 		 */
 		private $data = array();
@@ -63,10 +59,9 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                             $uri       The route's base URI.
-		 * @param array                              $data      {
+		 * @param string    $uri       The route's base URI.
+		 * @param array     $data      {
 		 *     Array of route data.
 		 *
 		 *     @type array $primary_params Array of primary parameters as `$param_name => $param_data`
@@ -79,7 +74,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                                 'supports_custom_params', 'request_data_type',
 		 *                                 'needs_authentication', 'request_class' and 'response_class'.
 		 * }
-		 * @param \APIAPI\Core\Structures\Structure $structure The parent API structure.
+		 * @param Structure $structure The parent API structure.
 		 */
 		public function __construct( $uri, array $data, Structure $structure ) {
 			$this->uri = $uri;
@@ -95,7 +90,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns the URI for this route.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The base URI.
 		 */
@@ -107,7 +101,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns the description for what a specific method does.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @return string Description for what the method does at this route, or empty
@@ -125,7 +118,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns the available base parameter information for a specific base URI.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $base_uri Base URI.
 		 * @return array Array of URI parameters.
@@ -138,7 +130,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns the available parameter information for a specific method.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method      Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @param bool   $include_all Optional. Whether to also include primary and global parameters.
@@ -161,7 +152,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns the available primary parameter information.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of primary parameters.
 		 */
@@ -173,7 +163,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Checks whether a specific method supports custom parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @return bool Whether custom parameters are supported, or false if method not supported.
@@ -190,7 +179,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Checks whether a specific method requires the request data as JSON.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @return bool Whether request data is used as JSON, or false if method not supported.
@@ -207,7 +195,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Checks whether a specific method needs authentication.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @return bool Whether authentication is needed, or false if method not supported.
@@ -224,7 +211,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Checks whether a specific method is supported.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 * @return bool True if the method is supported, otherwise false.
@@ -237,7 +223,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Returns all supported methods.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of methods.
 		 */
@@ -249,7 +234,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Creates a request object based on parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $route_uri           Route URI for the request.
 		 * @param string $method              Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
@@ -259,7 +243,9 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @param string $authenticator       Optional. Authenticator name. Default empty string.
 		 * @param array  $authentication_data Optional. Authentication data to pass to the authenticator.
 		 *                                    Default empty array.
-		 * @return \APIAPI\Core\Request\Route_Request Request object.
+		 * @return Route_Request Request object.
+		 *
+		 * @throws Exception Thrown when the request method is not supported by the route.
 		 */
 		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', array $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -277,13 +263,14 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Creates a response object based on parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array  $response_data Response array containing keys 'headers', 'body', and 'response'.
 		 *                              Not necessarily all of these are included though.
 		 * @param string $method        Optional. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *                              Default 'GET'.
-		 * @return \APIAPI\Core\Request\Route_Response Response object.
+		 * @return Route_Response Response object.
+		 *
+		 * @throws Exception Thrown when the request method is not supported by the route.
 		 */
 		public function create_response_object( array $response_data, $method = 'GET' ) {
 			if ( ! $this->is_method_supported( $method ) ) {
@@ -301,7 +288,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Primary parameters are regular expression parts of the URI.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 */
 		private function set_primary_params() {
 			preg_match_all( '@(\/|^)\(\?P\<([A-Za-z_]+)\>\[(.+)\]\+\)@U', $this->uri, $matches );
@@ -342,7 +328,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Parses route data.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 *
 		 * @param array $data Route data.
 		 * @return array Parsed route data.
@@ -363,7 +348,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Parses method data.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 *
 		 * @param array $method_data Method data.
 		 * @return array Parsed method data.
@@ -392,7 +376,6 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * Parses param data.
 		 *
 		 * @since 1.0.0
-		 * @access private
 		 *
 		 * @param array $param_data Param data.
 		 * @return array Parsed param data.

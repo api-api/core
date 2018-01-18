@@ -20,7 +20,6 @@ if ( ! trait_exists( 'APIAPI\Core\Name_Trait' ) ) {
 		 * Slug of the instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $name;
@@ -29,7 +28,6 @@ if ( ! trait_exists( 'APIAPI\Core\Name_Trait' ) ) {
 		 * Sets the slug of the instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $name Slug of the instance.
 		 */
@@ -41,7 +39,6 @@ if ( ! trait_exists( 'APIAPI\Core\Name_Trait' ) ) {
 		 * Returns the slug of the instance.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Slug of the instance.
 		 */

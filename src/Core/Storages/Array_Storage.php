@@ -23,7 +23,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Stores a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -42,7 +41,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Stores multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename        The basename under which to store.
 		 * @param string $group           The group identifier of the group in which to store.
@@ -60,7 +58,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Retrieves a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -77,7 +74,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Retrieves multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -95,7 +91,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Deletes a single value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -117,7 +112,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Deletes multiple values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param string $group    The group identifier of the group in which to store.
@@ -139,7 +133,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Sets a single value in a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data  The array to modify.
 		 * @param string $group The group to modify.
@@ -161,7 +154,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Sets multiple values in a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data            The array to modify.
 		 * @param string $group           The group to modify.
@@ -182,7 +174,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Gets a single value from a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data  The array to get the value from.
 		 * @param string $group The group to get the value from.
@@ -205,7 +196,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Gets multiple values from a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data  The array to get the value from.
 		 * @param string $group The group to get the value from.
@@ -235,7 +225,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Deletes a single value from a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data  The array to modify.
 		 * @param string $group The group to modify.
@@ -264,7 +253,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Deletes multiple values from a multidimensional array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array  $data  The array to modify.
 		 * @param string $group The group to modify.
@@ -289,7 +277,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Gets the array values are stored in.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @return array Array with stored data.
@@ -300,7 +287,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Updates the array values are stored in.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $basename The basename under which to store.
 		 * @param array  $data     Array with updated data.
@@ -311,7 +297,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * Deletes the array values are stored in.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $basename The basename under which to store.
 		 */

@@ -24,7 +24,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Name of the default transporter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $default = '';
@@ -33,10 +32,9 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Registers a transporter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                                      $name        Unique slug for the transporter.
-		 * @param \APIAPI\Core\Transporters\Transporter|string $transporter Transporter class instance or class name.
+		 * @param string             $name        Unique slug for the transporter.
+		 * @param Transporter|string $transporter Transporter class instance or class name.
 		 */
 		public function register( $name, $transporter ) {
 			$args = func_get_args();
@@ -53,7 +51,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Unregisters a transporter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the transporter.
 		 */
@@ -65,10 +62,9 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns a specific transporter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the transporter.
-		 * @return \APIAPI\Core\Transporters\Transporter|null The transporter object, or null if it does not exist.
+		 * @return Transporter|null The transporter object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );
@@ -78,7 +74,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns all registered transporterss.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of transporters objects.
 		 */
@@ -90,7 +85,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Checks whether a specific transporter is registered.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the transporter.
 		 * @return bool True if the transporter is registered, false otherwise.
@@ -103,9 +97,10 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns the default transporter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @return \APIAPI\Core\Transporters\Transporter|null The default transporter object, or null if not set.
+		 * @return Transporter|null The default transporter object, or null if not set.
+		 *
+		 * @throws Exception Thrown when no default transporter is available.
 		 */
 		public function get_default() {
 			if ( empty( $this->default ) ) {
@@ -119,7 +114,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns the name of the default transporter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Name of the default transporter.
 		 */
@@ -131,7 +125,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns the type of the modules in this container.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Type of the modules.
 		 */
@@ -143,7 +136,6 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * Returns the name of the class all modules must inherit.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Name of the base module class.
 		 */

@@ -26,8 +26,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * The route object for this request.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Structures\Route
+		 * @var Route
 		 */
 		protected $route;
 
@@ -35,7 +34,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Route URI for this request.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $route_uri = '';
@@ -44,7 +42,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Authenticator name.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $authenticator = '';
@@ -55,7 +52,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Only needed if $authenticator is used.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $authentication_data = array();
@@ -64,7 +60,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * URI parameters which are part of the base URI.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $base_params = array();
@@ -73,7 +68,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * URI parameters which are part of the route URI path.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $uri_params = array();
@@ -83,7 +77,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * different from 'GET'.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $query_params = array();
@@ -92,7 +85,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Custom request parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $custom_params = array();
@@ -101,17 +93,14 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                       $base_uri            Base URI for the request.
-		 * @param string                       $method              Either 'GET', 'POST', 'PUT', 'PATCH' or
-		 *                                                          'DELETE'.
-		 * @param \APIAPI\Core\Structures\Route $route               Route object for the request.
-		 * @param string                       $route_uri           Route URI for the request.
-		 * @param string                       $authenticator       Optional. Authenticator name. Default
-		 *                                                          empty string.
-		 * @param array                        $authentication_data Optional. Authentication data to pass
-		 *                                                          to the authenticator. Default empty array.
+		 * @param string $base_uri            Base URI for the request.
+		 * @param string $method              Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
+		 * @param Route  $route               Route object for the request.
+		 * @param string $route_uri           Route URI for the request.
+		 * @param string $authenticator       Optional. Authenticator name. Default empty string.
+		 * @param array  $authentication_data Optional. Authentication data to pass to the authenticator.
+		 *                                    Default empty array.
 		 */
 		public function __construct( $base_uri, $method, Route $route, $route_uri, $authenticator = '', array $authentication_data = array() ) {
 			parent::__construct( $base_uri, $method );
@@ -126,7 +115,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Returns the full URI this request should be sent to.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The full request URI.
 		 */
@@ -156,7 +144,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 			if ( ! empty( $this->query_params ) ) {
 				$query_args = array();
 				foreach ( $this->query_params as $param => $value ) {
-					$query_args[] = $param . '=' . urlencode( $value );
+					$query_args[] = $param . '=' . rawurlencode( $value );
 				}
 
 				if ( preg_match( '/\?([A-Za-z0-9_\-]+)=/', $route_uri ) ) {
@@ -173,7 +161,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @param mixed  $value Parameter value.
@@ -202,7 +189,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
@@ -230,12 +216,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
 		 *                              passed should be the value to set, or null to unset it.
 		 *
-		 * @throws \APIAPI\Core\Exception
+		 * @throws Exception Thrown when the function parameters are invalid.
 		 */
 		public function set_subparam( ...$param_path ) {
 			if ( count( $param_path ) < 3 ) {
@@ -272,12 +257,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
 		 *
-		 * @throws \APIAPI\Core\Exception
+		 * @throws Exception Thrown when the function parameters are invalid.
 		 */
 		public function get_subparam( ...$param_path ) {
 			if ( count( $param_path ) < 2 ) {
@@ -315,7 +299,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * URI and query parameters are not included as they are part of the URI.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of parameters as `$param_name => $param_value` pairs.
 		 */
@@ -349,7 +332,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * For it to be valid, all required parameters must be filled.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return bool|array True if the request is valid, array of missing parameters otherwise.
 		 */
@@ -380,7 +362,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Checks whether the data for this request should be sent as JSON.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return bool True if JSON should be used, otherwise false.
 		 */
@@ -392,7 +373,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Returns the authenticator name.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Authenticator name, or empty string if authentication is not required.
 		 */
@@ -408,7 +388,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Returns the authentication data.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Authentication data, or empty array if authentication is not required.
 		 */
@@ -424,7 +403,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Returns the route object.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return \APIAPI\Core\Structures\Route Route object.
 		 */
@@ -436,7 +414,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a regular parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
@@ -454,7 +431,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a regular parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
@@ -472,7 +448,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a base URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
@@ -488,7 +463,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a base URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
@@ -506,7 +480,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
@@ -522,7 +495,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a URI parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
@@ -540,7 +512,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a query parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param mixed  $value      Parameter value.
@@ -556,7 +527,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a query parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param      Parameter name.
 		 * @param array  $param_info Parameter info.
@@ -574,10 +544,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a custom parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $param Parameter name.
 		 * @param mixed  $value Parameter value.
+		 *
+		 * @throws Exception Thrown when custom parameters are not supported.
 		 */
 		protected function set_custom_param( $param, $value ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
@@ -593,11 +564,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a custom parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
-		 * @param string $param      Parameter name.
-		 * @param array  $param_info Parameter info.
+		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
+		 *
+		 * @throws Exception Thrown when custom parameters are not supported.
 		 */
 		protected function get_custom_param( $param ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
@@ -615,7 +586,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a regular sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
 		 */
@@ -638,7 +608,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a regular sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
@@ -660,9 +629,10 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a base URI sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 *
+		 * @throws Exception Thrown to indicate nesting base URI parameters is not possible.
 		 */
 		protected function set_base_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
@@ -675,10 +645,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a base URI sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
+		 *
+		 * @throws Exception Thrown to indicate nesting base URI parameters is not possible.
 		 */
 		protected function get_base_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
@@ -690,9 +661,10 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a URI sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
+		 *
+		 * @throws Exception Thrown to indicate nesting URI parameters is not possible.
 		 */
 		protected function set_uri_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
@@ -705,10 +677,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a URI sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
+		 *
+		 * @throws Exception Thrown to indicate nesting URI parameters is not possible.
 		 */
 		protected function get_uri_subparam( ...$param_path ) {
 			$param_info = array_pop( $param_path );
@@ -720,7 +693,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a query sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path, value to set and param data.
 		 */
@@ -739,7 +711,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a query sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and param data.
 		 * @return mixed Parameter value, or null if unset.
@@ -761,9 +732,10 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets a custom sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path and value to set.
+		 *
+		 * @throws Exception Thrown when custom parameters are not supported.
 		 */
 		protected function set_custom_subparam( ...$param_path ) {
 			$value = array_pop( $param_path );
@@ -779,10 +751,11 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Gets a custom sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $param_path,... Parameter path.
 		 * @return mixed Parameter value, or null if unset.
+		 *
+		 * @throws Exception Thrown when custom parameters are not supported.
 		 */
 		protected function get_custom_subparam( ...$param_path ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
@@ -796,13 +769,12 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Internal utility function to get nested sub parameter info.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $param_path Parameter path.
 		 * @param array $param_info Param data for the first param.
 		 * @return array Param data for the last param in the path.
 		 *
-		 * @throws \APIAPI\Core\Exception
+		 * @throws Exception Thrown if a subparam is not valid sub property.
 		 */
 		protected function get_subparam_info( array $param_path, array $param_info ) {
 			$first_param = array_shift( $param_path );
@@ -822,11 +794,12 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Parses a parameter value.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param mixed $value      The input value.
 		 * @param array $param_info Parameter info.
 		 * @return mixed The parsed value.
+		 *
+		 * @throws Exception Thrown when the value does not validate against the parameter data schema.
 		 */
 		protected function parse_param_value( $value, array $param_info ) {
 			switch ( $param_info['type'] ) {
@@ -894,7 +867,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * Sets the default content type if none has been set yet.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function maybe_set_default_content_type() {
 			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {

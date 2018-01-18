@@ -20,7 +20,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Array of config parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $params = array();
@@ -31,7 +30,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Allows to set the config parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $params Optional. Associative array of config parameters with their values. Default empty.
 		 */
@@ -45,7 +43,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Checks whether a specific parameter is set.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param    Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -67,7 +64,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Returns the value for a specific parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param    Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -89,7 +85,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Sets a specific parameter to a given value.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param             Name of the parameter.
 		 * @param string $value_or_subparam Either new value for the parameter or, when
@@ -119,7 +114,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * It is not possible to delete default parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
 		 * @param string $subparam Optional. Name of a sub parameter. Default null.
@@ -155,7 +149,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * unprovided parameters will be filled with their default values.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $params Associative array of config parameters with their values.
 		 * @param bool  $reset  Optional. Whether to reset all parameters to the specified ones. Default false.
@@ -172,7 +165,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Returns all parameters with their values as an associative array.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Associative array of config parameters with their values.
 		 */
@@ -184,7 +176,6 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * Returns the default parameters with their values.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return array Associative array of default config parameters with their values.
 		 */

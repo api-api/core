@@ -24,10 +24,9 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Registers a storage.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param string                              $name    Unique slug for the storage.
-		 * @param \APIAPI\Core\Storages\Storage|string $storage Storage class instance or class name.
+		 * @param string         $name    Unique slug for the storage.
+		 * @param Storage|string $storage Storage class instance or class name.
 		 */
 		public function register( $name, $storage ) {
 			$args = func_get_args();
@@ -38,7 +37,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Unregisters a storage.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the storage.
 		 */
@@ -50,10 +48,9 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Returns a specific storage.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the storage.
-		 * @return \APIAPI\Core\Storages\Storage|null The storage object, or null if it does not exist.
+		 * @return Storage|null The storage object, or null if it does not exist.
 		 */
 		public function get( $name ) {
 			return parent::get( $name );
@@ -63,7 +60,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Returns all registered storages.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of storage objects.
 		 */
@@ -75,7 +71,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Checks whether a specific storage is registered.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the storage.
 		 * @return bool True if the storage is registered, false otherwise.
@@ -88,7 +83,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Returns the type of the modules in this container.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Type of the modules.
 		 */
@@ -100,7 +94,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * Returns the name of the class all modules must inherit.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Name of the base module class.
 		 */

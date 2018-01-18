@@ -22,7 +22,6 @@ if ( ! class_exists( 'APIAPI\Core\Exception' ) ) {
 		 * Additional data for the exception.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var mixed
 		 */
 		protected $data = null;
@@ -31,7 +30,6 @@ if ( ! class_exists( 'APIAPI\Core\Exception' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $message Optional. Message to print out. Default empty.
 		 * @param int    $code    Optional. Code for the exception. Default 0.
@@ -49,7 +47,6 @@ if ( ! class_exists( 'APIAPI\Core\Exception' ) ) {
 		 * If no additional data is provided, null will be returned.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return mixed Additional data for the exception.
 		 */

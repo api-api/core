@@ -27,7 +27,6 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Storage' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Slug of the instance.
 		 */

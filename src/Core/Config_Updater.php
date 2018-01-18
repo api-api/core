@@ -22,8 +22,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * The API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\APIAPI
+		 * @var APIAPI
 		 */
 		protected $apiapi;
 
@@ -31,7 +30,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Slug of the API-API instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $apiapi_name = '';
@@ -40,8 +38,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Configuration object this updater should manage.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Config
+		 * @var Config
 		 */
 		protected $config;
 
@@ -49,8 +46,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Storage to persistently store configuration values.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Storages\Storage
+		 * @var Storage
 		 */
 		protected $storage;
 
@@ -58,7 +54,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Array of arguments.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $args = array();
@@ -67,7 +62,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Structure names that are handled by this instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $structure_names = array();
@@ -76,11 +70,10 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\APIAPI           $apiapi  The API-API instance.
-		 * @param \APIAPI\Core\Storages\Storage $storage Storage to persistently store configuration values.
-		 * @param array                        $args    Optional. Array of arguments. Default empty array.
+		 * @param APIAPI  $apiapi  The API-API instance.
+		 * @param Storage $storage Storage to persistently store configuration values.
+		 * @param array   $args    Optional. Array of arguments. Default empty array.
 		 */
 		public function __construct( APIAPI $apiapi, Storage $storage, array $args = array() ) {
 			$this->apiapi   = $apiapi;
@@ -111,7 +104,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Routes dynamic callback method names to their actual implemented methods.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $method_name Method name.
 		 * @param array  $args        Method arguments.
@@ -133,7 +125,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Sets up dynamic configuration values from storage.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function setup_config() {
 			$oauth1_fields = array(
@@ -210,7 +201,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Listens for OAuth1 callbacks and persistently stores the necessary data.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function listen_for_callback() {
 			if ( ! isset( $_GET[ $this->args['listener_query_var'] ] ) ) {
@@ -249,7 +239,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Callback to apply a token.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $consumer_key    Consumer key.
 		 * @param string $consumer_secret Consumer secret.
@@ -304,7 +293,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Redirect callback to send the user to an authorize URL.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $authorize_url  Authorize URL.
 		 * @param string $structure_name Name of the structure.
@@ -320,7 +308,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * If the 'callback_base_url' argument is not set, the current URL will be used.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Callback base URL for authentication redirects.
 		 */
@@ -336,7 +323,6 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * Returns default values for the arguments array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return array Array of default `$key => $value` pairs.
 		 */

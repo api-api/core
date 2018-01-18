@@ -23,7 +23,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Returns the full URI this request should be sent to.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The full request URI.
 		 */
@@ -33,7 +32,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Returns the method for this request.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The method.
 		 */
@@ -43,7 +41,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Sets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header Header name.
 		 * @param string $value  Header value.
@@ -56,7 +53,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Gets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header   Header name.
 		 * @param bool   $as_array Optional. Whether to return the value as array. Default false.
@@ -69,7 +65,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Gets all headers.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param bool $as_array Optional. Whether to return the individual values as array.
 		 *                       Default false.
@@ -81,7 +76,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Sets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @param mixed  $value Parameter value.
@@ -92,7 +86,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Sets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
 		 *                              passed should be the value to set, or null to unset it.
@@ -103,7 +96,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Sets multiple parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $params Array of `$param => $value` pairs.
 		 */
@@ -113,7 +105,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Gets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
@@ -124,7 +115,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Gets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
@@ -135,7 +125,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of parameters as `$param_name => $param_value` pairs.
 		 */

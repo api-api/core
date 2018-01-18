@@ -20,7 +20,6 @@ if ( ! interface_exists( 'APIAPI\Core\Container_Interface' ) ) {
 		 * Registers a module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string        $name   Unique slug for the module.
 		 * @param object|string $module Module class instance or class name.
@@ -31,7 +30,6 @@ if ( ! interface_exists( 'APIAPI\Core\Container_Interface' ) ) {
 		 * Unregisters a module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 */
@@ -41,7 +39,6 @@ if ( ! interface_exists( 'APIAPI\Core\Container_Interface' ) ) {
 		 * Returns a specific module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 * @return object|null The module object, or null if it does not exist.
@@ -52,7 +49,6 @@ if ( ! interface_exists( 'APIAPI\Core\Container_Interface' ) ) {
 		 * Checks whether a specific module is registered.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 * @return bool True if the module is registered, false otherwise.

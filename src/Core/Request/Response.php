@@ -25,7 +25,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Response headers.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $headers = array();
@@ -34,7 +33,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Response parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $params = array();
@@ -43,7 +41,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Response as array with 'code' and 'message' keys.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $response = array();
@@ -52,7 +49,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Raw body content of the response.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $raw_body = '';
@@ -61,7 +57,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $response_data Response array containing keys 'headers', 'body', and 'response'.
 		 *                             Not necessarily all of these are included though.
@@ -84,7 +79,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header   Header name.
 		 * @param bool   $as_array Optional. Whether to return the value as array. Default false.
@@ -109,7 +103,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets all headers.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param bool $as_array Optional. Whether to return the individual values as array.
 		 *                       Default false.
@@ -133,7 +126,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets the content-type of the response.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Parsed content type without additional parameters.
 		 */
@@ -160,7 +152,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
@@ -177,7 +168,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
@@ -190,7 +180,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of parameters as `$param_name => $param_value` pairs.
 		 */
@@ -202,7 +191,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Returns the response code.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return int Response code.
 		 */
@@ -214,7 +202,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Returns the response message.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Response message.
 		 */
@@ -226,7 +213,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Internal utility function to get a nested sub parameter value.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $base_array Array where the value should be retrieved from.
 		 * @param array $param_path Parameter path.
@@ -249,7 +235,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Parses the response headers.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $headers Array of header strings.
 		 */
@@ -284,7 +269,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Parses the response body.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $body Body content.
 		 */
@@ -318,7 +302,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Parses the response code and message.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $response Array with keys 'code' and 'message'.
 		 */
@@ -334,7 +317,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * underscores are treated as the same character.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $header Header name.
 		 * @return string Canonicalized header name.
@@ -347,7 +329,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Decodes a JSON string into an array of parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $json JSON string to decode.
 		 * @return array Decoded JSON as array.
@@ -385,7 +366,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Decodes an XML string into an array of parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $xml XML string to decode.
 		 * @return array Decoded XML as array.
@@ -424,7 +404,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * Parses a SimpleXMLElement into an array.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param SimpleXMLElement $xml_element XML element.
 		 * @return array Parsed array.

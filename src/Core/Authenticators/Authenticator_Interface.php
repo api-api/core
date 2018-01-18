@@ -28,9 +28,8 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * the required values on the request object.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
+		 * @param Route_Request $request The request to send.
 		 */
 		public function authenticate_request( Route_Request $request );
 
@@ -41,9 +40,8 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * It only checks whether authentication data has been properly set on it.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Request\Route_Request $request The request to check.
+		 * @param Route_Request $request The request to check.
 		 * @return bool True if the request is authenticated, otherwise false.
 		 */
 		public function is_authenticated( Route_Request $request );
@@ -52,7 +50,6 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * Returns the default arguments.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of `$key => $value` pairs.
 		 */

@@ -10,6 +10,8 @@
 namespace APIAPI\Core\Structures;
 
 use APIAPI\Core\APIAPI;
+use APIAPI\Core\Request\API;
+use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 
 if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
@@ -28,10 +30,9 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * The API object will be instantiated if it does not exist yet.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
-		 * @return \APIAPI\Core\Request\API The API object.
+		 * @param APIAPI $apiapi The API-API instance to get the API object for.
+		 * @return API The API object.
 		 */
 		public function get_api_object( APIAPI $apiapi );
 
@@ -39,13 +40,12 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns a scoped request object for a specific route of this API.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\APIAPI $apiapi    The API-API instance to get the API object for.
-		 * @param string               $route_uri URI of the route.
-		 * @param string               $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
-		 *                                        or 'DELETE'. Default 'GET'.
-		 * @return \APIAPI\Core\Request\Route_Request Request object for the route.
+		 * @param APIAPI $apiapi    The API-API instance to get the API object for.
+		 * @param string $route_uri URI of the route.
+		 * @param string $method    Optional. Either 'GET', 'POST', 'PUT', 'PATCH'
+		 *                          or 'DELETE'. Default 'GET'.
+		 * @return Route_Request Request object for the route.
 		 */
 		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' );
 
@@ -53,11 +53,11 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns the route object for a specific route.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $route_uri URI of the route.
-		 * @return \APIAPI\Core\Request\Endpoint|null The route object, or null if it does
-		 *                                             not exist.
+		 * @return Route The route object.
+		 *
+		 * @throws Exception Thrown when the route URI is invalid.
 		 */
 		public function get_route_object( $route_uri );
 
@@ -65,7 +65,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Checks whether a specific route exists.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $route_uri URI of the route.
 		 * @return bool True if the route exists, otherwise false.
@@ -76,7 +75,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns all available routes.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of route objects.
 		 */
@@ -86,7 +84,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns the authenticator name for the API.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Authenticator name, or empty string if not set.
 		 */
@@ -96,7 +93,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Checks whether the API should use an authenticator.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return bool True if the API should use an authenticator, otherwise false.
 		 */
@@ -106,7 +102,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns this API's base URI for a specific mode.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $mode Optional. Mode for which to get the base URI. Default empty.
 		 * @return string Base URI.
@@ -117,7 +112,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns required parameters that are part of this API's base URI for a specific mode.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $mode Optional. Mode for which to get the base URI parameters. Default empty.
 		 * @return array Base URI parameters.
@@ -128,7 +122,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns required parameters that are part of a given base URI.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $base_uri Base URI.
 		 * @return array Base URI parameters.
@@ -141,7 +134,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * This identifies the configuration array where values for this API are stored in.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The config key.
 		 */
@@ -151,7 +143,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns the API title.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The title.
 		 */
@@ -161,7 +152,6 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * Returns the API description.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The description.
 		 */
@@ -175,10 +165,9 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * throw an exception.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Request\Route_Response $response Response object.
-		 * @return \APIAPI\Core\Request\Route_Response Response object.
+		 * @param Route_Response $response Response object.
+		 * @return Route_Response Response object.
 		 */
 		public function process_response( $response );
 	}

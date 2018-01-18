@@ -23,7 +23,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * URI for this request.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $uri = '';
@@ -32,7 +31,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * The method for this request. Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $method = 'GET';
@@ -41,7 +39,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Request headers.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $headers = array();
@@ -50,7 +47,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Request parameters.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $params = array();
@@ -59,7 +55,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $uri    URI for the request.
 		 * @param string $method Either 'GET', 'POST', 'PUT', 'PATCH' or 'DELETE'.
@@ -73,7 +68,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Returns the full URI this request should be sent to.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The full request URI.
 		 */
@@ -85,7 +79,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Returns the method for this request.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string The method.
 		 */
@@ -97,7 +90,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Sets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header Header name.
 		 * @param string $value  Header value.
@@ -118,7 +110,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Gets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header   Header name.
 		 * @param bool   $as_array Optional. Whether to return the value as array. Default false.
@@ -143,7 +134,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Gets all headers.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param bool $as_array Optional. Whether to return the individual values as array.
 		 *                       Default false.
@@ -167,7 +157,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Sets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @param mixed  $value Parameter value.
@@ -182,7 +171,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Sets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter that should be set. The last parameter
 		 *                              passed should be the value to set, or null to unset it.
@@ -197,7 +185,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Sets multiple parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param array $params Array of `$param => $value` pairs.
 		 */
@@ -211,7 +198,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Gets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
@@ -228,7 +214,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Gets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
@@ -241,7 +226,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of parameters as `$param_name => $param_value` pairs.
 		 */
@@ -253,7 +237,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Internal utility function to set a nested sub parameter value.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $base_array Array where the value should be set in. Passed by reference.
 		 * @param array $param_path Parameter path.
@@ -278,7 +261,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Internal utility function to get a nested sub parameter value.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param array $base_array Array where the value should be retrieved from.
 		 * @param array $param_path Parameter path.
@@ -301,7 +283,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * Sets the default content type if none has been set yet.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 */
 		protected function maybe_set_default_content_type() {
 			if ( 'GET' !== $this->method && null === $this->get_header( 'content-type' ) ) {
@@ -316,7 +297,6 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 * underscores are treated as the same character.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @param string $header Header name.
 		 * @return string Canonicalized header name.

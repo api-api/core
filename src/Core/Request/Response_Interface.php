@@ -23,7 +23,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Gets a header.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $header   Header name.
 		 * @param bool   $as_array Optional. Whether to return the value as array. Default false.
@@ -36,7 +35,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Gets all headers.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param bool $as_array Optional. Whether to return the individual values as array.
 		 *                       Default false.
@@ -48,7 +46,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Gets a parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $param Parameter name.
 		 * @return mixed Parameter value, or null if unset.
@@ -59,7 +56,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Gets a sub parameter.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param mixed $param_path,... Parameter names up to the parameter to retrieve its value.
 		 * @return mixed Parameter value, or null if unset.
@@ -70,7 +66,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Gets all parameters.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of parameters as `$param_name => $param_value` pairs.
 		 */
@@ -80,7 +75,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Returns the response code.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return int Response code.
 		 */
@@ -90,7 +84,6 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Response_Interface' ) ) {
 		 * Returns the response message.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return string Response message.
 		 */

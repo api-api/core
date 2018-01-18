@@ -20,7 +20,6 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Registered hook callbacks.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $hooks = array();
@@ -29,7 +28,6 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Currently triggered hook names.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $triggered_hook_names = array();
@@ -38,7 +36,6 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 */
 		public function __construct() {
 			// Empty constructor.
@@ -47,16 +44,15 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		/**
 		 * Attaches a hook callback.
 		 *
-		 * The returned hook object can be passed to `APIAPI\Core\Hooks::off()` to
+		 * The returned hook object can be passed to `Hooks::off()` to
 		 * remove it again.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string   $hook_name Hook name.
 		 * @param callable $callback  Hook callback.
 		 * @param int      $priority  Optional. Hook priority. Default 10.
-		 * @return \APIAPI\Core\Hook Hook object.
+		 * @return Hook Hook object.
 		 */
 		public function on( $hook_name, callable $callback, $priority = 10 ) {
 			if ( ! isset( $this->hooks[ $hook_name ] ) ) {
@@ -76,9 +72,10 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * The object to pass to this method must have been returned by `APIAPI\Core\Hooks::on()`.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
-		 * @param \APIAPI\Core\Hook $hook Hook object.
+		 * @param Hook $hook Hook object.
+		 *
+		 * @throws Exception Thrown when hook is not part of this hooks instance.
 		 */
 		public function off( Hook $hook ) {
 			$name = $hook->get_name();
@@ -105,7 +102,6 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Any additional parameters passed to the method are passed to each hook callback.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $hook_name Hook name.
 		 */
@@ -137,7 +133,6 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Checks whether a hook is currently triggered.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $hook_name Hook name.
 		 * @return bool True if the hook is triggered, false otherwise.
@@ -150,10 +145,9 @@ if ( ! class_exists( 'APIAPI\Core\Hooks' ) ) {
 		 * Sort callback to sort hooks by priority.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
-		 * @param \APIAPI\Core\Hook $hook1 First hook object.
-		 * @param \APIAPI\Core\Hook $hook2 Second hook object.
+		 * @param Hook $hook1 First hook object.
+		 * @param Hook $hook2 Second hook object.
 		 * @return int Comparator value.
 		 */
 		protected function sort_callback( Hook $hook1, Hook $hook2 ) {

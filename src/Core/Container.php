@@ -24,7 +24,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * The type of the modules in this container.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $type;
@@ -33,7 +32,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * The name of the class all modules must inherit.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var string
 		 */
 		protected $module_class_name;
@@ -42,7 +40,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * The registered modules.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 * @var array
 		 */
 		protected $modules = array();
@@ -51,8 +48,7 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * The manager instance.
 		 *
 		 * @since 1.0.0
-		 * @access protected
-		 * @var APIAPI\Core\Manager
+		 * @var Manager
 		 */
 		protected $manager;
 
@@ -60,9 +56,10 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Constructor.
 		 *
 		 * @since 1.0.0
-		 * @access public
+		 *
+		 * @param Manager $manager The APIAPI manager instance.
 		 */
-		public function __construct( $manager ) {
+		public function __construct( Manager $manager ) {
 			$this->manager = $manager;
 
 			$this->type              = $this->get_type();
@@ -73,10 +70,11 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Registers a module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string        $name   Unique slug for the module.
 		 * @param object|string $module Module class instance or class name.
+		 *
+		 * @throws Exception Thrown when module is already registered or an invalid class.
 		 */
 		public function register( $name, $module ) {
 			if ( $this->is_registered( $name ) ) {
@@ -89,6 +87,7 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 				if ( ! empty( $args ) ) {
 					array_unshift( $args, $name );
 					$reflected_class = new ReflectionClass( $module );
+
 					$module = $reflected_class->newInstanceArgs( $args );
 				} else {
 					$module = new $module( $name );
@@ -106,7 +105,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Unregisters a module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 */
@@ -122,7 +120,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Returns a specific module.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 * @return object|null The module object, or null if it does not exist.
@@ -139,7 +136,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Returns all registered modules.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @return array Array of module objects.
 		 */
@@ -151,7 +147,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Checks whether a specific module is registered.
 		 *
 		 * @since 1.0.0
-		 * @access public
 		 *
 		 * @param string $name Unique slug of the module.
 		 * @return bool True if the module is registered, false otherwise.
@@ -166,7 +161,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Returns the type of the modules in this container.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Type of the modules.
 		 */
@@ -176,7 +170,6 @@ if ( ! class_exists( 'APIAPI\Core\Container' ) ) {
 		 * Returns the name of the class all modules must inherit.
 		 *
 		 * @since 1.0.0
-		 * @access protected
 		 *
 		 * @return string Name of the base module class.
 		 */
