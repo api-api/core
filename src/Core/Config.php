@@ -35,7 +35,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 *
 		 * @param array $params Optional. Associative array of config parameters with their values. Default empty.
 		 */
-		public function __construct( $params = null ) {
+		public function __construct( array $params = null ) {
 			if ( is_array( $params ) ) {
 				$this->set_params( $params );
 			}
@@ -122,6 +122,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
+		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 */
 		public function delete( $param, $subparam = null ) {
 			if ( ! $this->exists( $param, $subparam ) ) {
@@ -159,7 +160,7 @@ if ( ! class_exists( 'APIAPI\Core\Config' ) ) {
 		 * @param array $params Associative array of config parameters with their values.
 		 * @param bool  $reset  Optional. Whether to reset all parameters to the specified ones. Default false.
 		 */
-		public function set_params( $params, $reset = false ) {
+		public function set_params( array $params, $reset = false ) {
 			if ( empty( $this->params ) || $reset ) {
 				$this->params = Util::parse_args( $params, $this->get_defaults() );
 			} else {

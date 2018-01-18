@@ -48,7 +48,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @param string $group           The group identifier of the group in which to store.
 		 * @param array  $keys_and_values Associative array of `$key => $value` pairs.
 		 */
-		public function store_multi( $basename, $group, $keys_and_values ) {
+		public function store_multi( $basename, $group, array $keys_and_values ) {
 			$data = $this->get_array( $basename );
 
 			$data = $this->multidimensional_set_multi( $data, $group, $keys_and_values );
@@ -123,7 +123,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @param string $group    The group identifier of the group in which to store.
 		 * @param array  $keys     The keys to delete their values.
 		 */
-		public function delete_multi( $basename, $group, $keys ) {
+		public function delete_multi( $basename, $group, array $keys ) {
 			$data = $this->get_array( $basename );
 
 			$data = $this->multidimensional_delete_multi( $data, $group, $keys );
@@ -168,7 +168,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @param array  $keys_and_values Associative array of `$key => $value` pairs.
 		 * @return array The modified array.
 		 */
-		protected function multidimensional_set_multi( $data, $group, $keys_and_values ) {
+		protected function multidimensional_set_multi( $data, $group, array $keys_and_values ) {
 			if ( ! isset( $data[ $group ] ) ) {
 				$data[ $group ] = array();
 			}
@@ -213,7 +213,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @return array Associative array of `$key => $value`. The $value might is null, if
 		 *               none is stored.
 		 */
-		protected function multidimensional_get_multi( $data, $group, $keys ) {
+		protected function multidimensional_get_multi( $data, $group, array $keys ) {
 			if ( ! isset( $data[ $group ] ) ) {
 				return array_fill_keys( $keys, null );
 			}
@@ -271,7 +271,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @param array  $keys  The keys to delete their values.
 		 * @return array The modified array.
 		 */
-		protected function multidimensional_delete_multi( $data, $group, $keys ) {
+		protected function multidimensional_delete_multi( $data, $group, array $keys ) {
 			if ( ! isset( $data[ $group ] ) ) {
 				return $data;
 			}
@@ -305,7 +305,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @param string $basename The basename under which to store.
 		 * @param array  $data     Array with updated data.
 		 */
-		protected abstract function update_array( $basename, $data );
+		protected abstract function update_array( $basename, array $data );
 
 		/**
 		 * Deletes the array values are stored in.

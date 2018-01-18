@@ -18,6 +18,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 	 * @since 1.0.0
 	 */
 	class Manager {
+
 		/**
 		 * @const string Version number of the API-API
 		 */

@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Structures\Structure;
+
 if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 
 	/**
@@ -103,7 +105,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'APIAPI\Core\Structures\Structure';
+			return Structure::class;
 		}
 	}
 

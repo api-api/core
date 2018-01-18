@@ -107,7 +107,7 @@ if ( ! interface_exists( 'APIAPI\Core\Request\Request_Interface' ) ) {
 		 *
 		 * @param array $params Array of `$param => $value` pairs.
 		 */
-		public function set_params( $params );
+		public function set_params( array $params );
 
 		/**
 		 * Gets a parameter.

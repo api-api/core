@@ -12,6 +12,7 @@ namespace APIAPI\Core\Request;
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Config_Trait;
 use APIAPI\Core\Util;
+use APIAPI\Core\Structures\Structure;
 
 if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 
@@ -43,7 +44,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		 * @param \APIAPI\Core\Structures\Structure $structure The API structure object.
 		 * @param \APIAPI\Core\Config|array         $config    Optional. Configuration object or associative array. Default empty array.
 		 */
-		public function __construct( $structure, $config = array() ) {
+		public function __construct( Structure $structure, $config = array() ) {
 			$this->structure = $structure;
 
 			$this->set_name( $this->structure->get_name() );
@@ -84,7 +85,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		 *                                                         included though.
 		 * @return \APIAPI\Core\Request\Route_Response Response object for the request.
 		 */
-		public function get_response_object( $request, $response_data ) {
+		public function get_response_object( Route_Request $request, array $response_data ) {
 			$route = $request->get_route_object();
 
 			return $route->create_response_object( $response, $request->get_method() );
@@ -156,7 +157,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 		 * @param array  $args   Method arguments.
 		 * @return mixed Result of the called structure method, or null if invalid method.
 		 */
-		public function __call( $method, $args ) {
+		public function __call( $method, array $args ) {
 			if ( is_callable( array( $this->structure, $method ) ) ) {
 				return call_user_func_array( array( $this->structure, $method ), $args );
 			}

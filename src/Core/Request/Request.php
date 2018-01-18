@@ -201,7 +201,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 *
 		 * @param array $params Array of `$param => $value` pairs.
 		 */
-		public function set_params( $params ) {
+		public function set_params( array $params ) {
 			foreach ( $params as $param => $value ) {
 				$this->set_param( $param, $value );
 			}

@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Storages\Storage;
+
 if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 
 	/**
@@ -80,7 +82,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * @param \APIAPI\Core\Storages\Storage $storage Storage to persistently store configuration values.
 		 * @param array                        $args    Optional. Array of arguments. Default empty array.
 		 */
-		public function __construct( $apiapi, $storage, $args = array() ) {
+		public function __construct( APIAPI $apiapi, Storage $storage, array $args = array() ) {
 			$this->apiapi   = $apiapi;
 			$this->config   = $this->apiapi->config();
 			$this->storage  = $storage;
@@ -114,7 +116,7 @@ if ( ! class_exists( 'APIAPI\Core\Config_Updater' ) ) {
 		 * @param string $method_name Method name.
 		 * @param array  $args        Method arguments.
 		 */
-		public function __call( $method_name, $args ) {
+		public function __call( $method_name, array $args ) {
 			if ( preg_match( '/^apply_([a-z_]+)_(permanent|temporary)_token_callback$/U', $method_name, $matches ) ) {
 				$args[] = $matches[1]; // $structure_name
 				$args[] = $matches[2]; // $type

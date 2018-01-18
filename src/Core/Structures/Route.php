@@ -10,6 +10,8 @@
 namespace APIAPI\Core\Structures;
 
 use APIAPI\Core\Util;
+use APIAPI\Core\Request\Route_Request;
+use APIAPI\Core\Request\Route_Response;
 
 if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 
@@ -79,7 +81,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * }
 		 * @param \APIAPI\Core\Structures\Structure $structure The parent API structure.
 		 */
-		public function __construct( $uri, $data, $structure ) {
+		public function __construct( $uri, array $data, Structure $structure ) {
 			$this->uri = $uri;
 
 			$this->data = $this->parse_data( $data );
@@ -259,7 +261,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                                    Default empty array.
 		 * @return \APIAPI\Core\Request\Route_Request Request object.
 		 */
-		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', $authentication_data = array() ) {
+		public function create_request_object( $route_uri, $method = 'GET', $mode = '', $authenticator = '', array $authentication_data = array() ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
@@ -283,7 +285,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 *                              Default 'GET'.
 		 * @return \APIAPI\Core\Request\Route_Response Response object.
 		 */
-		public function create_response_object( $response_data, $method = 'GET' ) {
+		public function create_response_object( array $response_data, $method = 'GET' ) {
 			if ( ! $this->is_method_supported( $method ) ) {
 				throw new Exception( sprintf( 'The method %1$s is not supported in the route %2$s.', $method, $this->get_uri() ) );
 			}
@@ -345,7 +347,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 		 * @param array $data Route data.
 		 * @return array Parsed route data.
 		 */
-		private function parse_data( $data ) {
+		private function parse_data( array $data ) {
 			$data = Util::parse_args( $data, array(
 				'primary_params' => array(),
 				'methods'        => array(),
@@ -376,8 +378,8 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Route' ) ) {
 					'supports_custom_params' => false,
 					'request_data_type'      => 'raw',
 					'needs_authentication'   => false,
-					'request_class'          => 'APIAPI\Core\Request\Route_Request',
-					'response_class'         => 'APIAPI\Core\Request\Route_Response',
+					'request_class'          => Route_Request::class,
+					'response_class'         => Route_Response::class,
 				), true );
 
 				$data['params'] = $this->parse_param_data( $data['params'] );

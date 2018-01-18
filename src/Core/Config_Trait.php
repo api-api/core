@@ -36,7 +36,7 @@ if ( ! trait_exists( 'APIAPI\Core\Config_Trait' ) ) {
 		 */
 		public function config( $config = null ) {
 			if ( ! is_null( $config ) ) {
-				if ( is_a( $config, 'APIAPI\Core\Config' ) ) {
+				if ( is_a( $config, Config::class ) ) {
 					$this->config = $config;
 				} else {
 					$this->config = new Config( $config );

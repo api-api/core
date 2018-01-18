@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Storages\Storage;
+
 if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 
 	/**
@@ -103,7 +105,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'APIAPI\Core\Storages\Storage';
+			return Storage::class;
 		}
 	}
 

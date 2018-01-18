@@ -9,6 +9,8 @@
 
 namespace APIAPI\Core\Authenticators;
 
+use APIAPI\Core\Request\Route_Request;
+
 if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) ) {
 
 	/**
@@ -30,7 +32,7 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 *
 		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
 		 */
-		public function authenticate_request( $request );
+		public function authenticate_request( Route_Request $request );
 
 		/**
 		 * Checks whether a request is authenticated.
@@ -44,7 +46,7 @@ if ( ! interface_exists( 'APIAPI\Core\Authenticators\Authenticator_Interface' ) 
 		 * @param \APIAPI\Core\Request\Route_Request $request The request to check.
 		 * @return bool True if the request is authenticated, otherwise false.
 		 */
-		public function is_authenticated( $request );
+		public function is_authenticated( Route_Request $request );
 
 		/**
 		 * Returns the default arguments.

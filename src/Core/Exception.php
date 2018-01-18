@@ -8,7 +8,7 @@
 
 namespace APIAPI\Core;
 
-use Exception as DefaultException;
+use Exception as BaseException;
 
 if ( ! class_exists( 'APIAPI\Core\Exception' ) ) {
 
@@ -17,7 +17,7 @@ if ( ! class_exists( 'APIAPI\Core\Exception' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	class Exception extends DefaultException {
+	class Exception extends BaseException {
 		/**
 		 * Additional data for the exception.
 		 *

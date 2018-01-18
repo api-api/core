@@ -64,6 +64,7 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * @access public
 		 *
 		 * @param string $param Name of the parameter.
+		 * @param string $subparam Optional. Name of a sub parameter. Default null.
 		 */
 		public function delete( $param, $subparam = null );
 
@@ -79,7 +80,7 @@ if ( ! interface_exists( 'APIAPI\Core\Config_Interface' ) ) {
 		 * @param array $params Associative array of config parameters with their values.
 		 * @param bool  $reset  Optional. Whether to reset all parameters to the specified ones. Default false.
 		 */
-		public function set_params( $params, $reset = false );
+		public function set_params( array $params, $reset = false );
 
 		/**
 		 * Returns all parameters with their values as an associative array.

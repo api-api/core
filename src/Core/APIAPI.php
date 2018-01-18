@@ -8,6 +8,7 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Request\Route_Request;
 use APIAPI\Core\Request\Route_Response;
 
 if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
@@ -48,7 +49,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param \APIAPI\Core\Manager      $manager The APIAPI Manager object.
 		 * @param \APIAPI\Core\Config|array $config  Optional. Configuration object or associative array. Default empty array.
 		 */
-		public function __construct( $name, $manager, $config = array() ) {
+		public function __construct( $name, Manager $manager, $config = array() ) {
 			$this->manager = $manager;
 
 			$this->set_name( $name );
@@ -73,7 +74,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 * @param int      $priority  Optional. Hook priority. Default 10.
 		 * @return \APIAPI\Core\Hook Hook object.
 		 */
-		public function hook_on( $hook_name, $callback, $priority = 10 ) {
+		public function hook_on( $hook_name, callable $callback, $priority = 10 ) {
 			$hook_name = 'apiapi.' . $this->get_name() . '.' . $hook_name;
 
 			return $this->manager->hooks()->on( $hook_name, $callback, $priority );
@@ -91,7 +92,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @throws \APIAPI\Core\Exception
 		 */
-		public function hook_off( $hook ) {
+		public function hook_off( Hook $hook ) {
 			$hook_name = $hook->get_name();
 
 			if ( 0 !== strpos( $hook_name, 'apiapi.' . $this->get_name() . '.' ) ) {
@@ -182,7 +183,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @throws \APIAPI\Core\Exception
 		 */
-		public function send_request( $request ) {
+		public function send_request( Route_Request $request ) {
 			$this->trigger_hook( 'pre_send_request', $request, $this );
 
 			$missing_parameters = $request->is_valid();
@@ -232,7 +233,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 		 *
 		 * @throws \APIAPI\Core\Exception
 		 */
-		private function authenticate_request( $request ) {
+		private function authenticate_request( Route_Request $request ) {
 			$authenticator_name = $request->get_authenticator();
 			if ( ! empty( $authenticator_name ) ) {
 				$this->trigger_hook( 'pre_authenticate_request', $request, $this );
@@ -266,7 +267,7 @@ if ( ! class_exists( 'APIAPI\Core\APIAPI' ) ) {
 				return;
 			}
 
-			if ( is_a( $updater, 'APIAPI\Core\Config_Updater' ) ) {
+			if ( is_a( $updater, Config_Updater::class ) ) {
 				$this->config_updater = $updater;
 				return;
 			}

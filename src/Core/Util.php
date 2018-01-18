@@ -61,7 +61,7 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 *                                   those are whitelisted as parameter data. Default empty array.
 		 * @return array Parsed parameters data.
 		 */
-		public static function parse_params_data( $params, $additional_defaults = array() ) {
+		public static function parse_params_data( array $params, array $additional_defaults = array() ) {
 			foreach ( $params as $param => $data ) {
 				$params[ $param ] = self::parse_param_data( $data, $additional_defaults );
 			}
@@ -99,7 +99,7 @@ if ( ! class_exists( 'APIAPI\Core\Util' ) ) {
 		 *
 		 * @throws \APIAPI\Core\Exception
 		 */
-		public static function parse_param_data( $data, $additional_defaults = array() ) {
+		public static function parse_param_data( array $data, array $additional_defaults = array() ) {
 			$data = static::parse_args( $data, array_merge( array(
 				'required'    => false,
 				'description' => '',

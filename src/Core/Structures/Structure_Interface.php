@@ -9,6 +9,9 @@
 
 namespace APIAPI\Core\Structures;
 
+use APIAPI\Core\APIAPI;
+use APIAPI\Core\Request\Route_Response;
+
 if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 
 	/**
@@ -30,7 +33,7 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * @param \APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
 		 * @return \APIAPI\Core\Request\API The API object.
 		 */
-		public function get_api_object( $apiapi );
+		public function get_api_object( APIAPI $apiapi );
 
 		/**
 		 * Returns a scoped request object for a specific route of this API.
@@ -44,7 +47,7 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 *                                        or 'DELETE'. Default 'GET'.
 		 * @return \APIAPI\Core\Request\Route_Request Request object for the route.
 		 */
-		public function get_request_object( $apiapi, $route_uri, $method = 'GET' );
+		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' );
 
 		/**
 		 * Returns the route object for a specific route.

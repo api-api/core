@@ -66,7 +66,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * @param array $response_data Response array containing keys 'headers', 'body', and 'response'.
 		 *                             Not necessarily all of these are included though.
 		 */
-		public function __construct( $response_data ) {
+		public function __construct( array $response_data ) {
 			if ( isset( $response_data['headers'] ) ) {
 				$this->parse_headers( $response_data['headers'] );
 			}
@@ -232,7 +232,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 * @param array $param_path Parameter path.
 		 * @return mixed Retrieved value, or null if unset.
 		 */
-		protected function get_subparam_value( $base_array, $param_path ) {
+		protected function get_subparam_value( array $base_array, array $param_path ) {
 			$location = $base_array;
 			foreach ( $param_path as $param ) {
 				if ( ! array_key_exists( $param, $location ) ) {
@@ -253,7 +253,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 *
 		 * @param array $headers Array of header strings.
 		 */
-		protected function parse_headers( $headers ) {
+		protected function parse_headers( array $headers ) {
 			foreach ( $headers as $key => $value ) {
 				if ( is_int( $key ) && is_string( $value ) ) {
 					list( $key, $value ) = explode( ':', $header, 2 );
@@ -322,7 +322,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		 *
 		 * @param array $response Array with keys 'code' and 'message'.
 		 */
-		protected function parse_response( $response ) {
+		protected function parse_response( array $response ) {
 			$this->response['code'] = isset( $response['code'] ) ? (int) $response['code'] : 200;
 			$this->response['message'] = isset( $response['message'] ) ? $response['message'] : 'OK';
 		}

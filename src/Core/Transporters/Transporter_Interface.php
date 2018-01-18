@@ -9,6 +9,8 @@
 
 namespace APIAPI\Core\Transporters;
 
+use APIAPI\Core\Request\Request;
+
 if ( ! interface_exists( 'APIAPI\Core\Transporters\Transporter_Interface' ) ) {
 
 	/**
@@ -30,7 +32,7 @@ if ( ! interface_exists( 'APIAPI\Core\Transporters\Transporter_Interface' ) ) {
 		 *               and 'response' key. The array does not necessarily
 		 *               need to include all of these keys.
 		 */
-		public function send_request( $request );
+		public function send_request( Request $request );
 	}
 
 }

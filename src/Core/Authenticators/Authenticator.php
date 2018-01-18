@@ -11,6 +11,7 @@ namespace APIAPI\Core\Authenticators;
 
 use APIAPI\Core\Util;
 use APIAPI\Core\Name_Trait;
+use APIAPI\Core\Request\Route_Request;
 
 if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 
@@ -67,7 +68,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators\Authenticator' ) ) {
 		 * @param \APIAPI\Core\Request\Route_Request $request The request to send.
 		 * @return array Parsed authentication data for the request.
 		 */
-		protected function parse_authentication_data( $request ) {
+		protected function parse_authentication_data( Route_Request $request ) {
 			return Util::parse_args( $request->get_authentication_data(), $this->default_args );
 		}
 

@@ -42,7 +42,7 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * @param string $group           The group identifier of the group in which to store.
 		 * @param array  $keys_and_values Associative array of `$key => $value` pairs.
 		 */
-		public function store_multi( $basename, $group, $keys_and_values );
+		public function store_multi( $basename, $group, array $keys_and_values );
 
 		/**
 		 * Retrieves a single value.
@@ -69,7 +69,7 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * @return array Associative array of `$key => $value`. The $value might is null, if
 		 *               none is stored.
 		 */
-		public function retrieve_multi( $basename, $group, $keys );
+		public function retrieve_multi( $basename, $group, array $keys );
 
 		/**
 		 * Deletes a single value.
@@ -93,7 +93,7 @@ if ( ! interface_exists( 'APIAPI\Core\Storages\Storage_Interface' ) ) {
 		 * @param string $group    The group identifier of the group in which to store.
 		 * @param array  $keys     The keys to delete their values.
 		 */
-		public function delete_multi( $basename, $group, $keys );
+		public function delete_multi( $basename, $group, array $keys );
 	}
 
 }

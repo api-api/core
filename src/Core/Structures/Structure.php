@@ -10,6 +10,8 @@
 namespace APIAPI\Core\Structures;
 
 use APIAPI\Core\Request\API;
+use APIAPI\Core\Request\Route_Response;
+use APIAPI\Core\APIAPI;
 use APIAPI\Core\Name_Trait;
 use APIAPI\Core\Util;
 use APIAPI\Core\Exception;
@@ -205,7 +207,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @param \APIAPI\Core\APIAPI $apiapi The API-API instance to get the API object for.
 		 * @return \APIAPI\Core\Request\API The API object.
 		 */
-		public function get_api_object( $apiapi ) {
+		public function get_api_object( APIAPI $apiapi ) {
 			$this->lazyload_setup();
 
 			$name = $apiapi->get_name();
@@ -229,7 +231,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 *                                        or 'DELETE'. Default 'GET'.
 		 * @return \APIAPI\Core\Request\Route_Request Request object for the route.
 		 */
-		public function get_request_object( $apiapi, $route_uri, $method = 'GET' ) {
+		public function get_request_object( APIAPI $apiapi, $route_uri, $method = 'GET' ) {
 			return $this->get_api_object( $apiapi )->get_request_object( $route_uri, $method );
 		}
 
@@ -462,7 +464,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @param \APIAPI\Core\Request\Route_Response $response Response object.
 		 * @return \APIAPI\Core\Request\Route_Response Response object.
 		 */
-		public function process_response( $response ) {
+		public function process_response( Route_Response $response ) {
 			$this->lazyload_setup();
 
 			return $response;
@@ -490,7 +492,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 			$route_objects = array();
 
 			foreach ( $this->routes as $uri => $data ) {
-				if ( is_a( $data, 'APIAPI\Core\Request\Route' ) ) {
+				if ( is_a( $data, Route::class ) ) {
 					$route_objects[ $uri ] = $data;
 				} else {
 					$route_objects[ $uri ] = new Route( $uri, $data, $this );
@@ -540,7 +542,7 @@ if ( ! class_exists( 'APIAPI\Core\Structures\Structure' ) ) {
 		 * @param array  $params Parameter definition, if already provided.
 		 * @return array Processed set of parameters.
 		 */
-		protected function process_uri_params_set( $uri, $params ) {
+		protected function process_uri_params_set( $uri, array $params ) {
 			if ( ! preg_match_all( '#\{([A-Za-z0-9_]+)\}#', $uri, $matches ) ) {
 				return array();
 			}

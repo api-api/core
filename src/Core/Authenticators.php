@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Authenticators\Authenticator;
+
 if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 
 	/**
@@ -103,7 +105,7 @@ if ( ! class_exists( 'APIAPI\Core\Authenticators' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'APIAPI\Core\Authenticators\Authenticator';
+			return Authenticator::class;
 		}
 	}
 

@@ -10,6 +10,7 @@
 namespace APIAPI\Core\Request;
 
 use APIAPI\Core\Exception;
+use APIAPI\Core\Structures\Route;
 
 if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 
@@ -112,7 +113,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array                        $authentication_data Optional. Authentication data to pass
 		 *                                                          to the authenticator. Default empty array.
 		 */
-		public function __construct( $base_uri, $method, $route, $route_uri, $authenticator = '', $authentication_data = array() ) {
+		public function __construct( $base_uri, $method, Route $route, $route_uri, $authenticator = '', array $authentication_data = array() ) {
 			parent::__construct( $base_uri, $method );
 
 			$this->route               = $route;
@@ -441,7 +442,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		protected function set_regular_param( $param, $value, $param_info ) {
+		protected function set_regular_param( $param, $value, array $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info );
 
 			$this->params[ $param ] = $value;
@@ -459,7 +460,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		protected function get_regular_param( $param, $param_info ) {
+		protected function get_regular_param( $param, array $param_info ) {
 			if ( isset( $this->params[ $param ] ) ) {
 				return $this->params[ $param ];
 			}
@@ -477,7 +478,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		protected function set_base_param( $param, $value, $param_info ) {
+		protected function set_base_param( $param, $value, array $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info );
 
 			$this->base_params[ $param ] = $value;
@@ -493,7 +494,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		protected function get_base_param( $param, $param_info ) {
+		protected function get_base_param( $param, array $param_info ) {
 			if ( isset( $this->base_params[ $param ] ) ) {
 				return $this->base_params[ $param ];
 			}
@@ -511,7 +512,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		protected function set_uri_param( $param, $value, $param_info ) {
+		protected function set_uri_param( $param, $value, array $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info );
 
 			$this->uri_params[ $param ] = $value;
@@ -527,7 +528,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		protected function get_uri_param( $param, $param_info ) {
+		protected function get_uri_param( $param, array $param_info ) {
 			if ( isset( $this->uri_params[ $param ] ) ) {
 				return $this->uri_params[ $param ];
 			}
@@ -545,7 +546,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param mixed  $value      Parameter value.
 		 * @param array  $param_info Parameter info.
 		 */
-		protected function set_query_param( $param, $value, $param_info ) {
+		protected function set_query_param( $param, $value, array $param_info ) {
 			$value = $this->parse_param_value( $value, $param_info );
 
 			$this->query_params[ $param ] = $value;
@@ -561,7 +562,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array  $param_info Parameter info.
 		 * @return mixed Parameter value, or null if unset.
 		 */
-		protected function get_query_param( $param, $param_info ) {
+		protected function get_query_param( $param, array $param_info ) {
 			if ( isset( $this->query_params[ $param ] ) ) {
 				return $this->query_params[ $param ];
 			}
@@ -575,9 +576,8 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @since 1.0.0
 		 * @access protected
 		 *
-		 * @param string $param      Parameter name.
-		 * @param mixed  $value      Parameter value.
-		 * @param array  $param_info Parameter info.
+		 * @param string $param Parameter name.
+		 * @param mixed  $value Parameter value.
 		 */
 		protected function set_custom_param( $param, $value ) {
 			if ( ! $this->route->method_supports_custom_params( $this->method ) ) {
@@ -804,7 +804,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 *
 		 * @throws \APIAPI\Core\Exception
 		 */
-		protected function get_subparam_info( $param_path, $param_info ) {
+		protected function get_subparam_info( array $param_path, array $param_info ) {
 			$first_param = array_shift( $param_path );
 
 			foreach ( $param_path as $param ) {
@@ -828,7 +828,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Request' ) ) {
 		 * @param array $param_info Parameter info.
 		 * @return mixed The parsed value.
 		 */
-		protected function parse_param_value( $value, $param_info ) {
+		protected function parse_param_value( $value, array $param_info ) {
 			switch ( $param_info['type'] ) {
 				case 'boolean':
 					$value = (bool) $value;

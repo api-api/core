@@ -8,6 +8,8 @@
 
 namespace APIAPI\Core;
 
+use APIAPI\Core\Transporters\Transporter;
+
 if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 
 	/**
@@ -146,7 +148,7 @@ if ( ! class_exists( 'APIAPI\Core\Transporters' ) ) {
 		 * @return string Name of the base module class.
 		 */
 		protected function get_module_class_name() {
-			return 'APIAPI\Core\Transporters\Transporter';
+			return Transporter::class;
 		}
 	}
 

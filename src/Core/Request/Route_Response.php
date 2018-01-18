@@ -9,6 +9,8 @@
 
 namespace APIAPI\Core\Request;
 
+use APIAPI\Core\Structures\Route;
+
 if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 
 	/**
@@ -52,7 +54,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Route_Response' ) ) {
 		 *                                                     or 'DELETE'.
 		 * @param \APIAPI\Core\Structures\Route $route          Route object for the response.
 		 */
-		public function __construct( $response_data, $request_method, $route ) {
+		public function __construct( array $response_data, $request_method, Route $route ) {
 			$this->route          = $route;
 			$this->request_method = $request_method;
 

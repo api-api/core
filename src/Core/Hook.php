@@ -56,7 +56,7 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 * @param callable            $callback Hook callback.
 		 * @param int                 $priority Optional. Hook priority. Default 10.
 		 */
-		public function __construct( $manager, $name, $callback, $priority = 10 ) {
+		public function __construct( Hooks $manager, $name, callable $callback, $priority = 10 ) {
 			$this->manager = $manager;
 
 			$this->name     = $name;
@@ -74,7 +74,7 @@ if ( ! class_exists( 'APIAPI\Core\Hook' ) ) {
 		 *
 		 * @param array Parameters to pass to the callback.
 		 */
-		public function execute( $args ) {
+		public function execute( array $args ) {
 			if ( ! $this->manager->is_hook_triggered( $this->name ) ) {
 				$callback = $this->get_callback_string();
 
