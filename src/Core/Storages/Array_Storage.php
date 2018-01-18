@@ -2,8 +2,7 @@
 /**
  * Array_Storage class
  *
- * @package APIAPICore
- * @subpackage Storages
+ * @package APIAPI\Core\Storages
  * @since 1.0.0
  */
 

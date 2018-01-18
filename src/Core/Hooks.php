@@ -2,7 +2,7 @@
 /**
  * API-API Hooks class
  *
- * @package APIAPICore
+ * @package APIAPI\Core
  * @since 1.0.0
  */
 

@@ -2,8 +2,7 @@
 /**
  * API-API Response_Parse_Exception class
  *
- * @package APIAPICore
- * @subpackage Exception
+ * @package APIAPI\Core\Exception
  * @since 1.0.0
  */
 

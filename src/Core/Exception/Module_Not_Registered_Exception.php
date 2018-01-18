@@ -2,8 +2,7 @@
 /**
  * API-API Module_Not_Registered_Exception class
  *
- * @package APIAPICore
- * @subpackage Exception
+ * @package APIAPI\Core\Exception
  * @since 1.0.0
  */
 

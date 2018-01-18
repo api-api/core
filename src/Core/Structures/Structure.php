@@ -2,8 +2,7 @@
 /**
  * API-API Structure class
  *
- * @package APIAPICore
- * @subpackage Structures
+ * @package APIAPI\Core\Structures
  * @since 1.0.0
  */
 

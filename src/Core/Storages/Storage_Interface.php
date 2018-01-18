@@ -2,8 +2,7 @@
 /**
  * API-API Storage interface
  *
- * @package APIAPICore
- * @subpackage Storages
+ * @package APIAPI\Core\Storages
  * @since 1.0.0
  */
 

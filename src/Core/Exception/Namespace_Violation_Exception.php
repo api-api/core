@@ -2,8 +2,7 @@
 /**
  * API-API Namespace_Violation_Exception class
  *
- * @package APIAPICore
- * @subpackage Exception
+ * @package APIAPI\Core\Exception
  * @since 1.0.0
  */
 

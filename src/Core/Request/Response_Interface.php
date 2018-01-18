@@ -2,8 +2,7 @@
 /**
  * API-API Response interface
  *
- * @package APIAPICore
- * @subpackage Request
+ * @package APIAPI\Core\Request
  * @since 1.0.0
  */
 

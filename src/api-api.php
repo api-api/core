@@ -2,7 +2,7 @@
 /**
  * Shortcut functions to access the main objects.
  *
- * @package APIAPICore
+ * @package APIAPI\Core
  * @since 1.0.0
  */
 

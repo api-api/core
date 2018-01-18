@@ -2,8 +2,7 @@
 /**
  * API-API Transporter interface
  *
- * @package APIAPICore
- * @subpackage Transporters
+ * @package APIAPI\Core\Transporters
  * @since 1.0.0
  */
 

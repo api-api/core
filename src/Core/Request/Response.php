@@ -2,8 +2,7 @@
 /**
  * API-API class for a general response
  *
- * @package APIAPICore
- * @subpackage Request
+ * @package APIAPI\Core\Request
  * @since 1.0.0
  */
 

@@ -2,8 +2,7 @@
 /**
  * API-API Authenticator interface
  *
- * @package APIAPICore
- * @subpackage Authenticators
+ * @package APIAPI\Core\Authenticators
  * @since 1.0.0
  */
 
