@@ -2,7 +2,7 @@
   "name": "api-api/core",
   "description": "A library of API components to interact with external APIs.",
   "version": "1.0.0",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0-or-later",
   "keywords": [
     "api-api",
     "api",
