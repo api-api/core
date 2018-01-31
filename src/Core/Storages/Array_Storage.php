@@ -80,7 +80,7 @@ if ( ! class_exists( 'APIAPI\Core\Storages\Array_Storage' ) ) {
 		 * @return array Associative array of `$key => $value`. The $value might is null, if
 		 *               none is stored.
 		 */
-		public function retrieve_multi( $basename, $group, $keys ) {
+		public function retrieve_multi( $basename, $group, array $keys ) {
 			$data = $this->get_array( $basename );
 
 			return $this->multidimensional_get_multi( $data, $group, $keys );
