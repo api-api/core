@@ -170,7 +170,7 @@ if ( ! interface_exists( 'APIAPI\Core\Structures\Structure_Interface' ) ) {
 		 * @param Route_Response $response Response object.
 		 * @return Route_Response Response object.
 		 */
-		public function process_response( $response );
+		public function process_response( Route_Response $response );
 	}
 
 }
