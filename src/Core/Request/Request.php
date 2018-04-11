@@ -96,7 +96,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 *                       Default false.
 		 */
 		public function set_header( $header, $value, $add = false ) {
-			$header = $this->canonicalize_header_name( $header );
+			// $header = $this->canonicalize_header_name( $header );
 
 			if ( $add && ! empty( $this->headers[ $header ] ) ) {
 				$this->headers[ $header ][] = $value;
@@ -116,7 +116,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Request' ) ) {
 		 *                           null if not set.
 		 */
 		public function get_header( $header, $as_array = false ) {
-			$header = $this->canonicalize_header_name( $header );
+			// $header = $this->canonicalize_header_name( $header );
 
 			if ( ! isset( $this->headers[ $header ] ) ) {
 				return null;
