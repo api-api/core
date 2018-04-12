@@ -24,7 +24,7 @@ if ( ! class_exists( 'APIAPI\Core\Manager' ) ) {
 		/**
 		 * @const string Version number of the API-API
 		 */
-		const VERSION = '1.0.0-alpha.1';
+		const VERSION = '1.0.0-beta.1';
 
 		/**
 		 * The API-API instances.
