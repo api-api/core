@@ -69,7 +69,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\API' ) ) {
 			$request_object = $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
 			$request_object->set_params( $this->get_base_params() );
 
-			return $route->create_request_object( $route_uri, $method, $mode, $authenticator, $authentication_data );
+			return $request_object;
 		}
 
 		/**
