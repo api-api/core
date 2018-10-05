@@ -240,7 +240,7 @@ if ( ! class_exists( 'APIAPI\Core\Request\Response' ) ) {
 		protected function parse_headers( array $headers ) {
 			foreach ( $headers as $key => $value ) {
 				if ( is_int( $key ) && is_string( $value ) ) {
-					list( $key, $value ) = explode( ':', $header, 2 );
+					list( $key, $value ) = explode( ':', $value, 2 );
 
 					$key = $this->canonicalize_header_name( $key );
 
